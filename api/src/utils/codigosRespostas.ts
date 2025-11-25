@@ -3,8 +3,13 @@ export const CODIGOS_ERRO = {
      DADOS_INCOMPLETOS: { codigo: 1001, mensagem: 'Preencha todos os dados necessários' },
 
      CLIENTE_LISTAR_ERR: { codigo: 1100, mensagem: 'Erro ao listar clientes' },
-     CLIENTE_BUSCAR_ERR: { codigo: 1101, mensagem: 'Cliente não encontrado' },
-     CLIENTE_CRIAR_ERR: { codigo: 1102, mensagem: 'Erro ao criar cliente' },
-     CLIENTE_EDITAR_ERR: { codigo: 1103, mensagem: 'Erro ao editar cliente' },
-     CLIENTE_EXCLUIR_ERR: { codigo: 1104, mensagem: 'Erro ao excluir cliente' },
+     CLIENTE_EXISTE_ERR: { codigo: 1101, mensagem: 'O Cliente já está registrado.'},
+     CLIENTE_N_EXISTE_ERR: { codigo: 1102, mensagem: 'O Cliente não existe.' },
+}
+export const CODIGOS_SUCESSO = {
+     SUCESSO_GENERICO: { codigo: 3000, mensagem: 'Erro interno do servidor' },
+
+     CLIENTE_LISTAR_SUCESS: { codigo: 3100, mensagem: 'Clientes listados com sucesso.' },
+     CLIENTE_EXISTE_SUCESS: { codigo: 3101, mensagem: 'O Cliente já está registrado.'},
+     CLIENTE_N_EXISTE_SUCESS: { codigo: 3102, mensagem: 'O Cliente não existe.' },
 }

@@ -1,31 +1,28 @@
 import { Cliente, CriarClienteDTO, EditarClienteDTO } from '../../types/cliente'
+import { verificaErroExiste } from '../../utils/verifcaErroExiste'
 import { ClientesRepository } from '../clientes/clientes.repository'
 
 export class ClientesService {
      private repository = new ClientesRepository()
 
      async listarClientes() {
-          const response = await this.repository.listar()
-          return response
+          return await this.repository.listar()
      }
 
      async listarClientePorId(id: number) {
-          const response = await this.repository.listarPorId(id)
-          return response
+          const cliente = await this.repository.listarPorId(id)
+          console.log(cliente)
      }
 
      async criarCliente(data: CriarClienteDTO){
-          const response = await this.repository.criar(data)
-          return response
+          return await this.repository.criar(data)
      }
 
      async editarCliente(data: EditarClienteDTO){
-          const response = await this.repository.editar(data)
-          return response
+          return await this.repository.editar(data)
      }
 
      async excluirCliente(id: number) {
-          const response = await this.repository.excluir(id)
-          return response
+          return await this.repository.excluir(id)
      }
 }

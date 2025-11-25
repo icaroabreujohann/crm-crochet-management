@@ -52,4 +52,22 @@ export class ClientesRepository {
           if (!clienteExcluido) throw new Error('Falha ao excluir cliente')
           return clienteExcluido
      }
+
+     //Validações
+
+     async obterClientePorInstagram(instagram: string) {
+          const [cliente] = await sql`
+               select id from clientes
+               where instagram = ${instagram}
+          `
+          return cliente
+     }
+
+     async obterClientePorTelefone(telefone: string) {
+          const [cliente] = await sql`
+               select id from clientes
+               where instagram = ${telefone}
+          `
+          return cliente
+     }
 }

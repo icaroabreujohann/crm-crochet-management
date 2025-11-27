@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { ClientesService } from '../clientes/clientes.services'
 import { gerenciadorMensagens } from '../../utils/gerenciadorRepostas'
 import { CODIGOS_SUCESSO } from '../../utils/codigosRespostas'
@@ -17,7 +17,15 @@ export class ClientesController {
           validaRequisicao({ id }, ['id'])
           validaTipoDado(id, 'number')
 
-          const response = await this.service.listarClientePorId(Number(req.params.id))
+          const response = await this.service.listarClientePorId(id)
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.CLIENTE_LISTAR_SUCESS, response)
+     }
+
+     criarCliente = async (req: Request, res: Response) => {
+          const data = req.body
+          validaRequisicao(data, ['nome'])
+
+          const response = await this.service.criarCliente(data)
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.CLIENTE_CRIAR_SUCESS, response)
      }
 }

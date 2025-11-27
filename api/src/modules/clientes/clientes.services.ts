@@ -18,6 +18,19 @@ export class ClientesService {
      }
 
      async criarCliente(data: CriarClienteDTO) {
+
+          const [clienteInstagramExiste, clienteTelefoneExiste] = await Promise.all([
+               data.instagram ? this.repository.obterClientePorInstagram(data.instagram) : {existe: false, campo: 'instragram'},
+               data.telefone ? this.repository.obterClientePorTelefone(data.telefone) : {existe: false, campo: 'telefone'}
+          ])
+
+          console.log(clienteInstagramExiste, clienteTelefoneExiste)
+
+          verificaErroExiste([
+               { condicao: clienteInstagramExiste.existe, valor: clienteInstagramExiste, codigoResposta: CODIGOS_ERRO.CLIENTE_EXISTE_ERR },
+               { condicao: clienteTelefoneExiste.existe, valor: clienteTelefoneExiste, codigoResposta: CODIGOS_ERRO.CLIENTE_EXISTE_ERR }
+          ])
+
           return await this.repository.criar(data)
      }
 

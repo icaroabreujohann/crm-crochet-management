@@ -1,5 +1,6 @@
 import { sql } from '../../config/db'
 import { Cliente, CriarClienteDTO, EditarClienteDTO } from '../../types/cliente'
+import { normalizaTexto } from '../../utils/normalizaTexto'
 
 export class ClientesRepository {
 
@@ -16,11 +17,11 @@ export class ClientesRepository {
 
      async criar(data: CriarClienteDTO): Promise<Cliente> {
           const [clienteNovo] = await sql<Cliente[]>`
-          insert into clientes (nome, instagram, numero)
+          insert into clientes (nome, instagram, telefone)
           values (
                ${data.nome},
-               ${data.instagram},
-               ${data.numero}
+               ${normalizaTexto(data.instagram)},
+               ${normalizaTexto(data.telefone)}
           )
           returning *
      `
@@ -33,8 +34,8 @@ export class ClientesRepository {
           update clientes
           set 
                nome = ${data.nome},
-               instragram = ${data.instagram},
-               numero = ${data.numero}
+               ${normalizaTexto(data.instagram)},
+               ${normalizaTexto(data.telefone)}
           where
                id = ${data.id}
           returning *
@@ -60,14 +61,22 @@ export class ClientesRepository {
                select id from clientes
                where instagram = ${instagram}
           `
-          return cliente
+          return {
+               existe: !!cliente,
+               data: cliente,
+               campo: 'Instagram',
+          }
      }
 
      async obterClientePorTelefone(telefone: string) {
           const [cliente] = await sql`
                select id from clientes
-               where instagram = ${telefone}
+               where telefone = ${telefone}
           `
-          return cliente
+          return {
+               existe: !!cliente,
+               data: cliente,
+               campo: 'Telefone',
+          }
      }
 }

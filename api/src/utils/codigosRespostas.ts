@@ -13,4 +13,5 @@ export const CODIGOS_SUCESSO = {
      CLIENTE_LISTAR_SUCESS: { codigo: 3100, mensagem: 'Clientes listados com sucesso.' },
      CLIENTE_EXISTE_SUCESS: { codigo: 3101, mensagem: 'O Cliente já está registrado.'},
      CLIENTE_N_EXISTE_SUCESS: { codigo: 3102, mensagem: 'O Cliente não existe.' },
+     CLIENTE_CRIAR_SUCESS: { codigo: 3102, mensagem: 'Cliente criado com sucesso.' },
 }

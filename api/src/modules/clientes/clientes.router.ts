@@ -5,6 +5,7 @@ const router = Router()
 const controller = new ClientesController()
 
 router.get('/', controller.listarClientes)
-router.get('/teste/:id', controller.listarClientePorId)
+router.get('/:id', controller.listarClientePorId)
+router.post('/', controller.criarCliente)
 
 export default router

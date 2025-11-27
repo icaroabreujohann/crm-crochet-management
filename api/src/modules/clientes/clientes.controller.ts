@@ -15,8 +15,6 @@ export class ClientesController {
 
      listarClientePorId = async (req: Request, res: Response) => {
           const id: number = Number(req.params.id)
-          validaRequisicao({ id }, ['id'])
-          validaTipoDado(id, 'number')
 
           const response = await this.service.listarClientePorId(id)
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.CLIENTE_LISTAR_SUCESS, response)
@@ -37,5 +35,12 @@ export class ClientesController {
 
           const response = await this.service.editarCliente(id, data)
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.CLIENTE_EDITAR_SUCESS, response)
+     }
+
+     excluirCliente = async (req: Request, res: Response) => {
+          const id: number = Number(req.params.id)
+
+          const response = await this.service.excluirCliente(id)
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.CLIENTE_EXCLUIR_SUCESS, response)
      }
 }

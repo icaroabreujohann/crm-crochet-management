@@ -57,6 +57,12 @@ export class ClientesService {
      }
 
      async excluirCliente(id: number) {
+          const [clienteExisteId] = await Promise.all([
+               this.repository.obterClientePorId(id)
+          ])
+
+          verificaErroExiste([{condicao: !clienteExisteId.existe, valor: id, codigoResposta: CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR}])
+
           return await this.repository.excluir(id)
      }
 }

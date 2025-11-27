@@ -80,4 +80,17 @@ export class ClientesRepository {
                campo: 'Telefone',
           }
      }
+
+     async obterClientePorId(id: number): Promise<verificaResultadoExiste<ClienteId>> {
+          const [cliente] = await sql<ClienteId[]>`
+               select id from clientes
+               where id = ${id}
+          `
+
+          return {
+               existe: !!cliente,
+               data: cliente ?? null,
+               campo: 'ID',
+          }
+     }
 }

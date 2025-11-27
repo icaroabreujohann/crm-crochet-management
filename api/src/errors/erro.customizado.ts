@@ -1,4 +1,4 @@
-import { CodigoResposta } from "./codigo.resposta"
+import { CodigoResposta } from "../types/codigo.resposta"
 
 export class ErroCustomizado extends Error {
     definidoPeloSistema: boolean

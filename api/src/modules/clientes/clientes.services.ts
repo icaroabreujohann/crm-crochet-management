@@ -12,7 +12,6 @@ export class ClientesService {
 
      async listarClientePorId(id: number) {
           const cliente = await this.repository.listarPorId(id)
-
           verificaErroExiste([{ condicao: cliente.length === 0, valor: id, codigoResposta: CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR }])
 
           return cliente

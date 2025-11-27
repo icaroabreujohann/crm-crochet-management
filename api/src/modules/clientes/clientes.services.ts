@@ -20,8 +20,8 @@ export class ClientesService {
      async criarCliente(data: CriarClienteDTO) {
 
           const [clienteInstagramExiste, clienteTelefoneExiste] = await Promise.all([
-               data.instagram ? this.repository.obterClientePorInstagram(data.instagram) : {existe: false, campo: 'instragram'},
-               data.telefone ? this.repository.obterClientePorTelefone(data.telefone) : {existe: false, campo: 'telefone'}
+               data.instagram ? this.repository.obterClientePorInstagram(data.instagram) : { existe: false, campo: 'instragram' },
+               data.telefone ? this.repository.obterClientePorTelefone(data.telefone) : { existe: false, campo: 'telefone' }
           ])
 
           console.log(clienteInstagramExiste, clienteTelefoneExiste)
@@ -34,8 +34,26 @@ export class ClientesService {
           return await this.repository.criar(data)
      }
 
-     async editarCliente(data: EditarClienteDTO) {
-          return await this.repository.editar(data)
+     async editarCliente(id: number, data: EditarClienteDTO) {
+          const [clienteInstagramExiste, clienteTelefoneExiste] = await Promise.all([
+               data.instagram ? this.repository.obterClientePorInstagram(data.instagram) : { existe: false, campo: 'Instragram', data: null },
+               data.telefone ? this.repository.obterClientePorTelefone(data.telefone) : { existe: false, campo: 'Telefone', data: null }
+          ])
+
+          verificaErroExiste([
+               {
+                    condicao: clienteInstagramExiste.existe && clienteInstagramExiste.data?.id != id,
+                    valor: data,
+                    codigoResposta: CODIGOS_ERRO.CLIENTE_EXISTE_ERR
+               },
+               {
+                    condicao: clienteTelefoneExiste.existe && clienteTelefoneExiste.data?.id != id,
+                    valor: data,
+                    codigoResposta: CODIGOS_ERRO.CLIENTE_EXISTE_ERR
+               }
+          ])
+
+          return await this.repository.editar(id, data)
      }
 
      async excluirCliente(id: number) {

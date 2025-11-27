@@ -1,5 +1,6 @@
 import { sql } from '../../config/db'
-import { Cliente, CriarClienteDTO, EditarClienteDTO } from '../../types/cliente'
+import { Cliente, ClienteId, CriarClienteDTO, EditarClienteDTO } from '../../types/cliente'
+import { verificaResultadoExiste } from '../../types/verifica.resultado.existe'
 import { normalizaTexto } from '../../utils/normalizaTexto'
 
 export class ClientesRepository {
@@ -29,15 +30,15 @@ export class ClientesRepository {
           return clienteNovo
      }
 
-     async editar(data: EditarClienteDTO): Promise<Cliente> {
+     async editar(id: number, data: EditarClienteDTO): Promise<Cliente> {
           const [clienteAtualizado] = await sql<Cliente[]>`
           update clientes
           set 
                nome = ${data.nome},
-               ${normalizaTexto(data.instagram)},
-               ${normalizaTexto(data.telefone)}
+               instagram = ${normalizaTexto(data.instagram)},
+               telefone = ${normalizaTexto(data.telefone)}
           where
-               id = ${data.id}
+               id = ${id}
           returning *
      `
           if (!clienteAtualizado) throw new Error('Falha ao editar cliente')
@@ -56,26 +57,26 @@ export class ClientesRepository {
 
      //Validações
 
-     async obterClientePorInstagram(instagram: string) {
-          const [cliente] = await sql`
+     async obterClientePorInstagram(instagram: string): Promise<verificaResultadoExiste<ClienteId>> {
+          const [cliente] = await sql<ClienteId[]>`
                select id from clientes
                where instagram = ${instagram}
           `
           return {
                existe: !!cliente,
-               data: cliente,
+               data: cliente ?? null,
                campo: 'Instagram',
           }
      }
 
-     async obterClientePorTelefone(telefone: string) {
-          const [cliente] = await sql`
+     async obterClientePorTelefone(telefone: string): Promise<verificaResultadoExiste<ClienteId>> {
+          const [cliente] = await sql<ClienteId[]>`
                select id from clientes
                where telefone = ${telefone}
           `
           return {
                existe: !!cliente,
-               data: cliente,
+               data: cliente ?? null,
                campo: 'Telefone',
           }
      }

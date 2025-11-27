@@ -2,7 +2,8 @@ import { Request, Response } from 'express'
 import { ClientesService } from '../clientes/clientes.services'
 import { gerenciadorMensagens } from '../../utils/gerenciadorRepostas'
 import { CODIGOS_SUCESSO } from '../../utils/codigosRespostas'
-import { validaRequisicao, validaTipoDado } from '../../validators/validador.requisicao'
+import { validaRequisicao, validaTipoDado } from '../../validators/valida.requisicao'
+import { CriarClienteDTO, EditarClienteDTO } from '../../types/cliente'
 
 export class ClientesController {
      private service = new ClientesService()
@@ -13,7 +14,7 @@ export class ClientesController {
      }
 
      listarClientePorId = async (req: Request, res: Response) => {
-          const id = Number(req.params.id)
+          const id: number = Number(req.params.id)
           validaRequisicao({ id }, ['id'])
           validaTipoDado(id, 'number')
 
@@ -22,10 +23,19 @@ export class ClientesController {
      }
 
      criarCliente = async (req: Request, res: Response) => {
-          const data = req.body
+          const data: CriarClienteDTO = req.body
           validaRequisicao(data, ['nome'])
 
           const response = await this.service.criarCliente(data)
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.CLIENTE_CRIAR_SUCESS, response)
+     }
+
+     editarCliente = async (req: Request, res: Response) => {
+          const id: number = Number(req.params.id)
+          const data: EditarClienteDTO = req.body
+          validaRequisicao(data, ['nome'])
+
+          const response = await this.service.editarCliente(id, data)
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.CLIENTE_EDITAR_SUCESS, response)
      }
 }

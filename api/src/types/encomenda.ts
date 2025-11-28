@@ -10,3 +10,22 @@ export interface Encomenda {
      dataEntrega: Date | null
      dataCriacao: Date
 }
+
+export interface CriarEncomendaDTO {
+     titulo: string
+     clienteId: number
+     clienteNome: string
+     notas: string | null
+     precoTotal: number | null
+     dataPrazo: Date
+     dataEntrega: Date | null
+}
+export interface EditarEncomendaDTO {
+     titulo: string
+     clienteId: number
+     clienteNome: string
+     notas: string | null
+     precoTotal: number | null
+     dataPrazo: Date
+     dataEntrega: Date | null
+}

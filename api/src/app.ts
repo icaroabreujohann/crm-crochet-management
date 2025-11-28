@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import { testarConexaoDb } from './config/db'
 
 import clientesRoutes from './modules/clientes/clientes.router'
+import encomendasRouter from './modules/encomendas/encomendas.router'
 import { erroGlobal } from './middlewares/erroGlobal'
 
 dotenv.config()
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/clientes', clientesRoutes)
+app.use('/encomendas', encomendasRouter)
 
 
 app.use(erroGlobal)

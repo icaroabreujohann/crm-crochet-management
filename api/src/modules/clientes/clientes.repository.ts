@@ -88,9 +88,9 @@ export class ClientesRepository {
           }
      }
 
-     async obterClientePorId(id: number): Promise<verificaResultadoExiste<ClienteId>> {
-          const [cliente] = await sql<ClienteId[]>`
-               select id from clientes
+     async obterClientePorId(id: number): Promise<verificaResultadoExiste<Cliente>> {
+          const [cliente] = await sql<Cliente[]>`
+               select * from clientes
                where id = ${id}
           `
 

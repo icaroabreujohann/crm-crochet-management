@@ -21,17 +21,17 @@ export class EncomendasRepository {
      }
 
      async criarEncomenda(data: CriarEncomendaDTO): Promise<Encomenda> {
-
+          console.log(data)
           const [encomendaNova] = await sql<Encomenda[]>`
                insert into encomendas (titulo, cliente_id, cliente_nome, notas, preco_total, data_prazo, data_entrega)
                values(
                     ${data.titulo},
                     ${data.clienteId},
                     ${data.clienteNome},
-                    ${data.notas},
-                    ${data.precoTotal},
+                    ${data.notas ?? null},
+                    ${data.precoTotal ?? null},
                     ${data.dataPrazo},
-                    ${data.dataEntrega},
+                    ${data.dataEntrega ?? null}
                )
                returning *
           `
@@ -42,16 +42,15 @@ export class EncomendasRepository {
      async editarEncomenda(id: number, data: EditarEncomendaDTO): Promise<Encomenda> {
           const [encomendaEditada] = await sql<Encomenda[]>`
                update encomendas
+               set
                     titulo = ${data.titulo},
-                    cliente_id = ${data.clienteId},
-                    cliente_nome = ${data.clienteNome},
-                    notas = ${data.notas},
-                    preco_total = ${data.precoTotal},
+                    notas = ${data.notas ?? null},
+                    preco_total = ${data.precoTotal ?? null},
                     data_prazo = ${data.dataPrazo},
-                    data_entrega = ${data.dataEntrega}
+                    data_entrega = ${data.dataEntrega ?? null}
                where id = ${id}
 
-               returning*
+               returning *
           `
 
           if (!encomendaEditada) throw new ErroCustomizado(CODIGOS_ERRO.ENCOMENDA_EDITAR_ERR, 400)

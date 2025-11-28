@@ -12,7 +12,7 @@ export class ClientesService {
 
      async listarClientePorId(id: number) {
           const cliente = await this.repository.listarPorId(id)
-          verificaErroExiste([{ condicao: cliente.length === 0, valor: id, codigoResposta: CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR }])
+          verificaErroExiste([{ condicao: !cliente, valor: id, codigoResposta: CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR }])
 
           return cliente
      }
@@ -23,8 +23,6 @@ export class ClientesService {
                data.instagram ? this.repository.obterClientePorInstagram(data.instagram) : { existe: false, campo: 'instragram' },
                data.telefone ? this.repository.obterClientePorTelefone(data.telefone) : { existe: false, campo: 'telefone' }
           ])
-
-          console.log(clienteInstagramExiste, clienteTelefoneExiste)
 
           verificaErroExiste([
                { condicao: clienteInstagramExiste.existe, valor: clienteInstagramExiste, codigoResposta: CODIGOS_ERRO.CLIENTE_EXISTE_ERR },

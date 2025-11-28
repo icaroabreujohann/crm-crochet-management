@@ -10,10 +10,11 @@ export const CODIGOS_ERRO = {
      CLIENTE_EXISTE_TEL_ERR: { codigo: 1101.2, mensagem: 'Já existe um cliente com esse telefone registrado.'},
      CLIENTE_N_EXISTE_ERR: { codigo: 1102, mensagem: 'O Cliente não existe.' },
      
-     ENCOMENDA_LIST_ERR: { codigo: 1200, mensagem: 'Erro ao listar encomendas.' },
-     ENCOMENDA_CRIAR_ERR: { codigo: 1200, mensagem: 'Erro ao criar encomenda.' },
-     ENCOMENDA_EDITAR_ERR: { codigo: 1200, mensagem: 'Erro ao criar encomenda.' },
-     ENCOMENDA_EXCLUIR_ERR: { codigo: 1200, mensagem: 'Erro ao criar encomenda.' },
+     ENCOMENDA_LIST_ERR: { codigo: 1201, mensagem: 'Erro ao listar encomendas.' },
+     ENCOMENDA_CRIAR_ERR: { codigo: 1202, mensagem: 'Erro ao criar encomenda.' },
+     ENCOMENDA_EDITAR_ERR: { codigo: 1203, mensagem: 'Erro ao criar encomenda.' },
+     ENCOMENDA_EXCLUIR_ERR: { codigo: 1204, mensagem: 'Erro ao criar encomenda.' },
+     ENCOMENDA_N_EXISTE_ERR: { codigo: 1205, mensagem: 'A encomenda não existe.' },
 }
 export const CODIGOS_SUCESSO = {
      SUCESSO_GENERICO: { codigo: 2000, mensagem: 'Erro interno do servidor' },

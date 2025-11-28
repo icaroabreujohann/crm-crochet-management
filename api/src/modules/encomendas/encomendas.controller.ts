@@ -1,4 +1,5 @@
-import { CriarEncomendaDTO } from "../../types/encomenda";
+import { EditarClienteDTO } from "../../types/cliente";
+import { CriarEncomendaDTO, EditarEncomendaDTO } from "../../types/encomenda";
 import { CODIGOS_SUCESSO } from "../../utils/codigosRespostas";
 import { gerenciadorMensagens } from "../../utils/gerenciadorRepostas";
 import { validaRequisicao } from "../../validators/valida.requisicao";
@@ -27,4 +28,21 @@ export class EncomendasController {
           const response = await this.service.criarEncomenda(data)
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.ENCOMENDA_CRIAR_SUCESS, response)
      }
+
+     editarEncomenda = async (req: Request, res: Response) => {
+          const id = Number(req.params.id)
+          const data: EditarEncomendaDTO = req.body
+          validaRequisicao(data, ['titulo', 'dataPrazo'])
+
+          const response = await this.service.editarEncomenda(id, data)
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.ENCOMENDA_CRIAR_SUCESS, response)
+     }
+
+     excluirEncomenda = async (req: Request, res: Response) => {
+          const id = Number(req.params.id)
+
+          const response = await this.service.excluirEncomenda(id)
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.ENCOMENDA_EXCLUIR_SUCESS, response)
+     }
+
 }

@@ -1,9 +1,9 @@
-import postgres from 'postgres'
+import postgres, {Sql} from 'postgres'
 import dotenv from 'dotenv'
 
 dotenv.config()
 
-export const sql = postgres(process.env.DATABASE_URL!)
+export const sql: Sql = postgres(process.env.DATABASE_URL!)
 
 export const testarConexaoDb = async () => {
      try {

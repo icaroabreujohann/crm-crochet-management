@@ -14,7 +14,7 @@ export interface Encomenda {
 export interface CriarEncomendaDTO {
      titulo: string
      clienteId: number
-     clienteNome: string
+     clienteNome: string | undefined
      notas: string | null
      precoTotal: number | null
      dataPrazo: Date
@@ -23,7 +23,7 @@ export interface CriarEncomendaDTO {
 export interface EditarEncomendaDTO {
      titulo: string
      clienteId: number
-     clienteNome: string
+     clienteNome: string | null
      notas: string | null
      precoTotal: number | null
      dataPrazo: Date

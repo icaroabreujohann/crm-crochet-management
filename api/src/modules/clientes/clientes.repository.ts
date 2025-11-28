@@ -1,6 +1,8 @@
 import { sql } from '../../config/db'
+import { ErroCustomizado } from '../../errors/erro.customizado'
 import { Cliente, ClienteId, CriarClienteDTO, EditarClienteDTO } from '../../types/cliente'
 import { verificaResultadoExiste } from '../../types/verifica.resultado.existe'
+import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
 import { normalizaTexto } from '../../utils/normalizaTexto'
 
 export class ClientesRepository {
@@ -9,11 +11,16 @@ export class ClientesRepository {
           return await sql`select * from clientes order by id desc`
      }
 
-     async listarPorId(id: number): Promise<Cliente[]> {
-          return await sql`
-          select * from clientes
-          where id = ${id}
-     `
+     async listarPorId(id: number): Promise<Cliente> {
+          const [cliente] = await sql<Cliente[]>`
+               select * from clientes
+               where id = ${id}
+               limit 1
+
+               `
+          if (!cliente) throw new ErroCustomizado(CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR, 400)
+
+          return cliente
      }
 
      async criar(data: CriarClienteDTO): Promise<Cliente> {

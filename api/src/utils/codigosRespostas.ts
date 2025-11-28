@@ -25,7 +25,7 @@ export const CODIGOS_SUCESSO = {
      CLIENTE_EDITAR_SUCESS: { codigo: 2104, mensagem: 'Cliente editado com sucesso.' },
      CLIENTE_EXCLUIR_SUCESS: { codigo: 2105, mensagem: 'Cliente excluido com sucesso.' },
      
-     ENCOMENDA_LISTAR_SUCESS: { codigo: 2200, mensagem: 'Encomendas listados com sucesso.' },
+     ENCOMENDA_LISTAR_SUCESS: { codigo: 2200, mensagem: 'Encomendas listadas com sucesso.' },
      ENCOMENDA_EXISTE_SUCESS: { codigo: 2201, mensagem: 'A Encomenda já está registrado.'},
      ENCOMENDA_N_EXISTE_SUCESS: { codigo: 2202, mensagem: 'A Encomenda não existe.' },
      ENCOMENDA_CRIAR_SUCESS: { codigo: 2203, mensagem: 'Encomenda criada com sucesso.' },

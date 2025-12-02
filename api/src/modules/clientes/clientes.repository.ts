@@ -1,8 +1,6 @@
 import { sql } from '../../config/db'
-import { ErroCustomizado } from '../../errors/erro.customizado'
 import { Cliente, ClienteId, CriarClienteDTO, EditarClienteDTO } from '../../types/cliente'
 import { verificaResultadoExiste } from '../../types/verifica.resultado.existe'
-import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
 import { normalizaTexto } from '../../utils/normalizaTexto'
 
 export class ClientesRepository {
@@ -18,7 +16,7 @@ export class ClientesRepository {
                limit 1
 
                `
-          if (!cliente) throw new ErroCustomizado(CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR, 400)
+          if (!cliente) throw new Error('Erro ao listar cliente')
 
           return cliente
      }

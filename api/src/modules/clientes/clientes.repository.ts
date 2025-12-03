@@ -9,19 +9,17 @@ export class ClientesRepository {
           return await sql`select * from clientes order by id desc`
      }
 
-     async listarPorId(id: number): Promise<Cliente> {
+     async listarPorId(id: number): Promise<Cliente | null> {
           const [cliente] = await sql<Cliente[]>`
                select * from clientes
                where id = ${id}
                limit 1
 
                `
-          if (!cliente) throw new Error('Erro ao listar cliente')
-
-          return cliente
+          return cliente ?? null
      }
 
-     async criar(data: CriarClienteDTO): Promise<Cliente> {
+     async criar(data: CriarClienteDTO): Promise<Cliente | null> {
           const [clienteNovo] = await sql<Cliente[]>`
           insert into clientes (nome, instagram, telefone)
           values (
@@ -31,11 +29,10 @@ export class ClientesRepository {
           )
           returning *
      `
-          if (!clienteNovo) throw new Error('Falha ao criar cliente')
-          return clienteNovo
+          return clienteNovo ?? null
      }
 
-     async editar(id: number, data: EditarClienteDTO): Promise<Cliente> {
+     async editar(id: number, data: EditarClienteDTO): Promise<Cliente | null> {
           const [clienteAtualizado] = await sql<Cliente[]>`
           update clientes
           set 
@@ -46,18 +43,16 @@ export class ClientesRepository {
                id = ${id}
           returning *
      `
-          if (!clienteAtualizado) throw new Error('Falha ao editar cliente')
-          return clienteAtualizado
+          return clienteAtualizado ?? null
      }
 
-     async excluir(id: number): Promise<Cliente> {
+     async excluir(id: number): Promise<Cliente | null> {
           const [clienteExcluido] = await sql<Cliente[]>`
           delete from clientes
           where id = ${id}
           returning *
      `
-          if (!clienteExcluido) throw new Error('Falha ao excluir cliente')
-          return clienteExcluido
+          return clienteExcluido ?? null
      }
 
      //Validações

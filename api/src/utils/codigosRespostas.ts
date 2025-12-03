@@ -3,6 +3,7 @@ export const CODIGOS_ERRO = {
      DADOS_INCOMPLETOS: { codigo: 1001, mensagem: 'Preencha todos os dados necessários' },
      DADO_TIPO_INVALIDO: { codigo: 1002, mensagem: 'O tipo do dado enviado é inválido' },
      ID_INVALIDO: { codigo: 1003, mensagem: 'O ID enviado é inválido' },
+     CODIGO_INVALIDO: { codigo: 1004, mensagem: 'O Código enviado é inválido' },
 
      CLIENTE_LISTAR_ERR: { codigo: 1100, mensagem: 'Erro ao listar clientes' },
      CLIENTE_EXISTE_ERR: { codigo: 1101, mensagem: 'O Cliente já está registrado.' },

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { ClientesController } from './clientes.controller'
-import { validaIdParam } from '../../middlewares/validaIdParam'
+import { validaIdParam } from '../../middlewares/validaParam'
 
 const router = Router()
 const controller = new ClientesController()

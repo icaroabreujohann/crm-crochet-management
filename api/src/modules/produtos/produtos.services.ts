@@ -3,10 +3,9 @@ import { CriarProdutoDTO, EditarProdutoDTO } from '../../types/produtos'
 import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
 import { verificaErroExiste } from '../../utils/verifcaErroExiste'
 import { ProdutosRepository } from './produtos.repository'
-import path from 'path'
 import { PRODUTOS_DIR } from '../../infra/upload/paths'
-import { criaPastaSeNaoExistir } from '../../infra/upload/armazenamento'
-import { salvarFotosProduto } from '../../utils/salvarFotosProdutos'
+import { salvarFotosProduto } from '../../infra/upload/produtos.salvarfotos'
+import { excluirPasta } from '../../utils/filesystem/excluirPasta'
 
 
 export class ProdutosService {
@@ -56,11 +55,17 @@ export class ProdutosService {
           return produtoEditado
      }
 
-     async excluirProduto(id: number) {
-          const [produtoExiste] = await Promise.all([
-               this.repository.obterProdutoPorId(id)
+     async excluirProduto(id: number, codigo: string) {
+          const [produtoExisteId, produtoExisteCodigo] = await Promise.all([
+               this.repository.obterProdutoPorId(id),
+               this.repository.obterProdutoPorCodigo(codigo)
           ])
-          verificaErroExiste([{ condicao: !produtoExiste.existe, valor: id, codigoResposta: CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR }])
+          verificaErroExiste([
+               { condicao: !produtoExisteId.existe, valor: id, codigoResposta: CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR },
+               { condicao: !produtoExisteCodigo.existe, valor: codigo, codigoResposta: CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR }
+          ])
+
+          await excluirPasta(PRODUTOS_DIR, codigo)
 
           const produtoExcluido = await this.repository.excluir(id)
           return produtoExcluido

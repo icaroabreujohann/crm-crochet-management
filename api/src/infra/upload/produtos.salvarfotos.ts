@@ -1,6 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
-import { criaPastaSeNaoExistir } from '../infra/upload/armazenamento'
+import { criaPastaSeNaoExistir } from './produtos.multer'
 
 export const salvarFotosProduto = async (codigo: string, fotos: Express.Multer.File[], caminho: string) => {
      const pastaProduto = path.join(caminho, codigo)

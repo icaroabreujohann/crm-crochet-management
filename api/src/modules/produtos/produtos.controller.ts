@@ -41,8 +41,9 @@ export class ProdutosController {
 
      excluirProduto = async (req: Request, res: Response) => {
           const id: number = Number(req.params.id)
+          const codigo: string = String(req.params.codigo)
 
-          const produtoExcluido = await this.service.excluirProduto(id)
+          const produtoExcluido = await this.service.excluirProduto(id, codigo)
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.PRODUTO_EXCLUIR_SUCESS, produtoExcluido)
      }
 }

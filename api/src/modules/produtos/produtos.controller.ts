@@ -23,8 +23,10 @@ export class ProdutosController {
      criarProduto = async (req: Request, res: Response) => {
           const data: CriarProdutoDTO = req.body
           validaRequisicao(data, ['nome', 'preco'])
+          
+          const fotos = (req.files as Express.Multer.File[]) ?? []
 
-          const produtoCriado = await this.service.criarProduto(data)
+          const produtoCriado = await this.service.criarProduto(data, fotos)
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.PRODUTO_CRIAR_SUCESS, produtoCriado)
      }
 

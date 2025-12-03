@@ -3,6 +3,10 @@ import { CriarProdutoDTO, EditarProdutoDTO } from '../../types/produtos'
 import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
 import { verificaErroExiste } from '../../utils/verifcaErroExiste'
 import { ProdutosRepository } from './produtos.repository'
+import path from 'path'
+import { PRODUTOS_DIR } from '../../infra/upload/paths'
+import { criaPastaSeNaoExistir } from '../../infra/upload/armazenamento'
+import { salvarFotosProduto } from '../../utils/salvarFotosProdutos'
 
 
 export class ProdutosService {
@@ -31,9 +35,11 @@ export class ProdutosService {
           return produto
      }
 
-     async criarProduto(data: CriarProdutoDTO) {
+     async criarProduto(data: CriarProdutoDTO, fotos: Express.Multer.File[]) {
           const codigo: string = await this.gerarCodigoProdutoUnico()
-          const fotos_url = `/produtos/fotos/${codigo}`
+          const fotos_url = `arquivos/produtos/${codigo}`
+
+          await salvarFotosProduto(codigo, fotos, PRODUTOS_DIR)
 
           const produtoCriado = await this.repository.criar({ ...data, codigo, fotos_url })
           return produtoCriado

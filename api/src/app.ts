@@ -6,6 +6,8 @@ import { testarConexaoDb } from './config/db'
 import clientesRoutes from './modules/clientes/clientes.router'
 import produtosRoutes from './modules/produtos/produtos.router'
 import { erroGlobal } from './middlewares/erroGlobal'
+import path from 'path'
+import { PRODUTOS_DIR } from './infra/upload/paths'
 
 dotenv.config()
 
@@ -20,6 +22,10 @@ app.use('/produtos', produtosRoutes)
 
 
 app.use(erroGlobal)
+app.use(
+     '/arquivos/produtos',
+     express.static(path.join(PRODUTOS_DIR))
+)
 
 app.get('/', async (req, res) => {
      res.send('<h1>teste</h1>')

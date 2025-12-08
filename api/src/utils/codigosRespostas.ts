@@ -28,6 +28,14 @@ export const CODIGOS_ERRO = {
      MATERIAL_EDITAR_ERR: { codigo: 1403, mensagem: 'Erro ao editar material.' },
      MATERIAL_EXCLUIR_ERR: { codigo: 1404, mensagem: 'Erro ao excluir material.' },
      MATERIAL_N_EXISTE_ERR: { codigo: 1405, mensagem: 'O material não existe.' },
+
+     PRODUTO_MATERIAL_LISTAR_ERRO: { codigo: 1500, mensagem: 'Erro ao listar Materiais do Produto.' },
+     PRODUTO_MATERIAL_EXISTE_ERRO: { codigo: 1501, mensagem: 'Erro ao verificar se o produto ou material já está registrado.' },
+     PRODUTO_MATERIAL_N_EXISTE_ERRO: { codigo: 1502, mensagem: 'Erro ao verificar se o produto ou material existe.' },
+     PRODUTO_MATERIAL_CRIAR_ERRO: { codigo: 1503, mensagem: 'Erro ao criar produto ou material.' },
+     PRODUTO_MATERIAL_EDITAR_ERRO: { codigo: 1504, mensagem: 'Erro ao editar produto ou material.' },
+     PRODUTO_MATERIAL_EXCLUIR_ERRO: { codigo: 1505, mensagem: 'Erro ao excluir produto ou material.' },
+
 }
 export const CODIGOS_SUCESSO = {
      SUCESSO_GENERICO: { codigo: 2000, mensagem: 'Erro interno do servidor' },
@@ -59,6 +67,14 @@ export const CODIGOS_SUCESSO = {
      MATERIAL_CRIAR_SUCESS: { codigo: 2403, mensagem: 'Material criado com sucesso.' },
      MATERIAL_EDITAR_SUCESS: { codigo: 2404, mensagem: 'Material editado com sucesso.' },
      MATERIAL_EXCLUIR_SUCESS: { codigo: 2405, mensagem: 'Material excluído com sucesso.' },
+
+     PRODUTO_MATERIAL_LISTAR_SUCESS: { codigo: 2500, mensagem: 'Materiais do Produto listados com sucesso.' },
+     PRODUTO_MATERIAL_EXISTE_SUCESS: { codigo: 2501, mensagem: 'Material do produto já está registrado.' },
+     PRODUTO_MATERIAL_N_EXISTE_SUCESS: { codigo: 2502, mensagem: 'O material do produto não existe.' },
+     PRODUTO_MATERIAL_CRIAR_SUCESS: { codigo: 2503, mensagem: 'Material do produto criado com sucesso.' },
+     PRODUTO_MATERIAL_EDITAR_SUCESS: { codigo: 2504, mensagem: 'Material do produto editado com sucesso.' },
+     PRODUTO_MATERIAL_EXCLUIR_SUCESS: { codigo: 2505, mensagem: 'Material do produto excluído com sucesso.' },
+
 }
 
 

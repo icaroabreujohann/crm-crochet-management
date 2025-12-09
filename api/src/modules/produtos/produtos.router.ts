@@ -11,6 +11,7 @@ const controllerMateriais = new ProdutoMaterialController()
 
 //Principal
 router.get('/', controller.listarProdutos)
+router.get('/:codigo/completo', validaCodigoParam, controller.listarProdutoCompleto)
 router.get('/:codigo', validaCodigoParam, controller.listarProdutoCodigo)
 router.post('/', uploadProdutos.array('fotos'), controller.criarProduto)
 router.patch('/:codigo', validaCodigoParam, controller.editarProduto)

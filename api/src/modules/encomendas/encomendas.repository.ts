@@ -45,7 +45,7 @@ export class EncomendasRepository {
         return encomenda ? resultadoEncontrado(encomenda) : resultadoInexistente()
     }
 
-    async criar(data: CriarEncomendaRepoDTO): Promise<Encomenda | null> {
+    async criar(data: CriarEncomendaRepoDTO): Promise<ResultadoBusca<Encomenda>> {
         const [encomenda] = await sql<Encomenda[]>`
             insert into encomendas(codigo, cliente_id, produto_id, observacoes, pagamento_realizado, pagamento_forma,finalizado, entregue, local_entrega, data_pedido, data_prazo)
             values (
@@ -63,7 +63,7 @@ export class EncomendasRepository {
                 )
             returning *
         `
-        return encomenda ?? null
+        return encomenda ? resultadoEncontrado(encomenda) : resultadoInexistente()
     }
 
 async editar(id: number, data: EditarEncomendaDTO): Promise<Encomenda | null> {

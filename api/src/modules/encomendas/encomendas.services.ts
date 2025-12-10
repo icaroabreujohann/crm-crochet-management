@@ -6,13 +6,18 @@ import { assertResultadoExiste } from '../../shared/asserts/assertResultadoBusca
 import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
 import { CriarEncomendaDTO, EditarEncomendaDTO } from './encomendas.types'
 import { adicionarDias } from '../../utils/adicionarDias'
+import { EncomendaMaterialRepository } from './materiais/encomendaMaterial.repository'
+import { ProdutoMaterialRepository } from '../produtos/materiais/produtoMaterial.repository'
+import { CriarEncomendaMaterialRepoDTO } from './materiais/encomendaMaterial.types'
 
 export class EncomendasServices {
      private repository = new EncomendasRepository()
      private repositoryProduto = new ProdutosRepository()
      private repositoryClientes = new ClientesRepository()
+     private repositoryEncomendaMaterial = new EncomendaMaterialRepository()
+     private repositoryProdutoMaterial = new ProdutoMaterialRepository()
 
-     private async gerarCodigoProdutoUnico(): Promise<string> {
+     private async gerarCodigoEncomendaUnico(): Promise<string> {
           let codigo = randomUUID()
           let encomendaExiste = await this.repository.listarPorCodigo(codigo)
 
@@ -36,10 +41,13 @@ export class EncomendasServices {
      }
 
      async criarEncomenda(data: CriarEncomendaDTO) {
-          const codigo = await this.gerarCodigoProdutoUnico()
+          const codigo = await this.gerarCodigoEncomendaUnico()
 
           const produto = await this.repositoryProduto.listarPorCodigo(data.produto_codigo)
           assertResultadoExiste(produto, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, data.produto_codigo)
+
+          const produto_materiais = await this.repositoryProdutoMaterial.listarPorProduto(produto.data.id)
+          assertResultadoExiste(produto_materiais, CODIGOS_ERRO.PRODUTO_MATERIAL_N_EXISTE_ERRO, data.produto_codigo)
 
           const cliente = await this.repositoryClientes.listarPorId(data.cliente_id)
           assertResultadoExiste(cliente, CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR, data.cliente_id)
@@ -51,15 +59,32 @@ export class EncomendasServices {
                cliente_id: cliente.data.id,
                data_prazo: adicionarDias(data.data_pedido, 20)
           }
-          
-          return await this.repository.criar(encomenda)
+
+
+          const encomendaCriada = await this.repository.criar(encomenda)
+          assertResultadoExiste(encomendaCriada, CODIGOS_ERRO.ENCOMENDA_CRIAR_ERR, encomenda)
+
+          const encomendaMateriais: CriarEncomendaMaterialRepoDTO[] =
+               produto_materiais.data.map((m): CriarEncomendaMaterialRepoDTO => ({
+                    encomenda_id: encomendaCriada.data.id,
+                    material_id: m.id,
+                    quantidade: m.quantidade,
+                    preco_final: m.preco_final
+               }));
+
+
+          await Promise.all(
+               encomendaMateriais.map(m => this.repositoryEncomendaMaterial.criar(m))
+          )
+
+          return encomendaCriada
      }
 
-     async editarEncomenda(codigo: string, data: EditarEncomendaDTO){
+     async editarEncomenda(codigo: string, data: EditarEncomendaDTO) {
           const encomenda = await this.repository.listarPorCodigo(codigo)
           assertResultadoExiste(encomenda, CODIGOS_ERRO.ENCOMENDA_N_EXISTE_ERR, codigo)
 
-          if(data.data_pedido && !data.data_prazo) data = {...data, data_prazo: adicionarDias(data.data_pedido, 20)}
+          if (data.data_pedido && !data.data_prazo) data = { ...data, data_prazo: adicionarDias(data.data_pedido, 20) }
 
           console.log('dataservices', data)
 

@@ -37,6 +37,13 @@ export const CODIGOS_ERRO = {
      PRODUTO_MATERIAL_EXCLUIR_ERRO: { codigo: 1505, mensagem: 'Erro ao excluir produto ou material.' },
      PRODUTO_MATERIAL_N_CORRESPONDE_ERRO: { codigo: 1506, mensagem: 'O Material lançado não corresponde ao produto.' },
 
+     ENCOMENDA_MATERIAL_LISTAR_ERRO: { codigo: 1600, mensagem: 'Erro ao listar encomendas de materiais.' },
+     ENCOMENDA_MATERIAL_EXISTE_ERRO: { codigo: 1601, mensagem: 'Erro ao verificar se a encomenda de material já está registrada.' },
+     ENCOMENDA_MATERIAL_N_EXISTE_ERRO: { codigo: 1602, mensagem: 'O material não existe.' },
+     ENCOMENDA_MATERIAL_CRIAR_ERRO: { codigo: 1603, mensagem: 'Erro ao criar encomenda de material.' },
+     ENCOMENDA_MATERIAL_EDITAR_ERRO: { codigo: 1604, mensagem: 'Erro ao editar encomenda de material.' },
+     ENCOMENDA_MATERIAL_EXCLUIR_ERRO: { codigo: 1605, mensagem: 'Erro ao excluir encomenda de material.' },
+     ENCOMENDA_MATERIAL_N_CORRESPONDE_ERRO: { codigo: 1606, mensagem: 'O material informado não corresponde à encomenda.' },
 }
 export const CODIGOS_SUCESSO = {
      SUCESSO_GENERICO: { codigo: 2000, mensagem: 'Erro interno do servidor' },
@@ -75,6 +82,14 @@ export const CODIGOS_SUCESSO = {
      PRODUTO_MATERIAL_CRIAR_SUCESS: { codigo: 2503, mensagem: 'Material do produto criado com sucesso.' },
      PRODUTO_MATERIAL_EDITAR_SUCESS: { codigo: 2504, mensagem: 'Material do produto editado com sucesso.' },
      PRODUTO_MATERIAL_EXCLUIR_SUCESS: { codigo: 2505, mensagem: 'Material do produto excluído com sucesso.' },
+
+     ENCOMENDA_MATERIAL_LISTAR_SUCCESS: { codigo: 2600, mensagem: 'Materiais da encomenda listadas com sucesso.' },
+     ENCOMENDA_MATERIAL_EXISTE_SUCCESS: { codigo: 2601, mensagem: 'Materiais da encomenda verificada com sucesso.' },
+     ENCOMENDA_MATERIAL_N_EXISTE_SUCCESS: { codigo: 2602, mensagem: 'Material da encomenda não encontrada.' },
+     ENCOMENDA_MATERIAL_CRIAR_SUCCESS: { codigo: 2603, mensagem: 'Material da encomenda criada com sucesso.' },
+     ENCOMENDA_MATERIAL_EDITAR_SUCCESS: { codigo: 2604, mensagem: 'Material da encomenda editada com sucesso.' },
+     ENCOMENDA_MATERIAL_EXCLUIR_SUCCESS: { codigo: 2605, mensagem: 'Material da encomenda excluída com sucesso.' },
+     ENCOMENDA_MATERIAL_CORRESPONDE_SUCCESS: { codigo: 2606, mensagem: 'Material corresponde à encomenda.' },
 
 }
 

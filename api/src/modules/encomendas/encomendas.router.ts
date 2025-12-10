@@ -8,6 +8,7 @@ const controller = new EncomendasController()
 const controllerMaterial = new EncomendaMaterialController()
 
 router.get('/', controller.listar)
+router.get('/:codigo/completa', validaCodigoParam, controller.listarCompleta)
 router.get('/:codigo', validaCodigoParam, controller.listarPorCodigo)
 router.post('/', controller.criarEncomenda)
 router.patch('/:codigo', validaCodigoParam, controller.editarEncomenda)

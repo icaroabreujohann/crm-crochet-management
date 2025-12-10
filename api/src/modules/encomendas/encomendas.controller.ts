@@ -12,6 +12,13 @@ export class EncomendasController {
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.ENCOMENDA_LISTAR_SUCESS, encomendas)
      }
 
+     listarCompleta = async (req: Request, res:Response) => {
+          const codigo = String(req.params.codigo)
+
+          const encomendaCompleta = await this.services.listarCompleta(codigo)
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.ENCOMENDA_LISTAR_SUCESS, encomendaCompleta)
+     }
+
      listarPorCodigo = async (req: Request, res: Response) => {
           const codigo = String(req.params.codigo)
 

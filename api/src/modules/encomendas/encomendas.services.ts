@@ -40,6 +40,15 @@ export class EncomendasServices {
           return encomenda
      }
 
+     async listarCompleta(codigo: string) {
+          const encomenda = await this.repository.listarPorCodigo(codigo)
+          assertResultadoExiste(encomenda, CODIGOS_ERRO.ENCOMENDA_N_EXISTE_ERR, codigo)
+
+          const materiais = await this.repositoryEncomendaMaterial.listarPorEncomenda(encomenda.data.id)
+
+          return {...encomenda, materiais}
+     }
+
      async criarEncomenda(data: CriarEncomendaDTO) {
           const codigo = await this.gerarCodigoEncomendaUnico()
 
@@ -85,8 +94,6 @@ export class EncomendasServices {
           assertResultadoExiste(encomenda, CODIGOS_ERRO.ENCOMENDA_N_EXISTE_ERR, codigo)
 
           if (data.data_pedido && !data.data_prazo) data = { ...data, data_prazo: adicionarDias(data.data_pedido, 20) }
-
-          console.log('dataservices', data)
 
           return await this.repository.editar(encomenda.data.id, data)
      }

@@ -27,4 +27,19 @@ export class EncomendasController {
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.ENCOMENDA_CRIAR_SUCESS, encomenda)
      }
 
+     editarEncomenda = async (req: Request, res: Response) => {
+          const codigo = String(req.params.codigo)
+          const data = req.body
+
+          const encomenda = this.services.editarEncomenda(codigo, data)
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.ENCOMENDA_EDITAR_SUCESS, encomenda)
+     }
+
+     excluirEncomenda = async (req: Request, res: Response) => {
+          const codigo = String(req.params.codigo)
+
+          const encomenda = this.services.excluirEncomenda(codigo)
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.ENCOMENDA_EXCLUIR_SUCESS, encomenda)
+     }
+
 }

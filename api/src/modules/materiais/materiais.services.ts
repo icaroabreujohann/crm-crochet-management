@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto'
-import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
+import { CODIGOS_ERRO } from '../../utils/respostas/codigos-resposta'
 import { assertResultadoExiste } from '../../shared/asserts/assertResultadoBusca'
 import { MateriaisRepository } from './materiais.repository'
 import { CriarMaterialDTO, EditarMaterialDTO } from './materiais.types'

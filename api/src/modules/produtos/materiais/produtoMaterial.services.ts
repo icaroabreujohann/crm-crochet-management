@@ -3,7 +3,7 @@ import { ProdutosRepository } from '../produtos.repository'
 import { MateriaisRepository } from '../../materiais/materiais.repository'
 import { CriarProdutoMaterialDTO, EditarProdutoMaterialDTO } from './produtoMaterial.types'
 import { assertResultadoExiste } from '../../../shared/asserts/assertResultadoBusca'
-import { CODIGOS_ERRO } from '../../../utils/codigosRespostas'
+import { CODIGOS_ERRO } from '../../../utils/respostas/codigos-resposta'
 import { validaRegraNegocio } from '../../../shared/validators/valida.regranegocio'
 
 export class ProdutoMaterialService {

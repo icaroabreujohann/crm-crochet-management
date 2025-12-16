@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { ClientesService } from '../clientes/clientes.services'
-import { gerenciadorMensagens } from '../../utils/gerenciadorRepostas'
-import { CODIGOS_SUCESSO } from '../../utils/codigosRespostas'
+import { gerenciadorMensagens } from '../../utils/respostas/gerenciador-resposta'
+import { CODIGOS_SUCESSO } from '../../utils/respostas/codigos-resposta'
 import { validaRequisicao, validaTipoDado } from '../../shared/validators/valida.requisicao'
 import { CriarClienteDTO, EditarClienteDTO } from './clientes.types'
 

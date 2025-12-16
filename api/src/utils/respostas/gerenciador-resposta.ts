@@ -1,5 +1,5 @@
 import { Response } from "express"
-import { CodigoResposta } from "../types/codigo.resposta"
+import { CodigoResposta } from "../../types/codigo.resposta"
 
 class GerenciadorMensagens {
      private _criarResposta(sucesso: boolean, definidoPeloSistema: boolean, codigoResposta: CodigoResposta, codigoStatus: number, data: object | null = null) {

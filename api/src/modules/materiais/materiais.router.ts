@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { validaCodigoParam } from '../../middlewares/validaParam'
+import { validaCodigoParam } from '../../middlewares/valida-param'
 import { MaterialsController } from './materiais.controller'
 
 const router = Router()

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { ProdutoMaterialService } from './produtoMaterial.services'
-import { gerenciadorMensagens } from '../../../utils/gerenciadorRepostas'
-import { CODIGOS_SUCESSO } from '../../../utils/codigosRespostas'
+import { gerenciadorMensagens } from '../../../utils/respostas/gerenciador-resposta'
+import { CODIGOS_SUCESSO } from '../../../utils/respostas/codigos-resposta'
 import { CriarProdutoMaterialDTO } from './produtoMaterial.types'
 import { validaRequisicao } from '../../../shared/validators/valida.requisicao'
 

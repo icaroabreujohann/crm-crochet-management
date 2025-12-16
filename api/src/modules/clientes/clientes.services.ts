@@ -1,5 +1,5 @@
 import { Cliente, CriarClienteDTO, EditarClienteDTO } from './clientes.types'
-import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
+import { CODIGOS_ERRO } from '../../utils/respostas/codigos-resposta'
 import { validaRegraNegocio } from '../../shared/validators/valida.regranegocio'
 import { ClientesRepository } from '../clientes/clientes.repository'
 import { assertResultadoExiste, assertResultadoNaoExiste } from '../../shared/asserts/assertResultadoBusca'

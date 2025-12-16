@@ -1,9 +1,9 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { criaPastaSeNaoExistir } from './produtos.multer'
-import { excluirPasta } from '../../utils/filesystem/excluirPasta'
+import { excluirPasta } from '../filesystem/excluir-pasta'
 import { PRODUTOS_TMP_DIR } from './paths'
-import { excluirArquivosPasta } from '../../utils/filesystem/excluirArquivosPasta'
+import { excluirArquivosPasta } from '../filesystem/excluir-arquivos-pasta'
 
 export const salvarFotosProduto = async (codigo: string, fotos: Express.Multer.File[], caminho: string) => {
      const pastaProduto = path.join(caminho, codigo)

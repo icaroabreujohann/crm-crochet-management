@@ -1,4 +1,4 @@
-import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
+import { CODIGOS_ERRO } from '../../utils/respostas/codigos-resposta'
 import { ErroCustomizado } from '../../types/erro.customizado'
 
 export function validaRequisicao<T extends Record<string, any>>(

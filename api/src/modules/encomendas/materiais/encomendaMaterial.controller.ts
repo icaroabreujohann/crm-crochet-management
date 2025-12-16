@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { gerenciadorMensagens } from '../../../utils/gerenciadorRepostas'
-import { CODIGOS_SUCESSO } from '../../../utils/codigosRespostas'
+import { gerenciadorMensagens } from '../../../utils/respostas/gerenciador-resposta'
+import { CODIGOS_SUCESSO } from '../../../utils/respostas/codigos-resposta'
 import { validaRequisicao } from '../../../shared/validators/valida.requisicao'
 import { EncomendaMaterialServices } from './encomendaMaterial.services'
 import { CriarEncomendaMaterialDTO } from './encomendaMaterial.types'

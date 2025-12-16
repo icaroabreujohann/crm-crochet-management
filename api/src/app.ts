@@ -8,7 +8,7 @@ import produtosRoutes from './modules/produtos/produtos.router'
 import materiaisRoutes from './modules/materiais/materiais.router'
 import encomendasRoutes from './modules/encomendas/encomendas.router'
 
-import { erroGlobal } from './middlewares/erroGlobal'
+import { erroGlobal } from './middlewares/erro-global'
 import path from 'path'
 import { PRODUTOS_DIR } from './infra/upload/paths'
 

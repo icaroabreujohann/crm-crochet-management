@@ -1,7 +1,7 @@
 import { EncomendaMaterialRepository } from './encomendaMaterial.repository'
 import { EncomendasRepository } from '../encomendas.repository'
 import { assertResultadoExiste } from '../../../shared/asserts/assertResultadoBusca'
-import { CODIGOS_ERRO } from '../../../utils/codigosRespostas'
+import { CODIGOS_ERRO } from '../../../utils/respostas/codigos-resposta'
 import { CriarEncomendaMaterialDTO, EditarEncomendaMaterialDTO } from './encomendaMaterial.types'
 import { MateriaisRepository } from '../../materiais/materiais.repository'
 import { validaRegraNegocio } from '../../../shared/validators/valida.regranegocio'

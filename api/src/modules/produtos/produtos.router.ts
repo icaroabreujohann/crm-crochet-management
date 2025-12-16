@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { ProdutosController } from './produtos.controller'
 import { ProdutoMaterialController } from './materiais/produtoMaterial.controller'
-import { validaCodigoParam, validaIdParam } from '../../middlewares/validaParam'
+import { validaCodigoParam, validaIdParam } from '../../middlewares/valida-param'
 import { uploadProdutos } from '../../infra/upload/produtos.multer'
 
 const router = Router()

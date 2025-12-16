@@ -1,10 +1,10 @@
 import { randomUUID } from 'crypto'
 import { CriarProdutoDTO, EditarProdutoDTO } from './produtos.types'
-import { CODIGOS_ERRO } from '../../utils/codigosRespostas'
+import { CODIGOS_ERRO } from '../../utils/respostas/codigos-resposta'
 import { ProdutosRepository } from './produtos.repository'
 import { PRODUTOS_DIR } from '../../infra/upload/paths'
 import { editarFotosProduto, salvarFotosProduto } from '../../infra/upload/produtos.salvarfotos'
-import { excluirPasta } from '../../utils/filesystem/excluirPasta'
+import { excluirPasta } from '../../infra/filesystem/excluir-pasta'
 import { assertResultadoExiste } from '../../shared/asserts/assertResultadoBusca'
 import { ProdutoMaterialRepository } from './materiais/produtoMaterial.repository'
 

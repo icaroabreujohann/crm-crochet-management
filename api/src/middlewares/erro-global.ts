@@ -1,7 +1,7 @@
-import { CODIGOS_ERRO } from '../utils/codigosRespostas'
+import { CODIGOS_ERRO } from '../utils/respostas/codigos-resposta'
 import { Response, Request, NextFunction } from 'express'
 import { ErroCustomizado } from '../types/erro.customizado'
-import { gerenciadorMensagens } from '../utils/gerenciadorRepostas'
+import { gerenciadorMensagens } from '../utils/respostas/gerenciador-resposta'
 
 export const erroGlobal = (err: ErroCustomizado, req: Request, res: Response, next: NextFunction) => {
      console.log(err)

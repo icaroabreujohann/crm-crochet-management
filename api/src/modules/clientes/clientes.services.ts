@@ -13,7 +13,7 @@ export class ClientesService {
      }
 
      async listarClientePorId(id: number) {
-          const cliente = await this.repository.obterClientePorId(id)
+          const cliente = await this.repository.listarPorId(id)
 
           assertResultadoExiste(cliente, CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR, id)
 
@@ -23,8 +23,8 @@ export class ClientesService {
      async criarCliente(data: CriarClienteDTO) {
 
           const [clienteInstagram, clienteTelefone] = await Promise.all([
-               data.instagram ? this.repository.obterClientePorInstagram(data.instagram) : Promise.resolve(resultadoInexistente<Cliente>()),
-               data.telefone ? this.repository.obterClientePorTelefone(data.telefone) : Promise.resolve(resultadoInexistente<Cliente>())
+               data.instagram ? this.repository.listarClientePorInstagram(data.instagram) : Promise.resolve(resultadoInexistente<Cliente>()),
+               data.telefone ? this.repository.listarClientePorTelefone(data.telefone) : Promise.resolve(resultadoInexistente<Cliente>())
           ])
 
           validaRegraNegocio([
@@ -38,9 +38,9 @@ export class ClientesService {
      async editarCliente(id: number, data: EditarClienteDTO) {
 
           const [clienteAtual, clienteInstagram, clienteTelefone] = await Promise.all([
-               this.repository.obterClientePorId(id),
-               data.instagram ? this.repository.obterClientePorInstagram(data.instagram) : Promise.resolve(resultadoInexistente<Cliente>()),
-               data.telefone ? this.repository.obterClientePorTelefone(data.telefone) : Promise.resolve(resultadoInexistente<Cliente>())
+               this.repository.listarPorId(id),
+               data.instagram ? this.repository.listarClientePorInstagram(data.instagram) : Promise.resolve(resultadoInexistente<Cliente>()),
+               data.telefone ? this.repository.listarClientePorTelefone(data.telefone) : Promise.resolve(resultadoInexistente<Cliente>())
           ])
 
           assertResultadoExiste(clienteAtual, CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR, { ...data, id })
@@ -54,7 +54,7 @@ export class ClientesService {
      }
 
      async excluirCliente(id: number) {
-          const cliente = await this.repository.obterClientePorId(id)
+          const cliente = await this.repository.listarPorId(id)
           assertResultadoExiste(cliente, CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR, id)
 
           return await this.repository.excluir(id)

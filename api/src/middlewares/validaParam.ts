@@ -9,8 +9,7 @@ export function validaIdParam(req: Request, res: Response, next: NextFunction) {
      const id = Number(idParam)
 
      if (!Number.isInteger(id) || id <= 0) throw new ErroCustomizado(CODIGOS_ERRO.ID_INVALIDO, { id }, 400)
-
-     req.params.id = String(id)
+     res.locals.id = Number(id)
      next()
 }
 

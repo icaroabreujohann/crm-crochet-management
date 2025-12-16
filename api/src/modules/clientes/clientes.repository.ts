@@ -20,6 +20,24 @@ export class ClientesRepository {
           return cliente ? resultadoEncontrado(cliente) : resultadoInexistente()
      }
 
+     async listarClientePorInstagram(instagram: string): Promise<ResultadoBusca<Cliente>> {
+          const [cliente] = await sql<Cliente[]>`
+               select * from clientes
+               where instagram = ${instagram}
+               limit 1
+          `
+          return cliente ? resultadoEncontrado(cliente) : resultadoInexistente()
+     }
+
+     async listarClientePorTelefone(telefone: string): Promise<ResultadoBusca<Cliente>> {
+          const [cliente] = await sql<Cliente[]>`
+               select * from clientes
+               where telefone = ${telefone}
+               limit 1
+          `
+          return cliente ? resultadoEncontrado(cliente) : resultadoInexistente()
+     }
+
      async criar(data: CriarClienteDTO): Promise<Cliente | null> {
           const [clienteNovo] = await sql<Cliente[]>`
           insert into clientes (nome, instagram, telefone)
@@ -54,32 +72,5 @@ export class ClientesRepository {
           returning *
      `
           return clienteExcluido ?? null
-     }
-
-     //Validações
-
-     async obterClientePorInstagram(instagram: string): Promise<ResultadoBusca<Cliente>> {
-          const [cliente] = await sql<Cliente[]>`
-               select * from clientes
-               where instagram = ${instagram}
-          `
-          return cliente ? resultadoEncontrado(cliente) : resultadoInexistente()
-     }
-
-     async obterClientePorTelefone(telefone: string): Promise<ResultadoBusca<Cliente>> {
-          const [cliente] = await sql<Cliente[]>`
-               select * from clientes
-               where telefone = ${telefone}
-          `
-          return cliente ? resultadoEncontrado(cliente) : resultadoInexistente()
-     }
-
-     async obterClientePorId(id: number): Promise<ResultadoBusca<Cliente>> {
-          const [cliente] = await sql<Cliente[]>`
-               select * from clientes
-               where id = ${id}
-          `
-
-          return cliente ? resultadoEncontrado(cliente) : resultadoInexistente()
      }
 }

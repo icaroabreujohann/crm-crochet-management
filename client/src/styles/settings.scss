@@ -81,7 +81,7 @@ h1,h2{
 }
 
 
-p {
+p, span, th, td {
      font-size: 1rem !important;
 }
 
@@ -112,6 +112,11 @@ p {
      border-radius: 20px !important;
      border: 0.5px solid #00000012;
      box-shadow: none !important;
+}
+
+.v-data-table-header__content > span {
+    font-family: f-semi;
+    opacity: 50%;
 }
 
 canvas {
@@ -149,14 +154,3 @@ canvas {
      border: none !important;
 }
 
-@media (max-width: 1366px) {
-
-     h1,
-     h2 {
-          font-size: 1.6rem;
-     }
-
-     p {
-          font-size: 0.9rem !important;
-     }
-}

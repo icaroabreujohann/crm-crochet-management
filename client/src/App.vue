@@ -14,7 +14,7 @@
                </v-list-item>
           </v-navigation-drawer>
           <v-main>
-               <v-container class="pa-10">
+               <v-container class="pa-10" width="75vw">
                     <u><p class="text-main ml-1 mb-5">@seth.ateliê{{ route.path }}</p></u>
                     <v-card class="pa-10">
                          <router-view/>

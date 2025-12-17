@@ -76,6 +76,10 @@ h4,
      letter-spacing: -0.5px !important;
 }
 
+h1,h2{
+     color: var(--main);
+}
+
 
 p {
      font-size: 1rem !important;
@@ -105,7 +109,7 @@ p {
 }
 
 .v-card {
-     border-radius: 10px !important;
+     border-radius: 20px !important;
      border: 0.5px solid #00000012;
      box-shadow: none !important;
 }
@@ -124,8 +128,8 @@ canvas {
 }
 
 .v-dialog .v-card {
-     border-radius: 10px !important;
-     border: 0.5px solid #00000012;
+     border-radius: 20px !important;
+     border: 2px solid #0000002f;
      box-shadow: none !important;
 }
 

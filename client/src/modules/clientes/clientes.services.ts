@@ -5,7 +5,7 @@ import type { RespostaApi } from '@/types/resposta.api'
 export const ClientesServices = {
      async listar(): Promise<Cliente[]> {
           const { data } = await api.get<RespostaApi<Cliente[]>>('/clientes')
-          console.log('cliente service listar', data.data)
+          
           return data.data
      },
 

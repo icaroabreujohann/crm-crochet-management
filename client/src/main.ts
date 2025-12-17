@@ -6,6 +6,7 @@
 
 // Plugins
 import { registerPlugins } from '@/plugins'
+import { pinia } from './plugins/pinia'
 
 // Components
 import App from './App.vue'
@@ -19,5 +20,7 @@ import 'unfonts.css'
 const app = createApp(App)
 
 registerPlugins(app)
+
+app.use(pinia)
 
 app.mount('#app')

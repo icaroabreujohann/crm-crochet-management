@@ -12,6 +12,7 @@ export type ClienteId = {
 }
 
 export type CriarClienteDTO = {
+     id?: number,
      nome: string,
      instagram: string | null,
      telefone: string | null,

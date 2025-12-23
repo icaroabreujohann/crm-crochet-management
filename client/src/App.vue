@@ -8,7 +8,7 @@
                     class="mt-1"
                >
                     <div class="d-flex align-center">
-                         <v-icon style="font-size: 1.2rem;">{{ i.icone }}</v-icon>
+                         <HugeiconsIcon :stroke-width="2.2" :size="18" :icon="i.icone2"></HugeiconsIcon>
                          <h3 class="f-regular ml-2">{{ i.titulo }}</h3>
                     </div>
                </v-list-item>
@@ -45,17 +45,18 @@
      import { ref } from 'vue'
      import { useRoute } from 'vue-router'
      import { usarFeedbackStore } from './stores/feedbacks.store'
-
+     import { HugeiconsIcon } from '@hugeicons/vue'
+     import { Layers01Icon, UserMultiple02Icon, PackageIcon, Tag01Icon, ShoppingCart02Icon} from '@hugeicons/core-free-icons'
      const route = useRoute()
 
      const feedback = usarFeedbackStore()
 
      const menuItems = ref([
-          {titulo: 'Início', icone: 'mdi-layers-outline', rota: '/'},
-          {titulo: 'Clientes', icone: 'mdi-account-multiple-outline', rota: '/clientes'},
-          {titulo: 'Materiais', icone: 'mdi-package-variant-closed'},
-          {titulo: 'Produtos', icone: 'mdi-tag-outline'},
-          {titulo: 'Encomendas', icone: 'mdi-cart-outline'},
+          {titulo: 'Início', icone: 'mdi-layers-outline', icone2:Layers01Icon, rota: '/'},
+          {titulo: 'Clientes', icone: 'mdi-account-multiple-outline', icone2: UserMultiple02Icon, rota: '/clientes'},
+          {titulo: 'Materiais', icone: 'mdi-package-variant-closed', icone2: PackageIcon},
+          {titulo: 'Produtos', icone: 'mdi-tag-outline', icone2: Tag01Icon},
+          {titulo: 'Encomendas', icone: 'mdi-cart-outline', icone2: ShoppingCart02Icon},
      ])
 
 </script>

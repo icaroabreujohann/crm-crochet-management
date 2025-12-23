@@ -2,8 +2,7 @@
      <v-dialog v-model="dialog" width="30vw">
           <v-card class="pa-7">
                <div class="d-flex align-center mb-5">
-                    <v-icon size="x-large" class="mr-2" color="light">{{ modoEditar ? 'mdi-account-edit-outline' :
-                         'mdi-account-plus-outline' }}</v-icon>
+                    <HugeiconsIcon class="text-light mr-2" stroke-width="2" size="30" color="light" :icon="modoEditar ? UserEdit01Icon : UserAdd01Icon" />
                     <h1>{{ modoEditar ? 'Editar Cliente' : 'Criar Cliente' }}</h1>
                </div>
 
@@ -43,6 +42,8 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { type Cliente, type ClienteForm } from '@/modules/clientes/clientes.types'
+import { HugeiconsIcon } from '@hugeicons/vue'
+import { UserAdd01Icon, UserEdit01Icon } from '@hugeicons/core-free-icons';
 
 const props = defineProps<{
      cliente?: Cliente | null,

@@ -4,7 +4,12 @@
           <div class="d-flex align-end w-50 justify-end">
                <div class="w-50">
                     <v-text-field density="compact" class="mr-3" variant="solo-filled" label="Pesquise por um cliente"
-                         prepend-inner-icon="mdi-account-search-outline" hide-details v-model="filtroClientes" />
+                         prepend-inner-icon="mdi-account-search-outline" hide-details v-model="filtroClientes"
+                    >
+                         <template #prepend-inner>
+                              <HugeiconsIcon class="subText" stroke-width="2" size="20" :icon="Search02Icon"/>
+                         </template>     
+                    </v-text-field>
                </div>
                <v-btn color="main" @click="abrirCriar()">Adicionar</v-btn>
           </div>
@@ -28,6 +33,9 @@ import { usarFeedbackStore } from '@/stores/feedbacks.store'
 
 import { type Cliente, type ClienteForm } from '@/modules/clientes/clientes.types'
 import { ClientesServices } from '@/modules/clientes/clientes.services'
+
+import { HugeiconsIcon } from '@hugeicons/vue'
+import { Search02Icon } from '@hugeicons/core-free-icons'
 
 import ClienteFormDialog from '@/components/ClienteFormDialog.vue'
 import ConfirmaExclusao from '@/components/common/ConfirmaExclusao.vue'

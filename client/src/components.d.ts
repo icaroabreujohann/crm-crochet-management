@@ -11,7 +11,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ClienteConfirmDeleteDialog: typeof import('./components/ClienteConfirmDeleteDialog.vue')['default']
     ClienteFormDialog: typeof import('./components/ClienteFormDialog.vue')['default']
+    ConfirmaExclusao: typeof import('./components/common/ConfirmaExclusao.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MenuAcoes: typeof import('./components/common/MenuAcoes.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

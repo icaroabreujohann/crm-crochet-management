@@ -12,13 +12,12 @@
 
      <v-data-table :items="clientes" :headers="clientesHeaders">
           <template #item.acoes="{ item }">
-               <MenuAcoes 
-                    @editar="abrirEditar(item)"
-               />
+               <MenuAcoes @editar="abrirEditar(item)" @excluir="abrirExcluir(item)" />
           </template>
      </v-data-table>
 
      <ClienteFormDialog v-model="dialogFormCliente" :cliente="clienteSelecionado" @salvo="salvarCliente" />
+     <ConfirmaExclusao v-if="clienteSelecionado" :idParaExcluir="clienteSelecionado.id" :tipo="'cliente'" v-model="dialogConfirmaExclusao" @exlcuir="excluirCliente" />
 
 </template>
 
@@ -30,6 +29,7 @@ import { type Cliente, type ClienteForm } from '@/modules/clientes/clientes.type
 import { ClientesServices } from '@/modules/clientes/clientes.services'
 
 import ClienteFormDialog from '@/components/ClienteFormDialog.vue'
+import ConfirmaExclusao from '@/components/common/ConfirmaExclusao.vue'
 import MenuAcoes from '@/components/common/MenuAcoes.vue'
 
 const feedback = usarFeedbackStore()
@@ -44,6 +44,7 @@ const clientesHeaders = [
 ]
 
 const dialogFormCliente = ref(false)
+const dialogConfirmaExclusao = ref(true)
 
 async function listarClientes() {
      clientes.value = await ClientesServices.listar()
@@ -57,6 +58,14 @@ async function salvarCliente(form: ClienteForm) {
      feedback.sucesso('Cliente criado com sucesso')
 }
 
+async function excluirCliente(id: number) {
+     await ClientesServices.excluir(id)
+     listarClientes()
+     dialogConfirmaExclusao.value = false
+     clienteSelecionado.value = null
+     feedback.sucesso('Cliente excluido com sucesso')
+}
+
 function abrirCriar() {
      clienteSelecionado.value = null
      dialogFormCliente.value = true
@@ -65,6 +74,11 @@ function abrirCriar() {
 function abrirEditar(cliente: Cliente) {
      clienteSelecionado.value = cliente
      dialogFormCliente.value = true
+}
+
+function abrirExcluir(cliente: Cliente) {
+     clienteSelecionado.value = cliente
+     dialogConfirmaExclusao.value = true
 }
 
 onMounted(() => {

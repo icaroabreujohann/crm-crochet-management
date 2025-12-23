@@ -19,7 +19,7 @@
                <v-list-item @click="emit('excluir')">
                     <div class="d-flex align-center">
                          <v-icon size="small" class="mr-2">mdi-delete-outline</v-icon>
-                         <p>Editar</p>
+                         <p>Excluir</p>
                     </div>
                </v-list-item>
           </v-card>

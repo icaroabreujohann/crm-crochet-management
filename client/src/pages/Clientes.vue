@@ -47,10 +47,10 @@ const feedback = usarFeedbackStore()
 const clientes = ref<Cliente[]>([])
 const clienteSelecionado = ref<Cliente | null>(null)
 const clientesHeaders = [
-     { title: 'Nome', value: 'nome' },
-     { title: 'Instagram', value: 'instagram' },
-     { title: 'Telefone', value: 'telefone' },
-     { title: 'Data Atualização', value: 'data_atualizacao' },
+     { title: 'Nome', value: 'nome', sortable: true },
+     { title: 'Instagram', value: 'instagram', sortable: true },
+     { title: 'Telefone', value: 'telefone', sortable: true },
+     { title: 'Data Atualização', value: 'data_atualizacao', sortable: true },
      { title: 'Ações', value: 'acoes', width: '10%' }
 ]
 

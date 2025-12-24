@@ -7,6 +7,7 @@ import clientesRoutes from './modules/clientes/clientes.router'
 import produtosRoutes from './modules/produtos/produtos.router'
 import materiaisRoutes from './modules/materiais/materiais.router'
 import encomendasRoutes from './modules/encomendas/encomendas.router'
+import cadastrosRoutes from './modules/cadastros/cadastros.router'
 
 import { erroGlobal } from './middlewares/erro-global'
 import path from 'path'
@@ -24,6 +25,7 @@ app.use('/clientes', clientesRoutes)
 app.use('/produtos', produtosRoutes)
 app.use('/materiais', materiaisRoutes)
 app.use('/encomendas', encomendasRoutes)
+app.use('/cadastros', cadastrosRoutes)
 
 
 app.use(erroGlobal)

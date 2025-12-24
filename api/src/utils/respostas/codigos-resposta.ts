@@ -91,7 +91,9 @@ export const CODIGOS_SUCESSO = {
      ENCOMENDA_MATERIAL_EDITAR_SUCCESS: { codigo: 2604, mensagem: 'Material da encomenda editada com sucesso.' },
      ENCOMENDA_MATERIAL_EXCLUIR_SUCCESS: { codigo: 2605, mensagem: 'Material da encomenda excluída com sucesso.' },
      ENCOMENDA_MATERIAL_CORRESPONDE_SUCCESS: { codigo: 2606, mensagem: 'Material corresponde à encomenda.' },
-
+     
+     TIPO_MATERIAL_LISTAR_SUCESS: { codigo: 2700, mensagem: 'Tipos de materiais listados com sucesso.' },
+     UNIDADE_MEDIDA_LISTAR_SUCESS: { codigo: 2701, mensagem: 'Unidades de medidas listadas com sucesso.' },
 }
 
 

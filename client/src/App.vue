@@ -14,7 +14,7 @@
                </v-list-item>
           </v-navigation-drawer>
           <v-main>
-               <v-container class="pa-10" width="75vw">
+               <v-container class="pa-10" width="75vw" fluid>
                     
                     <v-card class="pa-10">
                          <router-view/>
@@ -55,7 +55,7 @@
           {titulo: 'Início', icone: 'mdi-layers-outline', icone2:Layers01Icon, rota: '/'},
           {titulo: 'Clientes', icone: 'mdi-account-multiple-outline', icone2: UserMultiple02Icon, rota: '/clientes'},
           {titulo: 'Materiais', icone: 'mdi-package-variant-closed', icone2: PackageIcon, rota: '/materiais'},
-          {titulo: 'Produtos', icone: 'mdi-tag-outline', icone2: Tag01Icon},
+          {titulo: 'Produtos', icone: 'mdi-tag-outline', icone2: Tag01Icon, rota: '/produtos'},
           {titulo: 'Encomendas', icone: 'mdi-cart-outline', icone2: ShoppingCart02Icon},
      ])
 

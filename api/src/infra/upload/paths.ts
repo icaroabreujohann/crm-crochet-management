@@ -6,4 +6,5 @@ export const DIR_BASE = path.resolve(
 )
 
 export const PRODUTOS_DIR = path.join(DIR_BASE, 'produtos')
+export const PRODUTOS_DIR_API = `/arquivos/produtos`
 export const PRODUTOS_TMP_DIR = path.join(DIR_BASE, 'tmp', 'produtos')

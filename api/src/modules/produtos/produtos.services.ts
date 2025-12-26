@@ -2,7 +2,7 @@ import { randomUUID } from 'crypto'
 import { CriarProdutoDTO, EditarProdutoDTO } from './produtos.types'
 import { CODIGOS_ERRO } from '../../utils/respostas/codigos-resposta'
 import { ProdutosRepository } from './produtos.repository'
-import { PRODUTOS_DIR } from '../../infra/upload/paths'
+import { PRODUTOS_DIR, PRODUTOS_DIR_API } from '../../infra/upload/paths'
 import { editarFotosProduto as editarFotosProdutoFS, salvarFotosProduto } from '../../infra/upload/produtos.salvarfotos'
 import { excluirPasta } from '../../infra/filesystem/excluir-pasta'
 import { assertResultadoExiste } from '../../shared/asserts/assertResultadoBusca'
@@ -48,7 +48,7 @@ export class ProdutosService {
 
      async criarProduto(data: CriarProdutoDTO, fotos: Express.Multer.File[]) {
           const codigo: string = await this.gerarCodigoProdutoUnico()
-          const fotos_url = `${PRODUTOS_DIR}/${codigo}`
+          const fotos_url = `${PRODUTOS_DIR_API}/${codigo}`
 
           await salvarFotosProduto(codigo, fotos, PRODUTOS_DIR)
 
@@ -65,7 +65,6 @@ export class ProdutosService {
      async editarFotosProduto(codigo: string, fotos: Express.Multer.File[]) {
           const produto = await this.repository.listarProdutoPorCodigo(codigo)
           assertResultadoExiste(produto, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, codigo)
-
           await editarFotosProdutoFS(codigo, fotos, PRODUTOS_DIR)
           return produto
      }

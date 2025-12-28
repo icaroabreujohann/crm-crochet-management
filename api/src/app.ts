@@ -27,12 +27,14 @@ app.use('/materiais', materiaisRoutes)
 app.use('/encomendas', encomendasRoutes)
 app.use('/cadastros', cadastrosRoutes)
 
-
-app.use(erroGlobal)
 app.use(
      '/arquivos/produtos',
-     express.static(path.join(PRODUTOS_DIR))
+     express.static(PRODUTOS_DIR)
 )
+
+console.log(PRODUTOS_DIR)
+
+app.use(erroGlobal)
 
 app.get('/', async (req, res) => {
      res.send('<h1>teste</h1>')

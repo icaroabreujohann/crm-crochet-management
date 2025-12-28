@@ -4,7 +4,7 @@ import { gerenciadorMensagens } from '../../utils/respostas/gerenciador-resposta
 import { CODIGOS_SUCESSO } from '../../utils/respostas/codigos-resposta'
 import { CriarProdutoDTO, EditarProdutoDTO } from './produtos.types'
 import { validaRequisicao } from '../../shared/validators/valida.requisicao'
-import { converteFotosParaWEBP } from '../../middlewares/converte-fotos'
+import { converteFotosParaWEBP } from '../../infra/filesystem/converte-fotos'
 
 export class ProdutosController {
      private service = new ProdutosService()

@@ -1,10 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { criaPastaSeNaoExistir } from './produtos.multer'
-import { excluirPasta } from '../filesystem/excluir-pasta'
-import { PRODUTOS_TMP_DIR } from './paths'
-import { excluirArquivosPasta } from '../filesystem/excluir-arquivos-pasta'
-import { FotoWEBP } from '../../middlewares/converte-fotos'
+import { FotoWEBP } from '../filesystem/converte-fotos'
 
 export const salvarFotosProduto = async (codigo: string, fotos: FotoWEBP[], caminho: string) => {
      const pastaProduto = path.join(caminho, codigo)
@@ -16,9 +13,7 @@ export const salvarFotosProduto = async (codigo: string, fotos: FotoWEBP[], cami
                const destino = path.join(pastaProduto, nomeArquivo)
 
                return fs.writeFile(destino, foto.buffer)
-          }),
-
-          excluirArquivosPasta(PRODUTOS_TMP_DIR)
+          })
      ]
      )
 }
@@ -39,9 +34,7 @@ export const editarFotosProduto = async (codigo: string, fotos: FotoWEBP[], cami
                const destino = path.join(pastaProduto, nomeArquivo)
 
                return fs.writeFile(destino, foto.buffer)
-          }),
-
-          excluirArquivosPasta(PRODUTOS_TMP_DIR),
+          })
      ])
 
 }

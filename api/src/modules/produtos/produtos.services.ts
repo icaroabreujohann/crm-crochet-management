@@ -7,7 +7,7 @@ import { editarFotosProduto as editarFotosProdutoFS, salvarFotosProduto } from '
 import { excluirPasta } from '../../infra/filesystem/excluir-pasta'
 import { assertResultadoExiste } from '../../shared/asserts/assertResultadoBusca'
 import { ProdutoMaterialRepository } from './materiais/produtoMaterial.repository'
-import { FotoWEBP } from '../../middlewares/converte-fotos'
+import { FotoWEBP } from '../../infra/filesystem/converte-fotos'
 
 
 export class ProdutosService {

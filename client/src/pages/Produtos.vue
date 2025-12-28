@@ -16,6 +16,7 @@
      <v-row class="mt-10">
           <v-col cols="12" xl="4" lg="6" v-for="(produto, index) in produtos">
                <v-card class="pa-5">
+                    <v-img :src="`${api.defaults.baseURL}/${produto.codigo}/1.webp`"></v-img>
                     <h2>{{ produto.nome }}</h2>
                     <v-chip>
                          <HugeiconsIcon :size="20" :stroke-width="1.3" :icon="Money03Icon"/>
@@ -39,6 +40,7 @@ import { HugeiconsIcon } from '@hugeicons/vue';
 import { Money03Icon, Search02Icon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
+import { api } from '@/plugins/api';
 
 const feedback = usarFeedbackStore()
 

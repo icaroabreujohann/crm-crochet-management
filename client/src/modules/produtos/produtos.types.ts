@@ -7,18 +7,15 @@ export interface Produto {
      tempo_medio: string,
      data_criacao: Date,
      data_alteracao: Date
+     fotos: File[] | null
 }
-
-export interface CriarProdutoDTO {
-     nome: string,
-     codigo: string | null,
-     preco: number,
-     tempo_medio: string | null,
-     fotos_url: string | null
-}
-
-export interface EditarProdutoDTO {
+export interface ProdutoPayload {
      nome: string,
      preco: number,
      tempo_medio: string | null,
+     fotos: File[] | null,
+}
+
+export interface ProdutoForm extends ProdutoPayload {
+     codigo: string
 }

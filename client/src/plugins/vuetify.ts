@@ -19,7 +19,7 @@ export default createVuetify({
       light: {
         // Personalizando a cor de 'surface' no tema claro
         colors: {
-          background: '#ffffffff',
+          background: '#f3f3f3ff',
           surface: '#ffffffff',
           main: '#471A3C',
           light: '#E79DAF'

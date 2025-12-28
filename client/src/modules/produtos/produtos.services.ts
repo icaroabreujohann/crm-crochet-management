@@ -1,7 +1,37 @@
 import { api } from '@/plugins/api'
 import type { RespostaApi } from '@/types/resposta.api'
-import type { Produto } from './produtos.types'
+import type { Produto, ProdutoForm, ProdutoPayload } from './produtos.types'
 
+function produtoPayloadToFormData(form: ProdutoPayload): FormData {
+     const formData = new FormData()
+
+     formData.append('nome', form.nome)
+     if (form.preco) formData.append('preco', form.preco.toString())
+     if (form.tempo_medio) formData.append('tempo_medio', form.tempo_medio)
+     if (form.fotos) {
+          form.fotos.forEach((foto) => {
+               if (foto instanceof File) {
+                    formData.append('fotos', foto, foto.name)
+               }
+          })
+     }
+
+     return formData
+}
+
+async function criar(payload: ProdutoPayload) {
+     const formData = produtoPayloadToFormData(payload)
+
+     const { data } = await api.post<RespostaApi<Produto>>('/produtos', formData)
+     return data.data
+}
+
+async function editar(codigo: string, payload: ProdutoPayload) {
+     const formData = produtoPayloadToFormData(payload)
+
+     const { data } = await api.patch<RespostaApi<Produto>>(`/produtos/${codigo}`, formData)
+     return data.data
+}
 
 export const ProdutosServices = {
 
@@ -11,6 +41,18 @@ export const ProdutosServices = {
           return data.data
      },
 
+     async salvar(form: ProdutoForm): Promise<Produto> {
+          const payload: ProdutoPayload = {
+               nome: form.nome,
+               preco: form.preco,
+               tempo_medio: form.tempo_medio,
+               fotos: form.fotos
+          }
+
+          if (!form.codigo) { return await criar(payload) }
+
+          return await editar(form.codigo, payload)
+     }
 
 }
 

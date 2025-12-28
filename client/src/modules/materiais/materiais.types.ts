@@ -26,6 +26,11 @@ export interface MaterialCompleto {
      data_alteracao: string,
 }
 
+export interface MaterialSelecionado {
+  material_codigo: string
+  material_nome: string
+}
+
 export interface MaterialForm {
      codigo?: string | null,
      nome: string,

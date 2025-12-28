@@ -10,7 +10,7 @@
                          </template>
                     </v-text-field>
                </div>
-               <v-btn color="main" @click="">Adicionar</v-btn>
+               <v-btn color="main" @click="abrirCriar()">Adicionar</v-btn>
           </div>
      </div>
      <v-row class="mt-10">
@@ -21,33 +21,53 @@
                          <HugeiconsIcon :size="20" :stroke-width="1.3" :icon="Money03Icon"/>
                          <p class="ml-1">R${{ substituiPontoPorVirgula(produto.preco) }}</p>
                     </v-chip>
+                    <v-btn @click="abrirEditar(produto)">Editar</v-btn>
                </v-card>
           </v-col>
      </v-row>
-
-     <MaterialSelectDialog v-model="dialogMaterialSelect"/>
+     
+     <ProdutoFormDialog :produto="produtoSelecionado" v-model="dialogProdutoForm" @salvo="salvarProduto"/>
 </template>
 
 <script lang="ts" setup>
 import { ProdutosServices } from '@/modules/produtos/produtos.services';
-import type { Produto } from '@/modules/produtos/produtos.types';
-import { formatarDataHoraBR } from '@/utils/formataData';
+import type { Produto, ProdutoForm } from '@/modules/produtos/produtos.types';
 import { onMounted, ref } from 'vue';
+import { usarFeedbackStore } from '@/stores/feedbacks.store';
 
 import { HugeiconsIcon } from '@hugeicons/vue';
 import { Money03Icon, Search02Icon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
+import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
 
-import MaterialSelectDialog from '@/components/MaterialSelectDialog.vue';
+const feedback = usarFeedbackStore()
 
 const produtos = ref<Produto[]>([])
+const produtoSelecionado = ref<Produto | null>(null)
 
-const dialogMaterialSelect = ref(true)
+const dialogProdutoForm = ref(true)
 
 async function listarProdutos() {
      const response = await ProdutosServices.listar()
      produtos.value = response
      console.log(response)
+}
+
+async function salvarProduto(produto: ProdutoForm) {
+     await ProdutosServices.salvar(produto)
+     await listarProdutos()
+     dialogProdutoForm.value = false
+     feedback.sucesso('Cliente criado/editado com sucesso')
+}
+
+function abrirCriar() {
+     produtoSelecionado.value = null
+     dialogProdutoForm.value = true
+}
+
+function abrirEditar(produto: Produto) {
+     produtoSelecionado.value = produto
+     dialogProdutoForm.value = true
 }
 
 onMounted(() => {

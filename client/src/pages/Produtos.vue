@@ -16,18 +16,35 @@
      <v-row class="mt-10">
           <v-col cols="12" xl="4" lg="6" v-for="(produto, index) in produtos">
                <v-card class="pa-5">
-                    <v-img :src="`${api.defaults.baseURL}/${produto.codigo}/1.webp`"></v-img>
-                    <h2>{{ produto.nome }}</h2>
-                    <v-chip>
-                         <HugeiconsIcon :size="20" :stroke-width="1.3" :icon="Money03Icon"/>
-                         <p class="ml-1">R${{ substituiPontoPorVirgula(produto.preco) }}</p>
-                    </v-chip>
-                    <v-btn @click="abrirEditar(produto)">Editar</v-btn>
+                    <div class="d-flex">
+                         <div class="mr-3">
+                              <v-img width="100" height="100" cover
+                                   :src="`${api.defaults.baseURL}/arquivos/produtos/${produto.codigo}/1.webp`"></v-img>
+                         </div>
+                         <div>
+                              <h2>{{ produto.nome }}</h2>
+                              <v-chip class="mt-1" style="max-width: 70%;">
+                                   <HugeiconsIcon :size="16" :icon="QrCode01Icon"/>
+                                   <p class="ml-2 text-ellipsis">{{ produto.codigo.toUpperCase() }}</p>
+                              </v-chip>
+                         </div>
+                    </div>
+
+                    <div class="d-flex align-center justify-space-between mt-5">
+                         <div>
+                              <p class="subText">Preço</p>
+                              <h1 class="f-regular">R$ {{substituiPontoPorVirgula(produto.preco) }}</h1>
+                         </div>
+                         <div>
+                              <p class="subText">Tempo Médio</p>
+                              <h1 class="f-regular">{{ produto.tempo_medio }}h</h1>
+                         </div>
+                    </div>
                </v-card>
           </v-col>
      </v-row>
-     
-     <ProdutoFormDialog :produto="produtoSelecionado" v-model="dialogProdutoForm" @salvo="salvarProduto"/>
+
+     <ProdutoFormDialog :produto="produtoSelecionado" v-model="dialogProdutoForm" @salvo="salvarProduto" />
 </template>
 
 <script lang="ts" setup>
@@ -37,7 +54,7 @@ import { onMounted, ref } from 'vue';
 import { usarFeedbackStore } from '@/stores/feedbacks.store';
 
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { Money03Icon, Search02Icon } from '@hugeicons/core-free-icons';
+import { BarCode01Icon, Clock04Icon, Money03Icon, QrCode01Icon, Search02Icon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
 import { api } from '@/plugins/api';

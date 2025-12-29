@@ -118,6 +118,12 @@ p, span, th, td {
      box-shadow: none !important;
 }
 
+.v-img {
+     border-radius: 10px !important;
+     border: 0.5px solid #00000012;
+     box-shadow: none !important;
+}
+
 .v-data-table-header__content > span {
     font-family: f-semi;
     opacity: 50%;
@@ -156,5 +162,12 @@ canvas {
 
 .no-border {
      border: none !important;
+}
+
+.text-ellipsis {
+     width: 60%; /* ajuste conforme necessário */
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
 }
 

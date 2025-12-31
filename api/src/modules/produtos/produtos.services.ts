@@ -9,12 +9,16 @@ import { assertResultadoExiste } from '../../shared/asserts/assertResultadoBusca
 import { ProdutoMaterialRepository } from './materiais/produtoMaterial.repository'
 import { FotoWEBP } from '../../infra/filesystem/converte-fotos'
 import { mapCriarProdutoDTOParaDB, mapEditarProdutoDTOparaDB, mapProdutoDBParaView } from './produtos.mapper'
+import { ProdutoMaterialService } from './materiais/produtoMaterial.services'
+import { assertPersistencia } from '../../shared/asserts/assertPersistencia'
+import { ProdutoMaterialCriarDTO } from './materiais/produtoMaterial.types'
 
 
 export class ProdutosService {
      constructor(
           private repository = new ProdutosRepository(),
-          private repositoryMateriais = new ProdutoMaterialRepository()
+          private repositoryMateriais = new ProdutoMaterialRepository(),
+          private servicesMateriais = new ProdutoMaterialService()
      ) { }
 
      private async gerarCodigoProdutoUnico(): Promise<string> {
@@ -27,6 +31,18 @@ export class ProdutosService {
           }
 
           return codigo
+     }
+
+     private async inserirMateriaisDoProduto(produto_id: number, materiais: ProdutoMaterialCriarDTO[]):Promise<void>{
+          if(!materiais.length) return
+
+          for(const material of materiais){
+               await this.servicesMateriais.adicionarMaterial(produto_id, material)
+          }
+     }
+
+     private async excluirMateriaisDoProduto(produto_id: number):Promise<void>{
+          await this.repositoryMateriais.excluirPorProduto(produto_id)
      }
 
      async listar() {
@@ -59,9 +75,15 @@ export class ProdutosService {
           const fotos_url = `${PRODUTOS_DIR_API}/${codigo}`
 
           const produtoMap = mapCriarProdutoDTOParaDB(data, codigo, fotos_url)
-
+          
+          
+          const produtoCriado = await this.repository.criar(produtoMap)
+          assertPersistencia(produtoCriado, CODIGOS_ERRO.PRODUTO_CRIAR_ERR)
+          
+          await this.inserirMateriaisDoProduto(produtoCriado.id, data.materiais)
+          
           await salvarFotosProduto(codigo, fotos, PRODUTOS_DIR)
-          return await this.repository.criar(produtoMap)
+          return produtoCriado
      }
 
      async editarProduto(codigo: string, data: EditarProdutoDTO) {
@@ -69,7 +91,15 @@ export class ProdutosService {
           assertResultadoExiste(produto, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, codigo)
 
           const produtoMap = mapEditarProdutoDTOparaDB(data)
-          return await this.repository.editar(produto.data.id, produtoMap)
+          const produtoEditado = await this.repository.editar(produto.data.id, produtoMap)
+          assertPersistencia(produtoEditado, CODIGOS_ERRO.PRODUTO_EDITAR_ERR)
+
+          if(data.materiais){
+               await this.excluirMateriaisDoProduto(produtoEditado.id)
+               await this.inserirMateriaisDoProduto(produtoEditado.id, data.materiais)
+          }
+
+          return produtoEditado
      }
 
      async editarFotosProduto(codigo: string, fotos: FotoWEBP[]) {
@@ -81,10 +111,15 @@ export class ProdutosService {
 
      async excluirProduto(codigo: string) {
           const produto = await this.repository.listarProdutoPorCodigo(codigo)
-
           assertResultadoExiste(produto, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, codigo)
+
+          await this.excluirMateriaisDoProduto(produto.data.id)
+          
+          const produtoExcluido = await this.repository.excluir(produto.data.id)
+          assertPersistencia(produtoExcluido, CODIGOS_ERRO.PRODUTO_EXCLUIR_ERR)
+
           await excluirPasta(PRODUTOS_DIR, codigo)
 
-          return await this.repository.excluir(produto.data.id)
+          return produtoExcluido
      }
 }

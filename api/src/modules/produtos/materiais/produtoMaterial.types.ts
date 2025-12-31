@@ -1,4 +1,4 @@
-export interface ProdutoMaterial {
+export interface ProdutoMaterialView {
      id: number,
      produto_id: number,
      material_id: number,
@@ -6,23 +6,29 @@ export interface ProdutoMaterial {
      quantidade: number,
      preco_final: number
 }
-
-export interface CriarProdutoMaterialDTO {
-     material_codigo: string
-     quantidade: number
-}
-
-export interface CriarProdutoMaterialRepoDTO {
+export interface ProdutoMaterialDB {
+     id: number,
      produto_id: number,
      material_id: number,
      quantidade: number,
      preco_final: number
 }
 
-export interface EditarProdutoMaterialDTO {
+export interface ProdutoMaterialCriarDTO {
+     material_codigo: string
      quantidade: number
 }
-export interface EditarProdutoMaterialRepoDTO {
+
+export interface ProdutoMaterialCriarDB {
+     produto_id: number,
+     material_id: number,
+     quantidade: number,
+     preco_final: number
+}
+
+export interface ProdutoMaterialEditarDB {
+     produto_id: number,
+     material_id: number,
      quantidade: number,
      preco_final: number
 }

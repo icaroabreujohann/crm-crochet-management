@@ -1,7 +1,7 @@
 import { sql } from '../../../config/db'
 import { ResultadoBusca } from '../../../shared/types';
 import { resultadoEncontrado, resultadoInexistente } from '../../../utils/resultadoBusca';
-import { CriarProdutoMaterialRepoDTO, EditarProdutoMaterialRepoDTO, ProdutoMaterial } from './produtoMaterial.types';
+import { CriarProdutoMaterialRepoDTO, EditarProdutoMaterialRepoDTO, ProdutoMaterial, ProdutoMaterialCriarDB, ProdutoMaterialDB } from './produtoMaterial.types';
 
 export class ProdutoMaterialRepository {
      async listarMaterialPorProduto(produto_id: number): Promise<ResultadoBusca<ProdutoMaterial[]>> {
@@ -28,7 +28,7 @@ export class ProdutoMaterialRepository {
           return material ? resultadoEncontrado(material) : resultadoInexistente()
      }
 
-     async criar(data: CriarProdutoMaterialRepoDTO): Promise<ProdutoMaterial | null> {
+     async criar(data: ProdutoMaterialCriarDB): Promise<ProdutoMaterial | null> {
           const [material] = await sql<ProdutoMaterial[]>`
           insert into produtos_materiais (produto_id,material_id,quantidade,preco_final)
           values (
@@ -61,5 +61,12 @@ export class ProdutoMaterialRepository {
                returning *
           `
           return material ?? null
+     }
+
+     async excluirPorProduto(produto_id: number): Promise<void>{
+          const [materiaisExcluidos] = await sql`
+               delete from produtos_materiais
+               where produto_id = ${produto_id}
+          `
      }
 }

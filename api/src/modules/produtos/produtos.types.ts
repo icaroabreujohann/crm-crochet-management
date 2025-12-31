@@ -1,4 +1,5 @@
 import { TempoMedio } from "../../types/tempo.medio"
+import { ProdutoMaterialCriarDTO } from "./materiais/produtoMaterial.types"
 
 export interface ProdutoView {
      id: number,
@@ -19,12 +20,14 @@ export interface CriarProdutoDTO {
      nome: string,
      preco: number,
      tempo_medio: TempoMedio
+     materiais: ProdutoMaterialCriarDTO[] | []
 }
 
 export interface EditarProdutoDTO {
      nome: string,
      preco: number,
-     tempo_medio: TempoMedio
+     tempo_medio: TempoMedio,
+     materiais: ProdutoMaterialCriarDTO[] | [] 
 }
 
 //DB

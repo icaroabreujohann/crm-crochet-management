@@ -8,8 +8,8 @@
                          <h1>{{ modoEditar ? 'Editar Produto' : 'Criar Produto' }}</h1>
                     </div>
                     <div class="d-flex justify-center">
-                         <v-btn class="mr-2" color="main" @click="onSalvar">{{ modoEditar ? 'Salvar' : 'Criar'
-                         }}</v-btn>
+                         <v-btn class="mr-2" color="main" @click="onSalvar" :disabled="!podeSalvar">{{ modoEditar ? 'Salvar' : 'Criar'
+                              }}</v-btn>
                          <v-btn class="mr-2" variant="tonal" color="light" @click="">Excluir</v-btn>
                          <v-btn variant="tonal" @click="dialog = false">Cancelar</v-btn>
                     </div>
@@ -252,6 +252,10 @@ function onMaterialSelect(codigos: string[]) {
 }
 const dialogMaterialSelect = ref(false)
 const tabsProduto = ref<'tabProduto' | 'tabMaterial'>('tabProduto')
+
+const podeSalvar = computed(() => {
+     return JSON.stringify(formProdutoRef.value) !== JSON.stringify(formProdutoRefOriginal.value)
+})
 
 async function onSalvar() {
      const formValido = await vFormRef.value?.validate()

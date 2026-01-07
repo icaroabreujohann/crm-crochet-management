@@ -6,7 +6,7 @@ import { normalizaTexto } from "../../utils/normalizadores";
 
 export class ProdutosRepository {
      async listar(): Promise<ProdutoDB[]> {
-          return await sql`select * from produtos`
+          return await sql`select * from produtos order by id asc`
      }
 
      async listarProdutoPorCodigo(codigo: string): Promise<ResultadoBusca<ProdutoDB>> {

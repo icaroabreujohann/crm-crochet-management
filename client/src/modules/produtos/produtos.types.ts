@@ -18,7 +18,7 @@ export interface ProdutoForm {
      nome: string
      preco: number
      tempo_medio: TempoMedio
-     materiais?: ProdutoMaterialCriarDTO[]
+     materiais: ProdutoMaterialCriarDTO[]
      fotos: File[]
 }
 
@@ -57,7 +57,7 @@ export interface ProdutoMaterialView {
      id: number
      produto_id: number
      material_id: number
-     material_codigo: string
+     codigo: string
      material_nome: string
      material_tipo_nome: string
      material_unidade_medida_sigla: string

@@ -8,7 +8,8 @@
                          <h1>{{ modoEditar ? 'Editar Produto' : 'Criar Produto' }}</h1>
                     </div>
                     <div class="d-flex justify-center">
-                         <v-btn class="mr-2" color="main" @click="onSalvar">{{ modoEditar ? 'Salvar' : 'Criar' }}</v-btn>
+                         <v-btn class="mr-2" color="main" @click="onSalvar">{{ modoEditar ? 'Salvar' : 'Criar'
+                              }}</v-btn>
                          <v-btn variant="tonal" @click="dialog = false">Cancelar</v-btn>
                     </div>
                </div>
@@ -101,20 +102,27 @@
                                         </tr>
                                    </thead>
                                    <tbody>
-                                        <tr v-for="m in materiaisSelecionadosCatalogo" :key="m.codigo">
+                                        <tr v-for="m in materiaisSelecionadosExibicao" :key="m.material_codigo">
                                              <td>{{ m.nome }}</td>
                                              <td>{{ m.tipo_nome }}</td>
-                                             <td>{{ m.unidade_medida_sigla }}</td>
-                                             <td>
-                                                  <v-text-field :rules="formRegras.obrigatorio"
-                                                       :suffix="m.unidade_medida_sigla" density="compact"
-                                                       hide-details hide-spin-buttons type="number"
-                                                       width="36%"
-                                                       variant="solo-filled" v-model="m.quantidade" />
+                                             <td>{{ m.unidade_medida_sigla.toUpperCase() }}</td>
+                                             <td width="30%">
+                                                  <v-text-field :suffix="m.unidade_medida_sigla" density="compact"
+                                                       hide-details hide-spin-buttons type="number" min="0"
+                                                       variant="solo-filled" :model-value="m.quantidade"
+                                                       @update:model-value="valor =>
+                                                            atualizarQuantidade(m.material_codigo, Number(valor))
+                                                       " />
                                              </td>
-                                             <td></td>
+                                             <td width="1%">
+                                                  <div class="w-100 d-flex justify-center">
+                                                       <HugeiconsIcon @click="removerMaterial(m.material_codigo)"
+                                                            :size="20" :icon="Delete02Icon" />
+                                                  </div>
+                                             </td>
                                         </tr>
                                    </tbody>
+
                               </v-table>
                          </v-tabs-window-item>
                     </v-tabs-window>
@@ -122,19 +130,19 @@
           </v-card>
      </v-dialog>
 
-     <MaterialSelectDialog v-model="dialogMaterialSelect" :materiaisSelecionados="codigosMateriaisSelecionados"
+     <MaterialSelectDialog v-model="dialogMaterialSelect" :materiaisDoProduto="materiaisSelecionadosCodigos"
           @select="onMaterialSelect" />
 
 </template>
 
 <script lang="ts" setup>
 
-import type { ProdutoForm, ProdutoMaterialSelecionado, ProdutoView } from '@/modules/produtos/produtos.types';
-import { HugeiconsIcon } from '@hugeicons/vue';
-import { Tag01Icon, Link04Icon, PackageIcon, ImageDelete01Icon } from '@hugeicons/core-free-icons';
-import { ref, watch, computed } from 'vue';
-import type { VForm } from 'vuetify/components';
-import type { MaterialCompleto } from '@/modules/materiais/materiais.types';
+import type { ProdutoForm, ProdutoView } from '@/modules/produtos/produtos.types'
+import { HugeiconsIcon } from '@hugeicons/vue'
+import { Tag01Icon, Link04Icon, PackageIcon, ImageDelete01Icon, Delete02Icon } from '@hugeicons/core-free-icons'
+import { ref, watch, computed } from 'vue'
+import type { VForm } from 'vuetify/components'
+import { usarMaterialStore } from '@/stores/materiais.store'
 
 const props = defineProps<{
      produto?: ProdutoView | null,
@@ -176,13 +184,59 @@ const formProdutoFotosPreview = computed(() =>
      )
 )
 
+const materialStore = usarMaterialStore()
+
+const materiaisSelecionadosCodigos = computed<string[]>(() =>
+     formProdutoRef.value.materiais?.map(m => m.material_codigo) ?? []
+)
+
+const materiaisSelecionadosExibicao = computed(() => {
+     const catalogo = new Map(
+          materialStore.materiais.map(m => [m.codigo, m])
+     )
+
+     return formProdutoRef.value.materiais.map(m => {
+          const material = catalogo.get(m.material_codigo)
+          return {
+               material_codigo: m.material_codigo,
+               quantidade: m.quantidade,
+               nome: material?.nome ?? 'Material não encontrado',
+               tipo_nome: material?.tipo_nome ?? '-',
+               unidade_medida_sigla: material?.unidade_medida_sigla ?? '',
+               preco_x_qtd: material?.preco_x_qtd ?? 0
+          }
+     })
+})
+
+function atualizarQuantidade(codigo: string, quantidade: number) {
+     const material = formProdutoRef.value.materiais
+          .find(m => m.material_codigo === codigo)
+
+     if (material) {
+          material.quantidade = quantidade
+     }
+}
+
+function removerMaterial(codigo: string) {
+     formProdutoRef.value.materiais =
+          formProdutoRef.value.materiais.filter(
+               m => m.material_codigo !== codigo
+          )
+}
+
+function onMaterialSelect(codigos: string[]) {
+     const anteriores = new Map(
+          formProdutoRef.value.materiais.map(m => [m.material_codigo, m.quantidade])
+     )
+
+     formProdutoRef.value.materiais = codigos.map(codigo => ({
+          material_codigo: codigo,
+          quantidade: anteriores.get(codigo) ?? 1
+     }))
+}
+
 const dialogMaterialSelect = ref(false)
 const tabsProduto = ref<'tabProduto' | 'tabMaterial'>('tabProduto')
-
-//Materiais
-const codigosMateriaisSelecionados = ref<string[]>([])
-const materiaisSelecionadosCatalogo = ref<ProdutoMaterialSelecionado[]>([])
-
 
 async function onSalvar() {
      const formValido = await vFormRef.value?.validate()
@@ -191,86 +245,35 @@ async function onSalvar() {
      emit('salvo', { ...formProdutoRef.value })
 }
 
-function onMaterialSelect(materiais: MaterialCompleto[]) {
-     const materiaisAnteriores = new Map(
-          materiaisSelecionadosCatalogo.value.map(m => [m.codigo, m])
-     )
-
-     materiaisSelecionadosCatalogo.value = materiais.map(m => {
-          const existente = materiaisAnteriores.get(m.codigo)
-
-          return {
-               codigo: m.codigo,
-               nome: m.nome,
-               tipo_nome: m.tipo_nome,
-               unidade_medida_sigla: m.unidade_medida_sigla,
-
-               quantidade:
-                    existente?.quantidade ??
-                    m.quantidade ??
-                    1,
-
-               preco_final:
-                    existente?.preco_final ??
-                    m.preco_x_qtd
-          }
-     })
-
-     codigosMateriaisSelecionados.value = materiais.map(m => m.codigo)
-
-     formProdutoRef.value.materiais =
-          materiaisSelecionadosCatalogo.value.map(m => ({
-               material_codigo: m.codigo,
-               quantidade: m.quantidade
-          }))
-}
-
-
-
 watch(
      () => props.produto,
      (produto) => {
-          if (!produto) {
-               formProdutoRef.value = { ...formProdutoDefault }
-               codigosMateriaisSelecionados.value = []
-               materiaisSelecionadosCatalogo.value = []
-               return
-          }
+          produto ?
+               formProdutoRef.value = {
+                    codigo: produto.codigo,
+                    nome: produto.nome,
+                    preco: produto.preco,
+                    tempo_medio: {
+                         horas: produto.tempo_medio.horas,
+                         minutos: produto.tempo_medio.minutos
+                    },
+                    fotos: [],
+                    materiais: produto.materiais.map(m => ({
+                         material_codigo: m.codigo,
+                         quantidade: Number(m.quantidade)
+                    }))
 
-          codigosMateriaisSelecionados.value =
-               produto.materiais.map(m => m.material_codigo)
-
-          materiaisSelecionadosCatalogo.value =
-               produto.materiais.map(m => ({
-                    codigo: m.material_codigo,
-                    nome: m.material_nome,
-                    tipo_nome: m.material_tipo_nome,
-                    unidade_medida_sigla: m.material_unidade_medida_sigla,
-                    quantidade: m.quantidade,
-                    preco_final: m.preco_final
-               }))
+               }
+               :
+               formProdutoRef.value = { ...formProdutoDefault },
+               console.log('form após o wathc', formProdutoRef.value)
      },
      { immediate: true }
 )
 
-watch(
-     materiaisSelecionadosCatalogo,
-     (materiais) => {
-          formProdutoRef.value.materiais = materiais.map(m => ({
-               material_codigo: m.codigo,
-               quantidade: m.quantidade
-          }))
-     },
-     { deep: true }
-)
-
-
-
 watch(dialog, (aberto) => {
      if (!aberto) {
           formProdutoRef.value = { ...formProdutoDefault }
-          codigosMateriaisSelecionados.value = []
-          materiaisSelecionadosCatalogo.value = []
           vFormRef.value?.resetValidation()
      }
 })

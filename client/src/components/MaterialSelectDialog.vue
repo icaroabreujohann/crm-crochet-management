@@ -18,8 +18,9 @@
                </div>
                <v-data-table :items="materiaisFiltrados" :headers="materiaisHeaders">
                     <template v-slot:item.selecionar="{ item }">
-                         <v-checkbox density="compact" hide-details color="main" v-model="materiaisSelecionadosLocal"
-                              :value="item" />
+                         <v-checkbox density="compact" hide-details color="main"
+                              :model-value="materiaisSelecionados.has(item.codigo)"
+                              @update:model-value="alternarSelecao(item.codigo)" />
                     </template>
                     <template v-slot:item.unidade_medida_sigla="{ item }">
                          <p>{{ item.unidade_medida_sigla.toUpperCase() }}</p>
@@ -32,8 +33,8 @@
                     </template>
                </v-data-table>
                <div class="mt-5">
-                    <v-btn color="main" class="mr-2" @click="confirmarSelecao()">Adicionar ({{
-                         materiaisSelecionadosLocal.length
+                    <v-btn color="main" class="mr-2" @click="enviarSelecao">Adicionar ({{
+                         materiaisSelecionados.size
                          }})</v-btn>
                     <v-btn variant="tonal" @click="dialog = false">Fechar</v-btn>
                </div>
@@ -53,15 +54,15 @@ import { PackageSearchIcon, Search02Icon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 
 const props = withDefaults(defineProps<{
-     materiaisSelecionados?: string[]
+     materiaisDoProduto: string[] | null,
      modelValue: boolean
 }>(), {
-     materiaisSelecionados: () => []
+     materiaisDoProduto: () => []
 })
 
 const emit = defineEmits<{
      (e: 'update:modelValue', value: boolean): void
-     (e: 'select', materiais: MaterialCompleto[]): void
+     (e: 'select', materiais: string[]): void
 }>()
 
 const dialog = computed({
@@ -79,8 +80,6 @@ const materiaisHeaders = [
      { title: 'Preço X Qtd', key: 'preco_x_qtd', sortable: true }
 ]
 
-const materiaisSelecionadosLocal = ref<MaterialCompleto[]>([])
-
 const filtroMaterial = ref('')
 const materiaisFiltrados = computed(() => {
      if (!filtroMaterial.value) return materiais.value
@@ -94,9 +93,21 @@ const materiaisFiltrados = computed(() => {
      )
 })
 
-const confirmarSelecao = () => {
-     emit('select', materiaisSelecionadosLocal.value)
-     dialog.value = false
+const materiaisSelecionados = ref<Set<string>>(new Set())
+
+
+function alternarSelecao(codigo: string) {
+     if (materiaisSelecionados.value.has(codigo)) {
+          materiaisSelecionados.value.delete(codigo)
+     } else {
+          materiaisSelecionados.value.add(codigo)
+     }
+}
+
+function enviarSelecao() {
+     console.log('enviarSelecao(): ', Array.from(materiaisSelecionados.value))
+     emit('select', Array.from(materiaisSelecionados.value))
+     emit('update:modelValue', false)
 }
 
 onMounted(() => {
@@ -104,13 +115,14 @@ onMounted(() => {
 })
 
 watch(
-     [() => props.materiaisSelecionados, materiais],
-     ([codigos, lista]: [string[] | undefined, MaterialCompleto[]]) => {
-          materiaisSelecionadosLocal.value = lista.filter(m =>
-               codigos?.includes(m.codigo)
-          )
+     () => dialog.value,
+     aberto => {
+          if (aberto) {
+               materiaisSelecionados.value = new Set(props.materiaisDoProduto)
+          }
      },
      { immediate: true }
 )
+
 
 </script>

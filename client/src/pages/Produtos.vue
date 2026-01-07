@@ -24,7 +24,7 @@
                          <div>
                               <h2>{{ produto.nome }}</h2>
                               <v-chip class="mt-1" style="max-width: 70%;">
-                                   <HugeiconsIcon :size="16" :icon="QrCode01Icon"/>
+                                   <HugeiconsIcon :size="16" :icon="QrCode01Icon" />
                                    <p class="ml-2 text-ellipsis">{{ produto.codigo.toUpperCase() }}</p>
                               </v-chip>
                          </div>
@@ -33,18 +33,19 @@
                     <div class="d-flex align-center justify-space-between mt-5">
                          <div>
                               <p class="subText">Preço</p>
-                              <h1 class="f-regular">R$ {{substituiPontoPorVirgula(produto.preco) }}</h1>
+                              <h1 class="f-regular">R$ {{ substituiPontoPorVirgula(produto.preco) }}</h1>
                          </div>
                          <div v-if="produto.tempo_medio">
                               <p class="subText">Tempo Médio</p>
-                              <h1 class="f-regular">{{ produto.tempo_medio.horas }}h{{ produto.tempo_medio.minutos }}m</h1>
+                              <h1 class="f-regular">{{ produto.tempo_medio.horas }}h{{ produto.tempo_medio.minutos }}m
+                              </h1>
                          </div>
                     </div>
                </v-card>
           </v-col>
      </v-row>
 
-     <ProdutoFormDialog v-model="dialogProdutoForm" @salvo="salvarProduto" :produto="produtoSelecionado"/>
+     <ProdutoFormDialog v-model="dialogProdutoForm" @salvo="salvarProduto" :produto="produtoSelecionado" />
 </template>
 
 <script lang="ts" setup>
@@ -84,9 +85,10 @@ function abrirCriar() {
 }
 
 async function abrirEditar(produto: ProdutoView) {
-const produtoCompleto = await ProdutosServices.listarPorCodigo(produto.codigo)
-produtoSelecionado.value = produtoCompleto
-  dialogProdutoForm.value = true
+     const produtoCompleto = await ProdutosServices.listarPorCodigo(produto.codigo)
+     produtoSelecionado.value = produtoCompleto
+     dialogProdutoForm.value = true
+     console.log(produtoSelecionado.value)
 }
 
 onMounted(() => {

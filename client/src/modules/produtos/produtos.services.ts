@@ -88,6 +88,11 @@ export const ProdutosServices = {
           if (!form.codigo) { return await criar(payload) }
 
           return await editar(form.codigo, payload)
+     },
+
+     async excluir(codigo: string): Promise<ProdutoView> {
+          const { data } = await api.delete<RespostaApi<ProdutoView>>(`/produtos/${codigo}`)
+          return data.data
      }
 
 }

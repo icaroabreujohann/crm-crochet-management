@@ -45,7 +45,7 @@
           </v-col>
      </v-row>
 
-     <ProdutoFormDialog v-model="dialogProdutoForm" @salvo="salvarProduto" :produto="produtoSelecionado" />
+     <ProdutoFormDialog @excluir="excluirProduto" v-model="dialogProdutoForm" @salvo="salvarProduto" :produto="produtoSelecionado" />
 </template>
 
 <script lang="ts" setup>
@@ -76,7 +76,14 @@ async function salvarProduto(produto: ProdutoForm) {
      await ProdutosServices.salvar(produto)
      await listarProdutos()
      dialogProdutoForm.value = false
-     feedback.sucesso('Cliente criado/editado com sucesso')
+     feedback.sucesso('Produto criado/editado com sucesso')
+}
+
+async function excluirProduto(codigo: string | number) {
+     await ProdutosServices.excluir(String(codigo))
+     await listarProdutos()
+     dialogProdutoForm.value = false
+     feedback.sucesso('Produto excluído com sucesso')
 }
 
 function abrirCriar() {

@@ -8,10 +8,18 @@
                          <h1>{{ modoEditar ? 'Editar Produto' : 'Criar Produto' }}</h1>
                     </div>
                     <div class="d-flex justify-center">
-                         <v-btn class="mr-2" color="main" @click="onSalvar" :disabled="!podeSalvar">{{ modoEditar ? 'Salvar' : 'Criar'
-                              }}</v-btn>
-                         <v-btn class="mr-2" variant="tonal" color="light" @click="">Excluir</v-btn>
-                         <v-btn variant="tonal" @click="dialog = false">Cancelar</v-btn>
+                         <v-btn class="mr-2" variant="tonal" @click="dialog = false">
+                              <HugeiconsIcon :size="18" :icon="CancelCircleIcon" class="mr-1" />
+                              Cancelar
+                         </v-btn>
+                         <v-btn class="mr-2" variant="tonal" v-if="props.produto" @click="abrirExcluir(props.produto)">
+                              <HugeiconsIcon :size="18"  :icon="Delete02Icon" class="mr-1" />
+                              Excluir
+                         </v-btn>
+                         <v-btn color="main" @click="onSalvar" :disabled="!podeSalvar">
+                              <HugeiconsIcon :size="18" :icon="PencilEdit02Icon" class="mr-1" />
+                              {{ modoEditar ? 'Salvar' : 'Criar' }}
+                         </v-btn>
                     </div>
                </div>
                <v-form ref="vFormRef">
@@ -134,17 +142,19 @@
      <MaterialSelectDialog v-model="dialogMaterialSelect" :materiaisDoProduto="materiaisSelecionadosCodigos"
           @select="onMaterialSelect" />
 
+     <ConfirmaExclusao v-model="dialogConfirmaExclusao" v-if="produtoSelecionado" :identificador="produtoSelecionado.codigo" :tipo="'produto'" @excluir="onExcluir"/>
 </template>
 
 <script lang="ts" setup>
 
 import type { ProdutoForm, ProdutoView } from '@/modules/produtos/produtos.types'
 import { HugeiconsIcon } from '@hugeicons/vue'
-import { Tag01Icon, Link04Icon, PackageIcon, ImageDelete01Icon, Delete02Icon } from '@hugeicons/core-free-icons'
+import { Tag01Icon, Link04Icon, PackageIcon, ImageDelete01Icon, Delete02Icon, CancelCircleIcon, PencilEdit02Icon } from '@hugeicons/core-free-icons'
 import { ref, watch, computed } from 'vue'
 import type { VForm } from 'vuetify/components'
 import { usarMaterialStore } from '@/stores/materiais.store'
 import { montarPayloadAlteracoes } from '@/utils/montarPayloadPatch'
+import ConfirmaExclusao from './common/ConfirmaExclusao.vue'
 
 const props = defineProps<{
      produto?: ProdutoView | null,
@@ -154,6 +164,7 @@ const props = defineProps<{
 const emit = defineEmits<{
      (e: 'update:modelValue', value: boolean): void
      (e: 'salvo', value: ProdutoForm): void
+     (e: 'excluir', value: string | number): void
 }>()
 
 const dialog = computed({
@@ -163,6 +174,7 @@ const dialog = computed({
 
 const modoEditar = computed(() => !!props.produto)
 
+const produtoSelecionado = ref<ProdutoView | null >(null)
 const formProdutoDefault: ProdutoForm = {
      codigo: '',
      nome: '',
@@ -251,6 +263,7 @@ function onMaterialSelect(codigos: string[]) {
      }))
 }
 const dialogMaterialSelect = ref(false)
+const dialogConfirmaExclusao = ref(false)
 const tabsProduto = ref<'tabProduto' | 'tabMaterial'>('tabProduto')
 
 const podeSalvar = computed(() => {
@@ -263,6 +276,16 @@ async function onSalvar() {
      console.log('payload', payload)
      if (!formValido?.valid) return
      emit('salvo', { ...formProdutoRef.value })
+}
+
+function onExcluir(identificador: string | number) {
+     dialogConfirmaExclusao.value = false
+     emit('excluir', identificador)
+}
+
+function abrirExcluir(produto: ProdutoView) {
+     produtoSelecionado.value = produto
+     dialogConfirmaExclusao.value = true
 }
 
 watch(

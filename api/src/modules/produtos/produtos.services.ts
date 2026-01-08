@@ -34,7 +34,7 @@ export class ProdutosService {
      }
 
      private async inserirMateriaisDoProduto(produto_id: number, materiais: ProdutoMaterialCriarDTO[]): Promise<void> {
-          if (!materiais.length) return
+          if (!materiais?.length) return
 
           for (const material of materiais) {
                await this.servicesMateriais.adicionarMaterial(produto_id, material)

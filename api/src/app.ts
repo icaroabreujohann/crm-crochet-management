@@ -8,6 +8,7 @@ import produtosRoutes from './modules/produtos/produtos.router'
 import materiaisRoutes from './modules/materiais/materiais.router'
 import encomendasRoutes from './modules/encomendas/encomendas.router'
 import cadastrosRoutes from './modules/cadastros/cadastros.router'
+import produtosArquivosRoutes from './infra/routes/produtosArquivos.routes'
 
 import { erroGlobal } from './middlewares/erro-global'
 import path from 'path'
@@ -26,13 +27,7 @@ app.use('/produtos', produtosRoutes)
 app.use('/materiais', materiaisRoutes)
 app.use('/encomendas', encomendasRoutes)
 app.use('/cadastros', cadastrosRoutes)
-
-app.use(
-     '/arquivos/produtos',
-     express.static(PRODUTOS_DIR)
-)
-
-console.log(PRODUTOS_DIR)
+app.use('/arquivos/produtos', produtosArquivosRoutes)
 
 app.use(erroGlobal)
 

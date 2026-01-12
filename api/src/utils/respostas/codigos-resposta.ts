@@ -71,6 +71,7 @@ export const CODIGOS_SUCESSO = {
      PRODUTO_EDITAR_SUCESS: { codigo: 2304, mensagem: 'Produto editado com sucesso.' },
      PRODUTO_EDITAR_FOTOS_SUCESS: { codigo: 2305, mensagem: 'Fotos do produto editadas com sucesso.' },
      PRODUTO_EXCLUIR_SUCESS: { codigo: 2306, mensagem: 'Produto excluido com sucesso.' },
+     PRODUTO_LISTAR_FOTOS_SUCESS: { codigo: 2307, mensagem: 'Produto excluido com sucesso.' },
 
      MATERIAL_LISTAR_SUCESS: { codigo: 2400, mensagem: 'Materiais listados com sucesso.' },
      MATERIAL_EXISTE_SUCESS: { codigo: 2401, mensagem: 'O material já está registrado.' },

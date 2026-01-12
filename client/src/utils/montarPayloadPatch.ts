@@ -1,30 +1,62 @@
-export function diferencaObjetos<T>(atual: T, original: T): Partial<T> {
+type AnyObject = Record<string, any>
+
+const CHAVES_IMUTAVEIS = new Set(['id', 'codigo'])
+
+function arraysIguais(a: any[] = [], b: any[] = []): boolean {
+     if (!Array.isArray(b)) return false
+     if (a.length !== b.length) return false
+
+     return a.every((item, i) =>
+          JSON.stringify(item) === JSON.stringify(b[i])
+     )
+}
+
+function isObject(valor: unknown): valor is AnyObject {
+     return valor !== null && typeof valor === 'object' && !Array.isArray(valor)
+}
+
+export function diferencaObjetos<T extends AnyObject>(
+     atual: T,
+     original: T
+): Partial<T> {
      const resultado: Partial<T> = {}
 
      for (const chave in atual) {
-          const valorAtual = (atual as any)[chave]
-          const valorOriginal = (original as any)[chave]
+          if(CHAVES_IMUTAVEIS.has(chave)) continue
+          const atualValor = atual[chave]
+          const originalValor = original?.[chave]
 
-          if (valorAtual && typeof valorAtual === 'object' && !Array.isArray(valorAtual)) {
-               const patchAninhado = diferencaObjetos(valorAtual, valorOriginal || {})
-               if (Object.keys(patchAninhado).length > 0) {
-                    (resultado as any)[chave] = patchAninhado
+          if (atualValor === undefined) continue
+
+          if (isObject(atualValor) && isObject(originalValor)) {
+               const diff = diferencaObjetos(atualValor, originalValor)
+               if (Object.keys(diff).length > 0) {
+                    resultado[chave] = diff as any
                }
-          } else if (Array.isArray(valorAtual)) {
-               if (JSON.stringify(valorAtual) !== JSON.stringify(valorOriginal)) {
-                    (resultado as any)[chave] = valorAtual
+               continue
+          }
+
+          if (Array.isArray(atualValor)) {
+               if (!arraysIguais(atualValor, originalValor)) {
+                    resultado[chave] = atualValor as any
                }
-          } else {
-               if (valorAtual !== valorOriginal) {
-                    (resultado as any)[chave] = valorAtual
-               }
+               continue
+          }
+
+          if (atualValor !== originalValor) {
+               resultado[chave] = atualValor
           }
      }
 
      return resultado
 }
 
-export function montarPayloadAlteracoes<T>(atual: T, original?: T): Partial<T> {
-     if (!original) return { ...atual }
-     return diferencaObjetos<T>(atual, original)
+export function montaPayloadPatch<T extends AnyObject>(
+     atual: T,
+     original: T
+): Partial<T> {
+     return {
+          codigo: atual.codigo,
+          ...diferencaObjetos(atual, original)
+     }
 }

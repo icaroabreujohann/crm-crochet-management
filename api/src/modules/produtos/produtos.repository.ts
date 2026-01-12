@@ -1,8 +1,7 @@
 import { sql } from "../../config/db";
 import { ResultadoBusca } from "../../shared/types";
 import { resultadoEncontrado, resultadoInexistente } from '../../utils/resultadoBusca'
-import { CriarProdutoDB, CriarProdutoDTO, EditarProdutoDB, EditarProdutoDTO, ProdutoDB } from "./produtos.types";
-import { normalizaTexto } from "../../utils/normalizadores";
+import { CriarProdutoDB, EditarProdutoDB, ProdutoDB } from "./produtos.types";
 
 export class ProdutosRepository {
      async listar(): Promise<ProdutoDB[]> {
@@ -49,9 +48,7 @@ export class ProdutosRepository {
           const [produto] = await sql<ProdutoDB[]>`
                update produtos
                set
-                    nome        = coalesce(${data.nome}, nome),
-                    preco       = coalesce(${data.preco}, preco),
-                    tempo_medio = coalesce(${(data.tempo_medio)}, tempo_medio),
+                    ${sql(data)},
                     data_alteracao = now()
                where id = ${id}
                returning *

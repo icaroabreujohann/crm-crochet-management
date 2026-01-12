@@ -72,7 +72,7 @@ async function listarProdutos() {
      produtos.value = response
 }
 
-async function salvarProduto(produto: ProdutoForm) {
+async function salvarProduto(produto: Partial<ProdutoForm>) {
      await ProdutosServices.salvar(produto)
      await listarProdutos()
      dialogProdutoForm.value = false

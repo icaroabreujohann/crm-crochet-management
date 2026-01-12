@@ -23,12 +23,12 @@ export interface CriarProdutoDTO {
      materiais: ProdutoMaterialCriarDTO[] | []
 }
 
-export interface EditarProdutoDTO {
+export type EditarProdutoDTO = Partial<{
      nome: string,
      preco: number,
      tempo_medio: TempoMedio,
-     materiais: ProdutoMaterialCriarDTO[] | [] 
-}
+     materiais: ProdutoMaterialCriarDTO[] | []
+}>
 
 //DB
 
@@ -39,11 +39,11 @@ export interface CriarProdutoDB {
      tempo_medio: number,
      fotos_url: string | null
 }
-export interface EditarProdutoDB {
-     nome: string,
-     preco: number,
-     tempo_medio: number
-}
+export type EditarProdutoDB = Partial<{
+     nome: string | null
+     preco: number | null
+     tempo_medio: number | null
+}>
 
 export interface ProdutoDB {
      id: number,

@@ -29,11 +29,17 @@ export const mapCriarProdutoDTOParaDB = (
 
 export const mapEditarProdutoDTOparaDB = (
      data: EditarProdutoDTO
-): EditarProdutoDB => ({
-     nome: data.nome,
-     preco: data.preco,
-     tempo_medio: converteHorasParaMinutos(
-          data.tempo_medio.horas,
-          data.tempo_medio.minutos
-     )
-})
+): EditarProdutoDB => {
+     const resultado: EditarProdutoDB = {}
+     if (data.nome !== undefined) {resultado.nome = data.nome}
+     if (data.preco !== undefined) {resultado.preco = data.preco}
+     
+     console.log('mapper', data)
+     if (data.tempo_medio !== undefined) {
+          resultado.tempo_medio = converteHorasParaMinutos(
+               Number(data.tempo_medio.horas ?? 0),
+               Number(data.tempo_medio.minutos ?? 0)
+          )
+     }
+     return resultado
+}

@@ -131,7 +131,6 @@
                                              </td>
                                         </tr>
                                    </tbody>
-
                               </v-table>
                          </v-tabs-window-item>
                     </v-tabs-window>
@@ -153,8 +152,8 @@ import { Tag01Icon, Link04Icon, PackageIcon, ImageDelete01Icon, Delete02Icon, Ca
 import { ref, watch, computed } from 'vue'
 import type { VForm } from 'vuetify/components'
 import { usarMaterialStore } from '@/stores/materiais.store'
-import { montarPayloadAlteracoes } from '@/utils/montarPayloadPatch'
 import ConfirmaExclusao from './common/ConfirmaExclusao.vue'
+import { montaPayloadPatch } from '@/utils/montarPayloadPatch'
 
 const props = defineProps<{
      produto?: ProdutoView | null,
@@ -163,7 +162,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
      (e: 'update:modelValue', value: boolean): void
-     (e: 'salvo', value: ProdutoForm): void
+     (e: 'salvo', value: Partial<ProdutoForm>): void
      (e: 'excluir', value: string | number): void
 }>()
 
@@ -272,10 +271,9 @@ const podeSalvar = computed(() => {
 
 async function onSalvar() {
      const formValido = await vFormRef.value?.validate()
-     const payload = montarPayloadAlteracoes<ProdutoForm>(formProdutoRef.value, formProdutoRefOriginal.value)
-     console.log('payload', payload)
+     const payload = montaPayloadPatch<ProdutoForm>(formProdutoRef.value, formProdutoRefOriginal.value)
      if (!formValido?.valid) return
-     emit('salvo', { ...formProdutoRef.value })
+     emit('salvo', { ...payload })
 }
 
 function onExcluir(identificador: string | number) {

@@ -56,7 +56,7 @@
           {titulo: 'Clientes', icone: 'mdi-account-multiple-outline', icone2: UserMultiple02Icon, rota: '/clientes'},
           {titulo: 'Materiais', icone: 'mdi-package-variant-closed', icone2: PackageIcon, rota: '/materiais'},
           {titulo: 'Produtos', icone: 'mdi-tag-outline', icone2: Tag01Icon, rota: '/produtos'},
-          {titulo: 'Encomendas', icone: 'mdi-cart-outline', icone2: ShoppingCart02Icon},
+          {titulo: 'Encomendas', icone: 'mdi-cart-outline', icone2: ShoppingCart02Icon, rota: '/encomendas'},
      ])
 
 </script>

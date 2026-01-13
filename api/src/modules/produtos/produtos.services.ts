@@ -116,6 +116,7 @@ export class ProdutosService {
           const produto = await this.repository.listarProdutoPorCodigo(codigo)
           assertResultadoExiste(produto, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, codigo)
           await editarFotosProdutoFS(codigo, fotos, PRODUTOS_DIR)
+          await this.repository.atualizarDataAlteracao(produto.data.id)
           return produto
      }
 

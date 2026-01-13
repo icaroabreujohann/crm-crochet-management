@@ -68,4 +68,12 @@ export class ProdutosRepository {
           `
           return produtoExcluido ?? null
      }
+
+     async atualizarDataAlteracao(id: number): Promise<void> {
+          await sql`
+               update produtos
+               set data_alteracao = now()
+               where id = ${id}
+          `
+     }
 }

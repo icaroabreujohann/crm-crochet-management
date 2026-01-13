@@ -14,12 +14,23 @@
           </div>
      </div>
      <v-row class="mt-10">
-          <v-col cols="12" xl="4" lg="6" v-for="(produto, index) in produtos">
+          <v-col cols="12" xl="4" lg="6" v-for="(produto, index) in produtos" :key="produto.codigo">
                <v-card class="pa-5" @click="abrirEditar(produto)">
                     <div class="d-flex">
                          <div class="mr-3">
-                              <v-img width="100" height="100" cover
-                                   :src="`${api.defaults.baseURL}/arquivos/produtos/${produto.codigo}/1.webp`"></v-img>
+                              <v-img width="100" height="100" cover :key="produto.codigo + produto.data_alteracao"
+                                   :src="`${api.defaults.baseURL}/arquivos/produtos/${produto.codigo}/1.webp?v=${produto.data_alteracao || Date.now()}`">
+                                   <template #placeholder>
+                                        <div class="d-flex align-center justify-center fill-height">
+                                             <v-progress-circular color="main" indeterminate size="36" />
+                                        </div>
+                                   </template>
+                                   <template #error>
+                                        <div class="d-flex align-center justify-center fill-height bg-grey-lighten-3">
+                                             <HugeiconsIcon :size="70" class="opacity-30" :icon="ImageDelete01Icon" />
+                                        </div>
+                                   </template>
+                              </v-img>
                          </div>
                          <div>
                               <h2>{{ produto.nome }}</h2>
@@ -45,7 +56,8 @@
           </v-col>
      </v-row>
 
-     <ProdutoFormDialog @excluir="excluirProduto" v-model="dialogProdutoForm" @salvo="salvarProduto" :produto="produtoSelecionado" />
+     <ProdutoFormDialog @excluir="excluirProduto" v-model="dialogProdutoForm" @salvo="salvarProduto"
+          :produto="produtoSelecionado" />
 </template>
 
 <script lang="ts" setup>
@@ -55,7 +67,7 @@ import { onMounted, ref } from 'vue';
 import { usarFeedbackStore } from '@/stores/feedbacks.store';
 
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { QrCode01Icon, Search02Icon } from '@hugeicons/core-free-icons';
+import { ImageDelete01Icon, QrCode01Icon, Search02Icon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
 import { api } from '@/plugins/api';
@@ -65,7 +77,7 @@ const feedback = usarFeedbackStore()
 const produtos = ref<ProdutoView[]>([])
 const produtoSelecionado = ref<ProdutoView | null>(null)
 
-const dialogProdutoForm = ref(true)
+const dialogProdutoForm = ref(false)
 
 async function listarProdutos() {
      const response = await ProdutosServices.listar()
@@ -74,9 +86,9 @@ async function listarProdutos() {
 
 async function salvarProduto(produto: Partial<ProdutoForm>) {
      await ProdutosServices.salvar(produto)
-     await listarProdutos()
      dialogProdutoForm.value = false
      feedback.sucesso('Produto criado/editado com sucesso')
+     await listarProdutos()
 }
 
 async function excluirProduto(codigo: string | number) {

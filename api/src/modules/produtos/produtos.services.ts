@@ -124,10 +124,11 @@ export class ProdutosService {
           const produto = await this.repository.listarProdutoPorCodigo(codigo)
           assertResultadoExiste(produto, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, codigo)
 
-          await this.excluirMateriaisDoProduto(produto.data.id)
-
+          
           const produtoExcluido = await this.repository.excluir(produto.data.id)
           assertPersistencia(produtoExcluido, CODIGOS_ERRO.PRODUTO_EXCLUIR_ERR)
+          
+          await this.excluirMateriaisDoProduto(produto.data.id)
 
           await excluirPasta(PRODUTOS_DIR, codigo)
 

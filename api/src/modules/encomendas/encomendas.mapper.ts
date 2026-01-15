@@ -1,4 +1,5 @@
-import { EncomendaCriarDTO, EncomendaCriarDB } from './encomendas.types'
+import { normalizaTexto } from '../../utils/normalizadores'
+import { EncomendaCriarDTO, EncomendaCriarDB, EncomendaEditarDTO, EncomendaEditarDB } from './encomendas.types'
 
 export const mapEncomendaCriarDTOParaDB = (
      data: EncomendaCriarDTO,
@@ -19,3 +20,45 @@ export const mapEncomendaCriarDTOParaDB = (
      data_pedido: data.data_pedido,
      data_prazo: data.data_prazo ?? new Date(data.data_pedido.getFullYear(), data.data_pedido.getMonth(), data.data_pedido.getDate() + 20)
 })
+
+export const mapEncomendaEditarDTOParaDB = (
+     data: EncomendaEditarDTO,
+     produto_id?: number
+): EncomendaEditarDB => {
+     const resultado: EncomendaEditarDB = {}
+     
+     if (data.observacoes !== undefined) {
+          resultado.observacoes = normalizaTexto(data.observacoes) ?? ''
+     }
+
+     if (data.pagamento_realizado !== undefined) {
+          resultado.pagamento_realizado = data.pagamento_realizado
+     }
+
+     if (data.pagamento_forma !== undefined) {
+          resultado.pagamento_forma = normalizaTexto(data.pagamento_forma) ?? ''
+     }
+
+     if (data.finalizado !== undefined) {
+          resultado.finalizado = data.finalizado
+     }
+
+     if (data.entregue !== undefined) {
+          resultado.entregue = data.entregue
+     }
+
+     if (data.local_entrega !== undefined) {
+          resultado.local_entrega = normalizaTexto(data.local_entrega) ?? ''
+     }
+
+     if (data.data_pedido !== undefined) {
+          resultado.data_pedido = data.data_pedido
+     }
+
+     if (data.data_prazo !== undefined) {
+          resultado.data_prazo = data.data_prazo
+     }
+
+     return resultado
+}
+

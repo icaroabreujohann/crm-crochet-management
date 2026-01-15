@@ -6,27 +6,33 @@ import { EncomendaMaterialService } from './materiais/encomendaMaterial.services
 import { EncomendaMaterialCriarDTO } from './materiais/encomendaMaterialtypes'
 import { EncomendaMaterialRepository } from './materiais/encomendaMaterial.repository'
 import { EncomendaCriarDTO } from './encomendas.types'
+import { ProdutosRepository } from '../produtos/produtos.repository'
+import { ClientesRepository } from '../clientes/clientes.repository'
+import { mapEncomendaCriarDTOParaDB } from './encomendas.mapper'
+import { assertPersistencia } from '../../shared/asserts/assertPersistencia'
 
 export class EncomendasServices {
      constructor(
           private repository = new EncomendasRepository(),
-          private servicesMateriais = new EncomendaMaterialService(),
-          private repositoryMateriais = new EncomendaMaterialRepository()
+          private repositoryMateriais = new EncomendaMaterialRepository(),
+          private repositoryProdutos = new ProdutosRepository(),
+          private repositoryClientes = new ClientesRepository(),
+          private servicesMateriais = new EncomendaMaterialService()
      ) { }
 
      private async gerarCodigoEncomendaUnico(): Promise<string> {
           let codigo: string
-          let produtoExiste
+          let encomendaExiste
 
           do {
                codigo = randomUUID()
-               produtoExiste = await this.repository.listarPorCodigo(codigo)
-          } while (produtoExiste.existe)
+               encomendaExiste = await this.repository.listarPorCodigo(codigo)
+          } while (encomendaExiste.existe)
 
           return codigo
      }
 
-     private async inserirMateriaisDoMaterial(encomenda_id: number, materiais: EncomendaMaterialCriarDTO[]): Promise<void> {
+     private async inserirMateriaisDaEncomenda(encomenda_id: number, materiais: EncomendaMaterialCriarDTO[]): Promise<void> {
           if (!materiais?.length) return
 
           for (const material of materiais) {
@@ -34,8 +40,8 @@ export class EncomendasServices {
           }
      }
 
-     private async excluirMateriaisDoProduto(produto_id: number): Promise<void> {
-          await this.repositoryMateriais.excluirPorProduto(produto_id)
+     private async excluirMateriaisDaEncomenda(produto_id: number): Promise<void> {
+          await this.repositoryMateriais.excluirPorEncomenda(produto_id)
      }
 
      async listar() {
@@ -57,12 +63,26 @@ export class EncomendasServices {
           const materiaisMapeados = materiais?.data ?? []
 
           return {
-               ...encomenda,
+               ...encomenda.data,
                materiais: materiaisMapeados
           }
      }
 
      async criar(data: EncomendaCriarDTO) {
-          
+          const encomendaExiste = await this.repositoryProdutos.listarProdutoPorCodigo(data.produto_codigo)
+          assertResultadoExiste(encomendaExiste, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, data.produto_codigo)
+
+          const clienteExiste = await this.repositoryClientes.listarPorId(data.cliente_id)
+          assertResultadoExiste(clienteExiste, CODIGOS_ERRO.CLIENTE_N_EXISTE_ERR, data.cliente_id)
+
+          const codigo = await this.gerarCodigoEncomendaUnico()
+          const encomendaMap = mapEncomendaCriarDTOParaDB(data, codigo, encomendaExiste.data.id)
+
+          const encomendaCriada = await this.repository.criar(encomendaMap)
+          assertPersistencia(encomendaCriada, CODIGOS_ERRO.ENCOMENDA_CRIAR_ERR)
+
+          if (data.materiais) await this.inserirMateriaisDaEncomenda(encomendaCriada.id, data.materiais)
+
+          return encomendaCriada
      }
 }

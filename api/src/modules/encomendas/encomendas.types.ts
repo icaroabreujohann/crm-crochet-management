@@ -1,3 +1,5 @@
+import { EncomendaMaterialCriarDTO } from "./materiais/encomendaMaterialtypes"
+
 export interface EncomendaView {
     id: number,
     cliente_id: number,
@@ -25,12 +27,13 @@ export interface EncomendaCriarDTO {
     local_entrega?: string,
     data_pedido: Date,
     data_prazo?: Date
+    materiais?: EncomendaMaterialCriarDTO[]
 }
 
 export interface EncomendaCriarDB {
     codigo: string,
     cliente_id: number,
-    produto_id: string,
+    produto_id: number,
     observacoes: string,
     pagamento_realizado: boolean,
     pagamento_forma: string,

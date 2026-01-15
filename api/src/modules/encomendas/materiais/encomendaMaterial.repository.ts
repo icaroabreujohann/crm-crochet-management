@@ -40,7 +40,7 @@ export class EncomendaMaterialRepository {
           return material ?? null
      }
 
-     async excluirPorProduto(encomenda_id: number): Promise<void> {
+     async excluirPorEncomenda(encomenda_id: number): Promise<void> {
           const [materiaisExcluidos] = await sql`
                delete from encomendas_materiais
                where encomenda_id = ${encomenda_id}

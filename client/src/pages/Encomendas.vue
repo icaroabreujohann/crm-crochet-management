@@ -44,6 +44,8 @@
                </v-card>
           </v-col>
      </v-row>
+
+     <EncomendaFormDialog v-model="dialogEncomendaForm"/>
 </template>
 
 <script setup lang="ts">
@@ -53,8 +55,11 @@ import { ref, onMounted } from 'vue';
 import type { EncomendaView } from '@/modules/encomendas/encomendas.types';
 import { EncomendasServices } from '@/modules/encomendas/encomendas.services';
 import { api } from '@/plugins/api';
+import EncomendaFormDialog from '@/components/EncomendaFormDialog.vue';
 
 const encomendas = ref<EncomendaView[]>([])
+
+const dialogEncomendaForm = ref(true)
 
 async function listarEncomendas() {
      const response = await EncomendasServices.listar()

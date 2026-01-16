@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     ClienteFormDialog: typeof import('./components/ClienteFormDialog.vue')['default']
     ConfirmaExclusao: typeof import('./components/common/ConfirmaExclusao.vue')['default']
+    EncomendaFormDialog: typeof import('./components/EncomendaFormDialog.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MaterialFormDialog: typeof import('./components/MaterialFormDialog.vue')['default']
     MaterialSelectDialog: typeof import('./components/MaterialSelectDialog.vue')['default']

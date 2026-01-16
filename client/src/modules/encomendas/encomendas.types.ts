@@ -22,15 +22,29 @@ export interface EncomendaView {
     produto_codigo: string,
     produto_nome: string,
     preco_final: number,
-    observacoes: string | null,
+    observacoes: string,
     pagamento_realizado: boolean,
-    pagamento_forma: string | null,
+    pagamento_forma: string,
     finalizado: boolean,
     entregue: boolean,
-    local_entrega: string | null,
+    local_entrega: string,
     data_pedido: Date,
     data_prazo: Date,
     data_criacao: Date,
+}
+
+export interface EncomendaForm {
+    codigo?: string,
+    cliente_id: number,
+    produto_id: number,
+    observacoes: string,
+    pagamento_realizado: boolean,
+    pagamento_forma: string,
+    finalizado: boolean,
+    entregue: boolean,
+    local_entrega: string,
+    data_pedido: Date,
+    data_prazo: Date
 }
 
 

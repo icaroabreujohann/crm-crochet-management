@@ -12,7 +12,7 @@ interface ClienteStore {
 export const usarClienteStore = defineStore('clientes', {
      state: (): ClienteStore => ({
           clientes: [],
-          carregando: true,
+          carregando: false,
           carregado: false
      }),
 

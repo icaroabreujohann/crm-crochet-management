@@ -26,7 +26,7 @@
                     <v-row>
                          <v-col cols="6">
                               <p>Cliente</p>
-                              <v-select variant="solo-filled"></v-select>
+                              <v-text-field :model-value="clienteSelecionado?.nome || ''" readonly @click="dialogClienteSelect = true" variant="solo-filled"></v-text-field>
                          </v-col>
                          <v-col cols="6">
                               <p>Produto</p>
@@ -74,6 +74,8 @@
                </v-form>
           </v-card>
      </v-dialog>
+
+     <ClienteSelectDialog v-model="dialogClienteSelect" @select="selecionarCliente"/>
 </template>
 
 <script setup lang="ts">
@@ -85,7 +87,9 @@ import { usarProdutoStore } from '@/stores/produtos.store';
 import { HugeiconsIcon } from '@hugeicons/vue';
 import { CancelCircleIcon, Delete02Icon, PencilEdit02Icon, ShoppingCart02Icon, Tag01Icon } from '@hugeicons/core-free-icons';
 import { computed, ref } from 'vue';
+import ClienteSelectDialog from './ClienteSelectDialog.vue';
 import type { VForm } from 'vuetify/components';
+import type { Cliente } from '@/modules/clientes/clientes.types';
 
 const props = defineProps<{
      encomenda?: EncomendaForm | null,
@@ -109,4 +113,13 @@ const clienteStore = usarClienteStore()
 const produtosStore = usarProdutoStore()
 
 const { form, original, regras, carregar, podeSalvar, resetar } = useEncomendaForm()
+
+const dialogClienteSelect = ref(false)
+
+const clienteSelecionado = ref<Cliente | null>(null)
+function selecionarCliente(cliente: Cliente) {
+     clienteSelecionado.value = cliente
+     form.value.cliente_id = cliente.id
+     dialogClienteSelect.value = false
+}
 </script>

@@ -1,13 +1,25 @@
 export function formatarDataHoraBR(data: string | Date) {
-    if (!data) return ''
+  if (!data) return ''
 
-    const date = new Date(data)
+  const date = new Date(data)
 
-    return new Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date)
+  return new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(date)
+}
+
+export function formatarDataBR(isoDate: string) {
+  return new Date(isoDate).toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  })
+}
+
+export function isoParaDate(isoDate: string): Date {
+  return new Date(isoDate)
 }

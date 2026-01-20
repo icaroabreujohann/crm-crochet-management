@@ -16,7 +16,7 @@
                               <HugeiconsIcon :size="18" :icon="Delete02Icon" class="mr-1" />
                               Excluir
                          </v-btn>
-                         <v-btn color="main" @click="" :disabled="!podeSalvar">
+                         <v-btn color="main" :disabled="!podeSalvar" @click="salvar()">
                               <HugeiconsIcon :size="18" :icon="PencilEdit02Icon" class="mr-1" />
                               {{ modoEditar ? 'Salvar' : 'Criar' }}
                          </v-btn>
@@ -42,13 +42,13 @@
                               <v-row>
                                    <v-col cols="6">
                                         <p>Cliente</p>
-                                        <v-text-field :model-value="clienteSelecionado?.nome || ''" readonly
+                                        <v-text-field :model-value="nomeClienteExibicao" readonly :disabled="modoEditar"
                                              @click="dialogClienteSelect = true" variant="solo-filled"></v-text-field>
                                    </v-col>
                                    <v-col cols="6">
                                         <p>Produto</p>
-                                        <v-text-field :model-value="produtoSelecionado?.nome || ''" readonly
-                                             @click="dialogProdutoSelect = true" variant="solo-filled"></v-text-field>
+                                        <v-text-field :model-value="nomeProdutoExibicao" readonly
+                                             @click="dialogProdutoSelect = true" variant="solo-filled" :disabled="modoEditar"></v-text-field>
                                    </v-col>
                               </v-row>
                               <v-row>
@@ -131,7 +131,7 @@
 
 <script setup lang="ts">
 import { useEncomendaForm } from '@/composables/useEncomendaForm';
-import type { EncomendaForm, EncomendaView } from '@/modules/encomendas/encomendas.types';
+import type { EncomendaCriarDTO, EncomendaForm, EncomendaView } from '@/modules/encomendas/encomendas.types';
 import { HugeiconsIcon } from '@hugeicons/vue';
 import { CancelCircleIcon, Delete02Icon, PackageIcon, PencilEdit02Icon, ShoppingCart02Icon, Tag01Icon } from '@hugeicons/core-free-icons';
 import { computed, ref, watch } from 'vue';
@@ -149,6 +149,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
+     (e: 'salvar', value: Partial<EncomendaForm>): void,
      (e: 'update:modelValue', value: boolean): void
 }>()
 
@@ -166,10 +167,10 @@ const abaAtiva = ref<AbaEncomenda>('encomenda')
 
 const materialStore = usarMaterialStore()
 
-const { form, original, regras, carregar, podeSalvar, resetar } = useEncomendaForm()
+const { form, regras, carregar, podeSalvar, resetar, gerarPayloadPatch } = useEncomendaForm()
 const { materiaisCodigos, materiaisHeaders, materiaisExibicao, atualizarQuantidade, removerMaterial, selecionarMateriais } = useEncomendaMateriais(form, computed(() => materialStore.materiais))
 
-const dialogMaterialSelect = ref(true)
+const dialogMaterialSelect = ref(false)
 const dialogClienteSelect = ref(false)
 const dialogProdutoSelect = ref(false)
 
@@ -187,6 +188,28 @@ function selecionarProduto(produto: ProdutoView) {
      form.value.produto_codigo = produto.codigo
      dialogProdutoSelect.value = false
 }
+
+async function salvar() {
+     const formValido = await vFormRef.value?.validate()
+     if (!formValido?.valid) return
+     emit('salvar', modoEditar.value ? gerarPayloadPatch() : { ...form.value })
+}
+
+const nomeClienteExibicao = computed(() => {
+     if (clienteSelecionado.value) {
+          return clienteSelecionado.value.nome
+     }
+
+     return props.encomenda?.cliente_nome ?? ''
+})
+
+const nomeProdutoExibicao = computed(() => {
+     if (produtoSelecionado.value) {
+          return produtoSelecionado.value.nome
+     }
+
+     return props.encomenda?.produto_nome ?? ''
+})
 
 watch(
      () => props.encomenda,

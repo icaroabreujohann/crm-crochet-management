@@ -14,6 +14,7 @@ export interface EncomendaDB {
     data_pedido: Date,
     data_prazo: Date,
     data_criacao: Date,
+    data_alteracao: Date
 }
 
 export interface EncomendaView {
@@ -32,7 +33,7 @@ export interface EncomendaView {
     local_entrega: string | null,
     data_pedido: Date,
     data_prazo: Date,
-    data_criacao: Date,
+    data_alteracao: Date
 }
 
 

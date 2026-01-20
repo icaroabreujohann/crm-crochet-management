@@ -1,9 +1,18 @@
-import postgres, {Sql} from 'postgres'
+import postgres, { Sql } from 'postgres'
 import dotenv from 'dotenv'
 
 dotenv.config()
 
-export const sql: Sql = postgres(process.env.DATABASE_URL!)
+export const sql: Sql = postgres(process.env.DATABASE_URL!, {
+     types: {
+          date: {
+               from: [1082],                  // OID do DATE
+               to: 1082,
+               parse: (value: string) => value,     // DB -> JS
+               serialize: (value: string) => value  // JS -> DB
+          }
+     }
+})
 
 export const testarConexaoDb = async () => {
      try {

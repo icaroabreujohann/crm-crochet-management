@@ -120,7 +120,6 @@ async function abrirEditar(produto: ProdutoView) {
      const produtoCompleto = await ProdutosServices.listarPorCodigo(produto.codigo)
      produtoSelecionado.value = produtoCompleto
      dialogProdutoForm.value = true
-     console.log(produtoSelecionado.value)
 }
 
 onMounted(() => {

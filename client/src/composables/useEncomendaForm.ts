@@ -1,4 +1,6 @@
 import type { EncomendaForm, EncomendaView } from "@/modules/encomendas/encomendas.types";
+import { formatarDataBR, formatarDataHoraBR, isoParaDate } from "@/utils/formataData";
+import { montaPayloadPatch } from "@/utils/montarPayloadPatch";
 import { computed, ref } from "vue";
 
 export function useEncomendaForm() {
@@ -47,13 +49,18 @@ export function useEncomendaForm() {
                     quantidade: Number(m.quantidade)
                }))
           }
-          form.value = base
-          original.value = base
+          form.value = structuredClone(base)
+          original.value = structuredClone(base)
+          console.log(form.value)
      }
 
      const podeSalvar = computed(
           () => JSON.stringify(form.value) != JSON.stringify(original.value)
      )
+
+     function gerarPayloadPatch() {
+          return montaPayloadPatch(form.value, original.value)
+     }
 
      function resetar() {
           carregar()
@@ -65,7 +72,8 @@ export function useEncomendaForm() {
           regras,
           carregar,
           podeSalvar,
-          resetar
+          resetar,
+          gerarPayloadPatch
      }
 
 }

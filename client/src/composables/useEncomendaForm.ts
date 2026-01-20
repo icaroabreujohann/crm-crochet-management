@@ -15,7 +15,7 @@ export function useEncomendaForm() {
           entregue: false,
           local_entrega: '',
           data_pedido: new Date(),
-          data_prazo: new Date(),
+          data_prazo: null,
           materiais: []
      }
 

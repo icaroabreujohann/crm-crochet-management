@@ -20,7 +20,7 @@ export const mapEncomendaCriarDTOParaDB = (
      local_entrega: data.local_entrega ?? '',
 
      data_pedido: data.data_pedido,
-     data_prazo: data.data_prazo ?? new Date(data.data_pedido.getFullYear(), data.data_pedido.getMonth(), data.data_pedido.getDate() + 20)
+     data_prazo: data.data_prazo ?? null
 })
 
 export const mapEncomendaEditarDTOParaDB = (
@@ -71,6 +71,6 @@ export const mapProdutoMaterialParaEncomendaMaterial = (
           material_codigo: m.codigo,
           quantidade: m.quantidade
      }))
-     console.log('map data',materiaisMapeados)
+
      return materiaisMapeados
 }

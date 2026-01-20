@@ -26,7 +26,6 @@ export const EncomendasServices = {
      },
 
      async salvar(form: Partial<EncomendaForm>) {
-          console.log('form', form)
           const payload: Partial<EncomendaPayload> = {
                cliente_id: form.cliente_id,
                produto_codigo: form.produto_codigo,
@@ -37,7 +36,7 @@ export const EncomendasServices = {
                entregue: form.entregue,
                local_entrega: form.local_entrega,
                data_pedido: form.data_pedido,
-               data_prazo: form.data_prazo,
+               data_prazo: form.data_prazo ?? null,
                materiais: form.materiais
           }
 

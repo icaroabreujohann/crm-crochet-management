@@ -43,12 +43,12 @@
                                    <v-col cols="6">
                                         <p>Cliente</p>
                                         <v-text-field :model-value="nomeClienteExibicao" readonly :disabled="modoEditar"
-                                             @click="dialogClienteSelect = true" variant="solo-filled"></v-text-field>
+                                             @click="dialogClienteSelect = true" variant="solo-filled" :rules="regras.obrigatorio"></v-text-field>
                                    </v-col>
                                    <v-col cols="6">
                                         <p>Produto</p>
                                         <v-text-field :model-value="nomeProdutoExibicao" readonly
-                                             @click="dialogProdutoSelect = true" variant="solo-filled" :disabled="modoEditar"></v-text-field>
+                                             @click="dialogProdutoSelect = true" variant="solo-filled" :disabled="modoEditar" :rules="regras.obrigatorio"></v-text-field>
                                    </v-col>
                               </v-row>
                               <v-row>
@@ -220,6 +220,8 @@ watch(
 watch(dialog, (aberto) => {
      if (!aberto) {
           resetar()
+          clienteSelecionado.value = null
+          produtoSelecionado.value = null
           vFormRef.value?.resetValidation()
      }
 })

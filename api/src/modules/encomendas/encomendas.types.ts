@@ -74,7 +74,7 @@ export interface EncomendaCriarDB {
     entregue: boolean,
     local_entrega: string,
     data_pedido: Date,
-    data_prazo: Date
+    data_prazo: Date | null
 }
 
 export type EncomendaEditarDB = Partial<{ 

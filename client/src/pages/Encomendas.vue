@@ -4,7 +4,7 @@
                <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="ShoppingCart02Icon" />
                <h1 class="ml-2">Encomendas</h1>
           </div>
-          <v-btn color="main">Adicionar</v-btn>
+          <v-btn color="main" @click="abrirCriar">Adicionar</v-btn>
      </div>
 
      <v-row class="mt-10">
@@ -68,6 +68,11 @@ const dialogEncomendaForm = ref(false)
 async function listarEncomendas() {
      const response = await EncomendasServices.listar()
      encomendas.value = response
+}
+
+function abrirCriar() {
+     encomendaSelecionada.value = null
+     dialogEncomendaForm.value = true
 }
 
 async function abrirEditar(encomenda: EncomendaView) {

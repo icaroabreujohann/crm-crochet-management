@@ -35,7 +35,7 @@ export const EncomendasServices = {
                finalizado: form.finalizado,
                entregue: form.entregue,
                local_entrega: form.local_entrega,
-               data_pedido: form.data_pedido,
+               data_pedido: form.data_pedido ,
                data_prazo: form.data_prazo ?? null,
                materiais: form.materiais
           }

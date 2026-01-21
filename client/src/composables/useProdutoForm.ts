@@ -30,13 +30,12 @@ export function useProdutoForm() {
 
           const fotosProduto = await ProdutosServices.listarFotos(produto.codigo)
           const arquivos: File[] = await Promise.all(
-               fotosProduto.map(async (url, i) => {
+               (fotosProduto ?? []).map(async (url, i) => {
                     const res = await fetch(url)
                     const blob = await res.blob()
                     return new File([blob], `${i + 1}.webp`, { type: blob.type })
                })
           )
-
           const base = {
                codigo: produto.codigo,
                nome: produto.nome,
@@ -65,7 +64,7 @@ export function useProdutoForm() {
      }
 
      function removerFoto(nome: string) {
-          form.value.fotos = form.value.fotos.filter(f => f.name !== nome) 
+          form.value.fotos = form.value.fotos.filter(f => f.name !== nome)
      }
 
      return {

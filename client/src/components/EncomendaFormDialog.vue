@@ -12,7 +12,8 @@
                               <HugeiconsIcon :size="18" :icon="CancelCircleIcon" class="mr-1" />
                               Cancelar
                          </v-btn>
-                         <v-btn class="mr-2" variant="tonal" v-if="props.encomenda" @click="dialogConfirmaExclusao = true">
+                         <v-btn class="mr-2" variant="tonal" v-if="props.encomenda"
+                              @click="dialogConfirmaExclusao = true">
                               <HugeiconsIcon :size="18" :icon="Delete02Icon" class="mr-1" />
                               Excluir
                          </v-btn>
@@ -43,12 +44,14 @@
                                    <v-col cols="6">
                                         <p>Cliente</p>
                                         <v-text-field :model-value="nomeClienteExibicao" readonly :disabled="modoEditar"
-                                             @click="dialogClienteSelect = true" variant="solo-filled" :rules="regras.obrigatorio"></v-text-field>
+                                             @click="dialogClienteSelect = true" variant="solo-filled"
+                                             :rules="regras.obrigatorio"></v-text-field>
                                    </v-col>
                                    <v-col cols="6">
                                         <p>Produto</p>
                                         <v-text-field :model-value="nomeProdutoExibicao" readonly
-                                             @click="dialogProdutoSelect = true" variant="solo-filled" :disabled="modoEditar" :rules="regras.obrigatorio"></v-text-field>
+                                             @click="dialogProdutoSelect = true" variant="solo-filled"
+                                             :disabled="modoEditar" :rules="regras.obrigatorio"></v-text-field>
                                    </v-col>
                               </v-row>
                               <v-row>
@@ -64,6 +67,16 @@
                                    </v-col>
                               </v-row>
                               <v-row>
+                                   <v-col cols="6">
+                                        <p>Forma de Pagamento</p>
+                                        <v-text-field variant="solo-filled" v-model="form.pagamento_forma" />
+                                   </v-col>
+                                   <v-col cols="6">
+                                        <p>Local de Entrega</p>
+                                        <v-text-field variant="solo-filled" v-model="form.local_entrega" />
+                                   </v-col>
+                              </v-row>
+                              <v-row>
                                    <v-col>
                                         <v-checkbox color="main" density="compact" hide-details
                                              v-model="form.pagamento_realizado">
@@ -75,15 +88,11 @@
                                              <template #label>Entregue?</template>
                                         </v-checkbox>
                                    </v-col>
-                              </v-row>
-                              <v-row>
-                                   <v-col cols="6">
-                                        <p>Forma de Pagamento</p>
-                                        <v-text-field variant="solo-filled" v-model="form.pagamento_forma" />
-                                   </v-col>
-                                   <v-col cols="6">
-                                        <p>Local de Entrega</p>
-                                        <v-text-field variant="solo-filled" v-model="form.local_entrega" />
+                                   <v-col>
+                                        <v-checkbox color="main" density="compact" hide-details
+                                             v-model="form.finalizado">
+                                             <template #label>Finalizado?</template>
+                                        </v-checkbox>
                                    </v-col>
                               </v-row>
                               <v-row>
@@ -127,7 +136,8 @@
           @select="selecionarMateriais" />
      <ClienteSelectDialog v-model="dialogClienteSelect" @select="selecionarCliente" />
      <ProdutoSelectDialog v-model="dialogProdutoSelect" @select="selecionarProduto" />
-     <ConfirmaExclusao v-model="dialogConfirmaExclusao" v-if="encomenda" :identificador="encomenda?.codigo" :tipo="'encomenda'" @excluir="excluir"/>
+     <ConfirmaExclusao v-model="dialogConfirmaExclusao" v-if="encomenda" :identificador="encomenda?.codigo"
+          :tipo="'encomenda'" @excluir="excluir" />
 
 
 </template>

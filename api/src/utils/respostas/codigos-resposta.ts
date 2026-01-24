@@ -46,6 +46,8 @@ export const CODIGOS_ERRO = {
      ENCOMENDA_MATERIAL_EDITAR_ERRO: { codigo: 1604, mensagem: 'Erro ao editar encomenda de material.' },
      ENCOMENDA_MATERIAL_EXCLUIR_ERRO: { codigo: 1605, mensagem: 'Erro ao excluir encomenda de material.' },
      ENCOMENDA_MATERIAL_N_CORRESPONDE_ERRO: { codigo: 1606, mensagem: 'O material informado não corresponde à encomenda.' },
+
+     RELATORIO_LISTAR_ERRO: { codigo: 1703, mensagem: 'Erro ao listar relatório.' },
 }
 export const CODIGOS_SUCESSO = {
      SUCESSO_GENERICO: { codigo: 2000, mensagem: 'Erro interno do servidor' },
@@ -97,6 +99,7 @@ export const CODIGOS_SUCESSO = {
      
      TIPO_MATERIAL_LISTAR_SUCESS: { codigo: 2700, mensagem: 'Tipos de materiais listados com sucesso.' },
      UNIDADE_MEDIDA_LISTAR_SUCESS: { codigo: 2701, mensagem: 'Unidades de medidas listadas com sucesso.' },
+     RELATORIO_LISTAR_SUCESS: { codigo: 2703, mensagem: 'Relatório listado com sucesso.' },
 }
 
 

@@ -9,6 +9,7 @@ import materiaisRoutes from './modules/materiais/materiais.router'
 import encomendasRoutes from './modules/encomendas/encomendas.router'
 import cadastrosRoutes from './modules/cadastros/cadastros.router'
 import produtosArquivosRoutes from './infra/routes/produtosArquivos.routes'
+import relatoriosRoutes from './modules/relatorios/relatorios.router'
 
 import { erroGlobal } from './middlewares/erro-global'
 import path from 'path'
@@ -28,6 +29,7 @@ app.use('/materiais', materiaisRoutes)
 app.use('/encomendas', encomendasRoutes)
 app.use('/cadastros', cadastrosRoutes)
 app.use('/arquivos/produtos', produtosArquivosRoutes)
+app.use('/relatorios', relatoriosRoutes)
 
 app.use(erroGlobal)
 

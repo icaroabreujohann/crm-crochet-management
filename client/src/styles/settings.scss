@@ -10,10 +10,10 @@
 // );
 
 :root {
---black: #000000;
---main: #471A3C;
---white: #FCFAFA;
---light: #E79DAF;
+     --black: #000000;
+     --main: #471A3C;
+     --white: #FCFAFA;
+     --light: #E79DAF;
 }
 
 @font-face {
@@ -84,12 +84,16 @@ h4,
      letter-spacing: -0.5px !important;
 }
 
-h1,h2{
+h1,
+h2 {
      color: var(--main);
 }
 
 
-p, span, th, td {
+p,
+span,
+th,
+td {
      font-size: 1rem !important;
 }
 
@@ -128,9 +132,9 @@ p, span, th, td {
      box-shadow: none !important;
 }
 
-.v-data-table-header__content > span {
-    font-family: f-semi;
-    opacity: 50%;
+.v-data-table-header__content>span {
+     font-family: f-semi;
+     opacity: 50%;
 }
 
 canvas {
@@ -156,7 +160,7 @@ canvas {
      border: none;
 }
 
-.subText{
+.subText {
      opacity: 50%;
 }
 
@@ -173,7 +177,7 @@ canvas {
 }
 
 .text-ellipsis {
-     width: 60%; /* ajuste conforme necessário */
+     width: 60%;
      white-space: nowrap;
      overflow: hidden;
      text-overflow: ellipsis;
@@ -181,6 +185,10 @@ canvas {
 
 .v-carousel .v-window__prev,
 .v-carousel .v-window__next {
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 50%;
+     background: rgba(0, 0, 0, 0.4);
+     border-radius: 50%;
+}
+
+.v-calendar-weekly__day-label {
+     margin-bottom: 16px;
 }

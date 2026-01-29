@@ -5,7 +5,7 @@
                     <HugeiconsIcon class="text-light" :icon="ShoppingCart02Icon" />
                     <h2 class="ml-2">Encomendas Pendentes</h2>
                </div>
-               <div class="d-flex align-center justify-space-between mt-10">
+               <div class="d-flex align-center justify-space-between mt-5">
                     <h2 class="f-regular">{{ tituloMes.mes }}, {{ tituloMes.ano }}</h2>
                     <div class="d-flex align-center">
                          <v-btn size="30" icon variant="tonal" class="mr-2" @click="mesAnterior">
@@ -16,18 +16,21 @@
                          </v-btn>
                     </div>
                </div>
+               <p class="mt-5">Você tem <b>{{ encomendasDoMes.length }}</b> encomendas neste mês</p>
           </div>
 
-          <v-list class="mt-5" height="500">
-               <v-list-item v-if="encomendasDoMes.length" v-for="item in encomendasDoMes" :key="item.codigo" class="pa-0">
-                    <v-card class="d-flex pa-6 mb-3 align-center">
+          <v-list class="mt-5" height="450">
+               <v-list-item v-if="encomendasDoMes.length" v-for="item in encomendasDoMes" :key="item.codigo"
+                    class="pa-0">
+                    <v-divider class="mx-5"></v-divider>
+                    <div class="d-flex align-center no-border pa-5">
                          <div>
                               <h2 class="f-regular text-center">{{ item.data_prazo?.slice(8) }}</h2>
                               <p class="text-center">{{ tituloMes.mes_abreviado }}</p>
                          </div>
                          <v-divider class="mx-6 my-5" vertical />
-                         <v-card class="pa-5 d-flex w-100">
-                              <div class="align-start">
+                         <v-card class="pa-3 d-flex w-100" @click="abrirEncomenda(item.codigo)">
+                              <div class="ml-1 align-start">
                                    <v-img class="flex-shrink-0" width="3vw" height="6vh" cover
                                         :key="item.produto_codigo + item.data_criacao"
                                         :src="`${api.defaults.baseURL}/arquivos/produtos/${item.produto_codigo}/1.webp?v=${Date.now()}`">
@@ -45,17 +48,26 @@
                                         </template>
                                    </v-img>
                               </div>
-
-                              <div class="ml-3">
-                                   <h3>{{ item.cliente_nome }}</h3>
-                                   <p>{{ item.produto_nome }}</p>
+                              <div class="ml-2" style="max-width: 65%;">
+                                   <div class="d-flex align-center">
+                                        <h3 class="text-truncate">
+                                             {{ item.cliente_nome }}
+                                        </h3>
+                                   </div>
+                                   <div class="d-flex align-center mt-1">
+                                        <p class="text-truncate">
+                                             {{ item.produto_nome }}
+                                        </p>
+                                   </div>
                               </div>
                          </v-card>
-                    </v-card>
+                    </div>
                </v-list-item>
                <v-list-item v-else-if="!encomendasDoMes.length" class="h-100">
-                    <v-card class="pa-10 d-flex flex-column align-center justify-center" variant="tonal" color="grey-lighten-1">
-                         <HugeiconsIcon class="opacity-30" color="black" :size="150" :stroke-width="1.1" :icon="SmileIcon"/>
+                    <v-card class="pa-10 d-flex flex-column align-center justify-center" variant="tonal"
+                         color="grey-lighten-1">
+                         <HugeiconsIcon class="opacity-30" color="black" :size="150" :stroke-width="1.1"
+                              :icon="SmileIcon" />
                          <h2 class="subText text-center f-regular text-black font-weight-regular mt-10">
                               Não há encomendas <b>pendentes</b> para este mês
                          </h2>
@@ -70,8 +82,9 @@
 import type { EncomendaView } from '@/modules/encomendas/encomendas.types';
 import { api } from '@/plugins/api';
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { ArrowLeft01Icon, ArrowRight01Icon, ImageDelete01Icon, ShoppingCart02Icon, SmileIcon } from '@hugeicons/core-free-icons';
+import { ArrowLeft01Icon, ArrowRight01Icon, ImageDelete01Icon, ShoppingCart02Icon, SmileIcon, Tag01Icon, UserCircleIcon } from '@hugeicons/core-free-icons';
 import { computed, ref } from 'vue';
+import router from '@/router';
 
 const props = defineProps<{
      encomendas: EncomendaView[]
@@ -123,6 +136,14 @@ function mesAnterior() {
      const d = new Date(mesAtual.value)
      d.setMonth(d.getMonth() - 1)
      mesAtual.value = d
+}
+function abrirEncomenda(codigo: string) {
+     router.push({
+          path: '/encomendas',
+          query: {
+               codigo: codigo
+          }
+     })
 }
 
 </script>

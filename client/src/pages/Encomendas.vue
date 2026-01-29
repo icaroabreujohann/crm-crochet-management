@@ -22,7 +22,7 @@
                <v-col cols="3">
                     <p>Cliente</p>
                     <v-autocomplete variant="solo-filled" clearable :items="clienteStore.clientes" item-title="nome"
-                         item-value="id" hide-details v-model="clienteSelecionado" spellcheck="false"/>
+                         item-value="id" hide-details v-model="clienteSelecionado" spellcheck="false" />
                </v-col>
                <v-col cols="3">
                     <p>Produto</p>
@@ -49,7 +49,7 @@
 
      <v-row class="mt-5">
           <v-col cols="12" xl="4" lg="6" v-for="e in encomendasFiltradas" :key="e.codigo">
-               <v-card class="pa-5" @click="abrirEditar(e)" :class="e.finalizado ? 'encomendaFinalizada' : '' ">
+               <v-card class="pa-5" @click="abrirEditar(e.codigo)" :class="e.finalizado ? 'encomendaFinalizada' : ''">
                     <div class="d-flex">
                          <div class="mr-3">
                               <v-img width="7.5vw" height="15vh" cover :key="e.produto_codigo + e.data_criacao"
@@ -69,20 +69,20 @@
                          <div>
                               <div class="d-flex align-center">
                                    <HugeiconsIcon :storke-width="16" class="text-light mr-1" :icon="UserCircleIcon" />
-                                   <h2>{{ e.cliente_nome }}</h2>
+                                   <h3 class="text-truncate" style="max-width: 70%;">
+                                        {{ e.cliente_nome }}
+                                   </h3>
                               </div>
-                              <div class="d-flex align-center mt-1">
+                              <div class="d-flex align-center mt-1 w-100">
                                    <HugeiconsIcon :storke-width="16" class="text-light mr-1" :icon="Tag01Icon" />
-                                   <h2>{{ e.produto_nome }}</h2>
+                                   <h3 class="text-truncate" style="max-width: 70%;">
+                                        {{ e.produto_nome }}
+                                   </h3>
                               </div>
-                              <!-- <v-chip class="mt-1">
-                                   <HugeiconsIcon :size="16" :icon="QrCode01Icon" />
-                                   <p class="ml-2 text-ellipsis">{{ e.data_pedido }}</p>
-                              </v-chip> -->
                               <div class="d-flex align-center mt-4">
                                    <div class="mx-2">
                                         <p>Data do Pedido</p>
-                                        <h4 v-if="e.data_pedido">{{ formatarDataDDMMYYYY(e.data_pedido)}}</h4>
+                                        <h4 v-if="e.data_pedido">{{ formatarDataDDMMYYYY(e.data_pedido) }}</h4>
                                    </div>
                                    <div class="mx-2">
                                         <p>Data do Prazo</p>
@@ -103,7 +103,7 @@
 <script setup lang="ts">
 import { HugeiconsIcon } from '@hugeicons/vue';
 import { ArrowDown01Icon, ArrowRight01Icon, CircleArrowDown01Icon, CircleArrowDown02Icon, CircleArrowRight01Icon, FilterIcon, ImageDelete01Icon, QrCode01Icon, Search02Icon, ShoppingCart02Icon, Tag01Icon, UserCircleIcon } from '@hugeicons/core-free-icons'
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import type { EncomendaForm, EncomendaView } from '@/modules/encomendas/encomendas.types';
 import { EncomendasServices } from '@/modules/encomendas/encomendas.services';
 import { api } from '@/plugins/api';
@@ -112,6 +112,10 @@ import { usarFeedbackStore } from '@/stores/feedbacks.store';
 import { usarClienteStore } from '@/stores/clientes.store';
 import { usarProdutoStore } from '@/stores/produtos.store';
 import { formatarDataBR, formatarDataDDMMYYYY } from '@/utils/formataData';
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter()
+const route = useRoute()
 
 const feedback = usarFeedbackStore()
 const clienteStore = usarClienteStore()
@@ -157,8 +161,8 @@ function abrirCriar() {
      dialogEncomendaForm.value = true
 }
 
-async function abrirEditar(encomenda: EncomendaView) {
-     const encomendaCompleta = await EncomendasServices.listarPorCodigo(encomenda.codigo)
+async function abrirEditar(encomenda_codigo: string) {
+     const encomendaCompleta = await EncomendasServices.listarPorCodigo(encomenda_codigo)
      encomendaSelecionada.value = encomendaCompleta
      dialogEncomendaForm.value = true
 }
@@ -177,6 +181,21 @@ async function excluirEncomenda(codigo: string) {
      await listarEncomendas()
 }
 
+watch(
+     () => route.query.codigo,
+     (codigo) => {
+          if (!codigo) return
+          abrirEditar(codigo as string)
+     },
+     { immediate: true }
+)
+
+watch(dialogEncomendaForm, (aberto) => {
+     if (!aberto && route.query.codigo) {
+          router.replace({ path: '/encomendas', query: {} })
+     }
+})
+
 onMounted(() => {
      clienteStore.buscaClientes()
      produtoStore.buscaProdutos()
@@ -186,8 +205,8 @@ onMounted(() => {
 </script>
 
 <style>
-     .encomendaFinalizada {
-          opacity: 50%;
-          filter: saturate(0%);
-     }
+.encomendaFinalizada {
+     opacity: 50%;
+     filter: saturate(0%);
+}
 </style>

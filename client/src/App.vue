@@ -8,14 +8,13 @@
                     class="mt-1"
                >
                     <div class="d-flex align-center">
-                         <HugeiconsIcon :stroke-width="2.2" :size="18" :icon="i.icone2"></HugeiconsIcon>
-                         <h3 class="f-regular ml-2">{{ i.titulo }}</h3>
+                         <HugeiconsIcon :stroke-width="2.2" :size="18" class="opacity-50" :icon="i.icone2"></HugeiconsIcon>
+                         <h3 class="f-regular ml-2 text-black">{{ i.titulo }}</h3>
                     </div>
                </v-list-item>
           </v-navigation-drawer>
           <v-main>
                <v-container class="pa-10" width="80vw" fluid>
-                    
                     <v-card class="pa-10">
                          <router-view/>
                     </v-card>

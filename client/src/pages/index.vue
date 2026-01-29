@@ -5,8 +5,8 @@
                <h1 class="ml-2">Início</h1>
           </header>
           <v-row dense>
-               <v-col cols="12" md="7" lg="7"></v-col>
-               <v-col cols="12" md="5" lg="5">
+               <v-col cols="12" md="6" lg="8"></v-col>
+               <v-col cols="12" md="6" lg="4">
                     <CardEncomendasPendentes v-if="encomendas" :encomendas="encomendas" />
                </v-col>
           </v-row>

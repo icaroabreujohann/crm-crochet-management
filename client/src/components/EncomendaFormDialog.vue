@@ -111,7 +111,7 @@
                          </v-tabs-window-item>
 
                          <v-tabs-window-item value="material">
-                              <p>Preço Total dos Materiais: </p>
+                              <p>Preço Total dos Materiais: {{ precoTotal }} </p>
                               <v-data-table :items="materiaisExibicao" :headers="materiaisHeaders">
                                    <template #header.acoes="{ column }">
                                         <v-btn color="main" @click="dialogMaterialSelect = true">Adicionar</v-btn>
@@ -190,7 +190,7 @@ const abaAtiva = ref<AbaEncomenda>('encomenda')
 const materialStore = usarMaterialStore()
 
 const { form, regras, carregar, podeSalvar, resetar, gerarPayloadPatch, statusPagamentoItems } = useEncomendaForm()
-const { materiaisCodigos, materiaisHeaders, materiaisExibicao, atualizarQuantidade, removerMaterial, selecionarMateriais } = useEncomendaMateriais(form, computed(() => materialStore.materiais))
+const { materiaisCodigos, materiaisHeaders, materiaisExibicao, precoTotal, atualizarQuantidade, removerMaterial, selecionarMateriais } = useEncomendaMateriais(form, computed(() => materialStore.materiais))
 
 const dialogMaterialSelect = ref(false)
 const dialogClienteSelect = ref(false)

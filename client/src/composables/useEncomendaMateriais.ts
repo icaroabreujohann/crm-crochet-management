@@ -77,10 +77,23 @@ export function useEncomendaMateriais(
           { title: '', key: 'acoes', width: '1%' }
      ])
 
+     const precoTotal = computed(() => {
+          const precoMateriais = materiaisExibicao.value.reduce((total, material) => {
+               const preco = Number(material.preco_x_qtd)
+               return total + material.quantidade * preco
+          }, 0)
+
+          return precoMateriais.toLocaleString('pt-BR', {
+               style: 'currency',
+               currency: 'BRL'
+          })
+     })
+
      return {
           materiaisCodigos,
           materiaisHeaders,
           materiaisExibicao,
+          precoTotal,
           atualizarQuantidade,
           removerMaterial,
           selecionarMateriais

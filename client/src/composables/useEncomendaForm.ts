@@ -71,15 +71,6 @@ export function useEncomendaForm() {
           { title: 'Pago', value: 'pago' }
      ]
 
-     const precoTotalMateriais = computed(() => {
-          const materiais = () => {
-               for(let m = 0; m < form.value.materiais.length; m++){
-
-               }
-          }
-     })
-
-
      return {
           form,
           original,

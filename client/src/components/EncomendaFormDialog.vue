@@ -73,31 +73,23 @@
                                    </v-col>
                               </v-row>
                               <v-row>
-                                   <v-col cols="6">
-                                        <p>Forma de Pagamento</p>
-                                        <v-text-field variant="solo-filled" v-model="form.pagamento_forma" />
+                                   <v-col cols="3">
+                                        <p>Status do Pagamento</p>
+                                        <v-select variant="solo-filled" :items="statusPagamentoItems" color="main"
+                                             hide-details v-model="form.status_pagamento">
+                                        </v-select>
                                    </v-col>
-                                   <v-col cols="6">
+                                   <v-col cols="3">
+                                        <p>Forma de Pagamento</p>
+                                        <v-text-field variant="solo-filled" v-model="form.forma_pagamento" />
+                                   </v-col>
+                                   <v-col cols="3">
                                         <p>Local de Entrega</p>
                                         <v-text-field variant="solo-filled" v-model="form.local_entrega" />
                                    </v-col>
-                              </v-row>
-                              <v-row>
-                                   <v-col>
-                                        <v-checkbox color="main" density="compact" hide-details
-                                             v-model="form.pagamento_realizado">
-                                             <template #label>Pagamento Realizado?</template>
-                                        </v-checkbox>
-                                   </v-col>
-                                   <v-col>
+                                   <v-col cols="3" class="d-flex align-center">
                                         <v-checkbox color="main" density="compact" hide-details v-model="form.entregue">
                                              <template #label>Entregue?</template>
-                                        </v-checkbox>
-                                   </v-col>
-                                   <v-col>
-                                        <v-checkbox color="main" density="compact" hide-details
-                                             v-model="form.finalizado">
-                                             <template #label>Finalizado?</template>
                                         </v-checkbox>
                                    </v-col>
                               </v-row>
@@ -108,9 +100,18 @@
                                              v-model="form.observacoes" />
                                    </v-col>
                               </v-row>
+                              <v-row>
+                                   <v-col>
+                                        <v-checkbox color="main" density="compact" hide-details
+                                             v-model="form.finalizado">
+                                             <template #label>Finalizado?</template>
+                                        </v-checkbox>
+                                   </v-col>
+                              </v-row>
                          </v-tabs-window-item>
 
                          <v-tabs-window-item value="material">
+                              <p>Preço Total dos Materiais: </p>
                               <v-data-table :items="materiaisExibicao" :headers="materiaisHeaders">
                                    <template #header.acoes="{ column }">
                                         <v-btn color="main" @click="dialogMaterialSelect = true">Adicionar</v-btn>
@@ -188,7 +189,7 @@ const abaAtiva = ref<AbaEncomenda>('encomenda')
 
 const materialStore = usarMaterialStore()
 
-const { form, regras, carregar, podeSalvar, resetar, gerarPayloadPatch } = useEncomendaForm()
+const { form, regras, carregar, podeSalvar, resetar, gerarPayloadPatch, statusPagamentoItems } = useEncomendaForm()
 const { materiaisCodigos, materiaisHeaders, materiaisExibicao, atualizarQuantidade, removerMaterial, selecionarMateriais } = useEncomendaMateriais(form, computed(() => materialStore.materiais))
 
 const dialogMaterialSelect = ref(false)
@@ -215,6 +216,7 @@ function selecionarProduto(produto: ProdutoView) {
 async function salvar() {
      const formValido = await vFormRef.value?.validate()
      if (!formValido?.valid) return
+     console.log(form.value)
      emit('salvar', modoEditar.value ? gerarPayloadPatch() : { ...form.value })
 }
 
@@ -241,9 +243,9 @@ const nomeProdutoExibicao = computed(() => {
 
 watch(
      () => props.encomenda,
-     (encomenda) => { 
-          carregar(encomenda ?? undefined), 
-          encomendaSemPrazo.value = !encomenda?.data_prazo 
+     (encomenda) => {
+          carregar(encomenda ?? undefined),
+               encomendaSemPrazo.value = !encomenda?.data_prazo
      },
 
      { immediate: true }
@@ -259,7 +261,7 @@ watch(dialog, (aberto) => {
 })
 
 watch(encomendaSemPrazo, (semPrazo) => {
-     if(semPrazo) {
+     if (semPrazo) {
           form.value.data_prazo = null
      }
 })

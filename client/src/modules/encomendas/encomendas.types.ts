@@ -1,3 +1,4 @@
+type StatusPagamento = 'pendente' | 'parcial' | 'pago'
 export interface EncomendaView {
     codigo: string,
     cliente_id: number,
@@ -7,8 +8,8 @@ export interface EncomendaView {
     produto_nome: string,
     preco_final: number,
     observacoes: string,
-    pagamento_realizado: boolean,
-    pagamento_forma: string,
+    status_pagamento: StatusPagamento,
+    forma_pagamento: string,
     finalizado: boolean,
     entregue: boolean,
     local_entrega: string,
@@ -24,8 +25,8 @@ export interface EncomendaForm {
     cliente_id: number,
     produto_codigo: string,
     observacoes: string,
-    pagamento_realizado: boolean,
-    pagamento_forma: string,
+    status_pagamento: StatusPagamento,
+    forma_pagamento: string,
     finalizado: boolean,
     entregue: boolean,
     local_entrega: string,
@@ -37,8 +38,8 @@ export interface EncomendaPayload {
     cliente_id: number,
     produto_codigo: string,
     observacoes: string,
-    pagamento_realizado: boolean,
-    pagamento_forma: string,
+    status_pagamento: StatusPagamento,
+    forma_pagamento: string,
     finalizado: boolean,
     entregue: boolean,
     local_entrega: string,
@@ -52,8 +53,8 @@ export interface EncomendaCriarDTO {
     cliente_id: number,
     produto_codigo: string,
     observacoes?: string,
-    pagamento_realizado?: boolean,
-    pagamento_forma?: string,
+    status_pagamento?: StatusPagamento,
+    forma_pagamento?: string,
     finalizado?: boolean,
     entregue?: boolean,
     local_entrega?: string,
@@ -64,8 +65,8 @@ export interface EncomendaCriarDTO {
 
 export type EncomendaEditarDTO = Partial<{
     observacoes: string,
-    pagamento_realizado: boolean,
-    pagamento_forma: string,
+    status_pagamento: StatusPagamento,
+    forma_pagamento: string,
     finalizado: boolean,
     entregue: boolean,
     local_entrega: string,
@@ -79,8 +80,8 @@ export interface EncomendaCriarDB {
     cliente_id: number,
     produto_id: number,
     observacoes: string,
-    pagamento_realizado: boolean,
-    pagamento_forma: string,
+    status_pagamento: StatusPagamento,
+    forma_pagamento: string,
     finalizado: boolean,
     entregue: boolean,
     local_entrega: string,
@@ -90,8 +91,8 @@ export interface EncomendaCriarDB {
 
 export type EncomendaEditarDB = Partial<{
     observacoes: string,
-    pagamento_realizado: boolean,
-    pagamento_forma: string,
+    status_pagamento: StatusPagamento,
+    forma_pagamento: string,
     finalizado: boolean,
     entregue: boolean,
     local_entrega: string,
@@ -113,5 +114,6 @@ export interface EncomendaMaterialView {
     material_tipo_nome: string
     material_unidade_medida_sigla: string
     quantidade: number
+    preco_x_qtd: number
     preco_final: number
 }

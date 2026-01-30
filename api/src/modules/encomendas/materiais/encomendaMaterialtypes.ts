@@ -8,6 +8,7 @@ export interface EncomendaMaterialView {
      preco_final: number,
      material_unidade_medida_sigla: number
      material_tipo_nome: string,
+     preco_x_qtd: number
 }
 export interface EncomendaMaterialDB {
      id: number,
@@ -15,6 +16,7 @@ export interface EncomendaMaterialDB {
      material_codigo: string,
      material_id: number,
      quantidade: number,
+     preco_x_qtd: number
      preco_final: number
 }
 

@@ -47,14 +47,14 @@ export class EncomendasRepository {
      async criar(data: EncomendaCriarDB): Promise<EncomendaDB | null> {
           console.log(data)
                const [encomenda] = await sql<EncomendaDB[]>`
-                    insert into encomendas(codigo, cliente_id, produto_id, observacoes, pagamento_realizado, pagamento_forma,finalizado, entregue, local_entrega, data_pedido, data_prazo)
+                    insert into encomendas(codigo, cliente_id, produto_id, observacoes, status_pagamento, forma_pagamento,finalizado, entregue, local_entrega, data_pedido, data_prazo)
                     values (
                          ${data.codigo},
                          ${data.cliente_id},
                          ${data.produto_id},
                          ${normalizaTexto(data.observacoes)},
-                         ${data.pagamento_realizado ?? false},
-                         ${normalizaTexto(data.pagamento_forma)},
+                         ${data.status_pagamento ?? false},
+                         ${normalizaTexto(data.forma_pagamento)},
                          ${data.finalizado ?? false},
                          ${data.entregue ?? false},
                          ${normalizaTexto(data.local_entrega)},

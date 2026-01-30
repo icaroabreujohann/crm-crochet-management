@@ -9,8 +9,8 @@ export function useEncomendaForm() {
           cliente_id: 0,
           produto_codigo: '',
           observacoes: '',
-          pagamento_realizado: false,
-          pagamento_forma: '',
+          status_pagamento: 'pendente',
+          forma_pagamento: '',
           finalizado: false,
           entregue: false,
           local_entrega: '',
@@ -37,8 +37,8 @@ export function useEncomendaForm() {
                cliente_id: encomenda.cliente_id,
                produto_codigo: encomenda.produto_codigo,
                observacoes: encomenda.observacoes,
-               pagamento_realizado: encomenda.pagamento_realizado,
-               pagamento_forma: encomenda.pagamento_forma,
+               status_pagamento: encomenda.status_pagamento,
+               forma_pagamento: encomenda.forma_pagamento,
                finalizado: encomenda.finalizado,
                entregue: encomenda.entregue,
                local_entrega: encomenda.local_entrega,
@@ -65,6 +65,21 @@ export function useEncomendaForm() {
           carregar()
      }
 
+     const statusPagamentoItems = [
+          { title: 'Pendente', value: 'pendente' },
+          { title: 'Parcial', value: 'parcial' },
+          { title: 'Pago', value: 'pago' }
+     ]
+
+     const precoTotalMateriais = computed(() => {
+          const materiais = () => {
+               for(let m = 0; m < form.value.materiais.length; m++){
+
+               }
+          }
+     })
+
+
      return {
           form,
           original,
@@ -72,7 +87,8 @@ export function useEncomendaForm() {
           carregar,
           podeSalvar,
           resetar,
-          gerarPayloadPatch
+          gerarPayloadPatch,
+          statusPagamentoItems
      }
 
 }

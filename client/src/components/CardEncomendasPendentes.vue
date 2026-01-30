@@ -3,7 +3,7 @@
           <div>
                <div class="d-flex align-center">
                     <HugeiconsIcon class="text-light" :icon="ShoppingCart02Icon" />
-                    <h2 class="ml-2">Encomendas Pendentes</h2>
+                    <h2 class="ml-2">Entregas do Mês</h2>
                </div>
                <div class="d-flex align-center justify-space-between mt-5">
                     <h2 class="f-regular">{{ tituloMes.mes }}, {{ tituloMes.ano }}</h2>
@@ -16,7 +16,10 @@
                          </v-btn>
                     </div>
                </div>
-               <p class="mt-5">Você tem <b>{{ encomendasDoMes.length }}</b> encomendas neste mês</p>
+               <p class="mt-5">Você tem <b>{{ encomendasDoMes.length }}</b> entregas neste mês</p>
+
+               <h3>Há {{ encomendasAtrasadas.length }} encomendas atrasadas</h3>
+
           </div>
 
           <v-list class="mt-5" height="450">
@@ -124,6 +127,24 @@ const encomendasDoMes = computed(() => {
                const dataB = new Date(b.data_prazo!).getTime()
                return dataA - dataB // crescente
           })
+})
+
+const encomendasAtrasadas = computed(() => {
+     const inicioMesAtual = new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          1
+     )
+     return props.encomendas.filter(e => {
+          if (!e.data_prazo) return false
+
+          const data = new Date(e.data_prazo)
+
+          return (
+               data < inicioMesAtual &&
+               !e.finalizado
+          )
+     })
 })
 
 function proximoMes() {

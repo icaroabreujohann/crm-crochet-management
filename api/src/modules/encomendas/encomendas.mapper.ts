@@ -13,8 +13,8 @@ export const mapEncomendaCriarDTOParaDB = (
      produto_id,
 
      observacoes: data.observacoes ?? '',
-     pagamento_realizado: data.pagamento_realizado ?? false,
-     pagamento_forma: data.pagamento_forma ?? '',
+     status_pagamento: data.status_pagamento ?? 'pendente',
+     forma_pagamento: data.forma_pagamento ?? '',
      finalizado: data.finalizado ?? false,
      entregue: data.entregue ?? false,
      local_entrega: data.local_entrega ?? '',
@@ -33,12 +33,12 @@ export const mapEncomendaEditarDTOParaDB = (
           resultado.observacoes = normalizaTexto(data.observacoes) ?? ''
      }
 
-     if (data.pagamento_realizado !== undefined) {
-          resultado.pagamento_realizado = data.pagamento_realizado
+     if (data.status_pagamento !== undefined) {
+          resultado.status_pagamento = data.status_pagamento
      }
 
-     if (data.pagamento_forma !== undefined) {
-          resultado.pagamento_forma = normalizaTexto(data.pagamento_forma) ?? ''
+     if (data.forma_pagamento !== undefined) {
+          resultado.forma_pagamento = normalizaTexto(data.forma_pagamento) ?? ''
      }
 
      if (data.finalizado !== undefined) {

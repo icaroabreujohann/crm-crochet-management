@@ -83,10 +83,12 @@ export function useProdutoMateriais(
                return total + material.quantidade * preco
           }, 0)
 
-          return precoMateriais.toLocaleString('pt-BR', {
+          const precoTotalFormatado = precoMateriais.toLocaleString('pt-BR', {
                style: 'currency',
                currency: 'BRL'
           })
+
+          return {preco: precoMateriais, preco_formatado: precoTotalFormatado}
      })
 
      return {

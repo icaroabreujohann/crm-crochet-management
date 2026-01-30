@@ -102,9 +102,42 @@
                                         </v-card>
                                    </v-col>
                               </v-row>
+                              <v-row class="mt-n10">
+                                   <v-col cols="4">
+                                        <div class="pa-5">
+                                             <div class="d-flex align-center mb-1">
+                                                  <HugeiconsIcon :size="16" :stroke-width="2" class="text-light mr-1"
+                                                       :icon="MoneyBag02Icon" />
+                                                  <p>Preço</p>
+                                             </div>
+                                             <h1>R${{ form.preco }}</h1>
+                                        </div>
+                                   </v-col>
+                                   <v-col cols="4">
+                                        <div class="pa-5">
+                                             <div class="d-flex align-center mb-1">
+                                                  <HugeiconsIcon :size="16" :stroke-width="2" class="text-light mr-1"
+                                                       :icon="PackageMoving01Icon" />
+                                                  <p>Total em Materiais</p>
+                                             </div>
+                                             <h1>{{ precoTotal.preco_formatado }}</h1>
+                                        </div>
+                                   </v-col>
+                                   <v-col cols="4">
+                                        <div class="pa-5">
+                                             <div class="d-flex align-center mb-1">
+                                                  <HugeiconsIcon :size="16" :stroke-width="2" class="text-light mr-1"
+                                                       :icon="ChartUpIcon" />
+                                                  <p>Lucro Final</p>
+                                             </div>
+                                             <h1>{{ calcularLucro }}</h1>
+                                        </div>
+                                   </v-col>
+                              </v-row>
                          </v-tabs-window-item>
 
                          <v-tabs-window-item value="tabMaterial">
+                              <p class="my-2">Total em Materiais: {{ precoTotal.preco_formatado }}</p>
                               <v-data-table :items="materiaisExibicao" :headers="materiaisHeaders">
                                    <template #header.acoes="{ column }">
                                         <v-btn color="main" @click="dialogMaterialSelect = true">Adicionar</v-btn>
@@ -149,7 +182,11 @@ import {
      ImageDelete01Icon,
      Delete02Icon,
      CancelCircleIcon,
-     PencilEdit02Icon
+     PencilEdit02Icon,
+     Wallet01Icon,
+     MoneyBag02Icon,
+     PackageMoving01Icon,
+     ChartUpIcon
 } from '@hugeicons/core-free-icons'
 import ConfirmaExclusao from './common/ConfirmaExclusao.vue'
 
@@ -179,8 +216,17 @@ const dialog = computed({
 const modoEditar = computed(() => !!props.produto)
 const materialStore = usarMaterialStore()
 
+const calcularLucro = computed<string>(() => {
+     const lucro = form.value.preco - Number(precoTotal.value.preco)
+
+     return lucro.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+     })
+})
+
 const { form, podeSalvar, regras, carregar, gerarPayloadPatch, resetar, removerFoto } = useProdutoForm()
-const { materiaisCodigos, materiaisHeaders, materiaisExibicao, atualizarQuantidade, removerMaterial, selecionarMateriais } = useProdutoMateriais(form, computed(() => materialStore.materiais))
+const { materiaisCodigos, materiaisHeaders, materiaisExibicao, precoTotal, atualizarQuantidade, removerMaterial, selecionarMateriais } = useProdutoMateriais(form, computed(() => materialStore.materiais))
 
 const vFormRef = ref<VForm>()
 

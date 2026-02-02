@@ -121,6 +121,8 @@ import { usarClienteStore } from '@/stores/clientes.store';
 import { usarProdutoStore } from '@/stores/produtos.store';
 import { formatarDataBR, formatarDataDDMMYYYY } from '@/utils/formataData';
 import { useRouter, useRoute } from 'vue-router';
+import { usarEncomendaStore } from '@/stores/encomendas.store';
+import { storeToRefs } from 'pinia';
 
 const router = useRouter()
 const route = useRoute()
@@ -128,8 +130,9 @@ const route = useRoute()
 const feedback = usarFeedbackStore()
 const clienteStore = usarClienteStore()
 const produtoStore = usarProdutoStore()
+const encomendaStore = usarEncomendaStore()
 
-const encomendas = ref<EncomendaView[]>([])
+const { encomendas } = storeToRefs(encomendaStore)
 const encomendaSelecionada = ref<EncomendaView | null>(null)
 
 
@@ -166,8 +169,7 @@ const encomendasFiltradas = computed(() => {
 
 
 async function listarEncomendas() {
-     const response = await EncomendasServices.listar()
-     encomendas.value = response
+     encomendaStore.buscaEncomendas()
 }
 
 function abrirCriar() {
@@ -182,17 +184,15 @@ async function abrirEditar(encomenda_codigo: string) {
 }
 
 async function salvarEncomenda(encomenda: Partial<EncomendaForm>) {
-     await EncomendasServices.salvar(encomenda)
+     await encomendaStore.salvarEncomenda(encomenda)
      dialogEncomendaForm.value = false
      feedback.sucesso('Encomenda criada/editada com sucesso.')
-     await listarEncomendas()
 }
 
 async function excluirEncomenda(codigo: string) {
-     await EncomendasServices.excluir(codigo)
+     await encomendaStore.excluirEncomenda(codigo)
      dialogEncomendaForm.value = false
      feedback.sucesso('Encomenda excluida com sucesso')
-     await listarEncomendas()
 }
 
 watch(

@@ -1,5 +1,5 @@
 import { EncomendasServices } from "@/modules/encomendas/encomendas.services";
-import type { EncomendaView } from "@/modules/encomendas/encomendas.types";
+import type { EncomendaForm, EncomendaView } from "@/modules/encomendas/encomendas.types";
 import { defineStore } from "pinia";
 
 
@@ -12,18 +12,30 @@ interface EncomendaStore {
 export const usarEncomendaStore = defineStore('encomendas', {
      state: (): EncomendaStore => ({
           encomendas: [],
-          carregando: true,
+          carregando: false,
           carregado: false
      }),
 
      actions: {
-          async buscaEncomendas() {
-               if(this.carregado) return
+          async buscaEncomendas(forcar: boolean = false) {
+               if (this.carregado && !forcar) return
 
                this.carregando = true
-               this.encomendas = await EncomendasServices.listar()
+               const lista = await EncomendasServices.listar()
+               this.encomendas = [...lista]
                this.carregando = false
                this.carregado = true
+          },
+
+          async salvarEncomenda(form: Partial<EncomendaForm>) {
+               await EncomendasServices.salvar(form)
+               await this.buscaEncomendas(true)
+          },
+
+          async excluirEncomenda(codigo: string) {
+               await EncomendasServices.excluir(codigo)
+               this.buscaEncomendas(true)
           }
+
      }
 })

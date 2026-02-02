@@ -6,3 +6,10 @@ export interface EncomendasResumoMensal {
      diff_mes_anterior: number,
      perc_mes_anterior: number
 }
+
+export interface EncomendasFaturamentoMensal {
+     periodo: string,
+     faturamento: number,
+     custo: number,
+     lucro: number
+}

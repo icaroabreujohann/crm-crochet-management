@@ -5,7 +5,9 @@
                <h1 class="ml-2">Início</h1>
           </header>
           <v-row dense>
-               <v-col cols="12" md="6" lg="8"></v-col>
+               <v-col cols="12" md="6" lg="8">
+                    <CardEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal" :dados="dadosEncomendasFaturamentoMensal"/>
+               </v-col>
                <v-col cols="12" md="6" lg="4">
                     <CardEncomendasPendentes v-if="encomendas" :encomendas="encomendas" />
                </v-col>
@@ -21,6 +23,10 @@ import { usarProdutoStore } from '@/stores/produtos.store';
 import { usarEncomendaStore } from '@/stores/encomendas.store';
 import { computed, onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import type { EncomendasFaturamentoMensal } from '@/modules/relatorios/relatorios.types';
+import { RelatoriosServices } from '../modules/relatorios/relatorios.services';
+import CardEncomendasFaturamento from '@/components/CardEncomendasFaturamento.vue';
+import CardEncomendasPendentes from '@/components/CardEncomendasPendentes.vue';
 
 const clienteStore = usarClienteStore()
 const produtoStore = usarProdutoStore()
@@ -30,10 +36,18 @@ const clientes = storeToRefs(clienteStore)
 const produtos = storeToRefs(produtoStore)
 const { encomendas } = storeToRefs(encomendaStore)
 
+const dadosEncomendasFaturamentoMensal = ref<EncomendasFaturamentoMensal[] | null>(null)
+
+async function listarRelatorios() {
+     const encomendasFaturamentoMensal = await RelatoriosServices.listarEncomendasFaturamentoMensal()
+     dadosEncomendasFaturamentoMensal.value = encomendasFaturamentoMensal
+}
+
 onMounted(() => {
      clienteStore.buscaClientes()
      produtoStore.buscaProdutos()
      encomendaStore.buscaEncomendas()
+     listarRelatorios()
 })
 
 

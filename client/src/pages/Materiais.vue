@@ -24,6 +24,9 @@
           <template v-slot:item.preco_x_qtd="{ item }">
                <p>R$ {{ item.preco_x_qtd }}</p>
           </template>
+          <template #item.data_alteracao="{item}">
+               <p>{{ formatarDataHoraBR(item.data_alteracao) }}</p>
+          </template>
           <template #item.acoes="{ item }">
                <MenuAcoes @editar="abrirEditar(item)" @excluir="abrirExcluir(item)" />
           </template>
@@ -86,11 +89,6 @@ const dialogConfirmaExclusao = ref(false)
 
 async function listarMateriais() {
      await materialStore.buscarMateriais()
-     materiais.value = materiais.value.map(mat => ({
-          ...mat,
-          data_alteracao: String(formatarDataHoraBR(mat.data_alteracao)),
-          data_criacao: String(formatarDataHoraBR(mat.data_criacao)),
-     }))
 }
 
 async function salvarMaterial(form: MaterialForm) {

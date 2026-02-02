@@ -1,5 +1,5 @@
 import { ClientesServices } from "@/modules/clientes/clientes.services";
-import type { Cliente } from "@/modules/clientes/clientes.types";
+import type { Cliente, ClienteForm } from "@/modules/clientes/clientes.types";
 import { defineStore } from "pinia";
 
 
@@ -17,13 +17,24 @@ export const usarClienteStore = defineStore('clientes', {
      }),
 
      actions: {
-          async buscaClientes() {
-               if(this.carregado) return
+          async buscaClientes(forcar: boolean = false) {
+               if(this.carregado && !forcar) return
 
                this.carregando = true
-               this.clientes = await ClientesServices.listar()
+               const lista = await ClientesServices.listar()
+               this.clientes = [...lista]
                this.carregando = false
                this.carregado = true
+          },
+
+          async salvarCliente(form: ClienteForm) {
+               await ClientesServices.salvar(form)
+               await this.buscaClientes(true)
+          },
+
+          async excluirCliente(id: number) {
+               await ClientesServices.excluir(id)
+               await this.buscaClientes(true)
           }
      }
 })

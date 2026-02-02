@@ -18,6 +18,9 @@
           <template #item.acoes="{ item }">
                <MenuAcoes @editar="abrirEditar(item)" @excluir="abrirExcluir(item)" />
           </template>
+          <template #item.data_atualizacao="{item}">
+               <p>{{ formatarDataHoraBR(item.data_atualizacao) }}</p>
+          </template>
      </v-data-table>
 
      <ClienteFormDialog v-model="dialogFormCliente" :cliente="clienteSelecionado" @salvo="salvarCliente" />
@@ -31,7 +34,6 @@ import { onMounted, ref, computed } from 'vue'
 import { usarFeedbackStore } from '@/stores/feedbacks.store'
 
 import { type Cliente, type ClienteForm } from '@/modules/clientes/clientes.types'
-import { ClientesServices } from '@/modules/clientes/clientes.services'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
 import { Search02Icon } from '@hugeicons/core-free-icons'
@@ -40,10 +42,13 @@ import ClienteFormDialog from '@/components/ClienteFormDialog.vue'
 import ConfirmaExclusao from '@/components/common/ConfirmaExclusao.vue'
 import MenuAcoes from '@/components/common/MenuAcoes.vue'
 import { formatarDataHoraBR } from '@/utils/formataData'
+import { usarClienteStore } from '@/stores/clientes.store'
+import { storeToRefs } from 'pinia'
 
 const feedback = usarFeedbackStore()
+const clienteStore = usarClienteStore()
 
-const clientes = ref<Cliente[]>([])
+const { clientes } = storeToRefs(clienteStore)
 const clienteSelecionado = ref<Cliente | null>(null)
 const clientesHeaders = [
      { title: 'Nome', value: 'nome', sortable: true },
@@ -70,16 +75,11 @@ const dialogConfirmaExclusao = ref(false)
 const filtroClientes = ref('')
 
 async function listarClientes() {
-     const response = await ClientesServices.listar()
-     clientes.value = response.map(cliente => ({
-          ...cliente,
-          data_atualizacao: formatarDataHoraBR(cliente.data_atualizacao)
-     }))
+     await clienteStore.buscaClientes()
 }
 
 async function salvarCliente(form: ClienteForm) {
-     await ClientesServices.salvar(form)
-     listarClientes()
+     await clienteStore.salvarCliente(form)
      dialogFormCliente.value = false
      clienteSelecionado.value = null
      feedback.sucesso('Cliente criado com sucesso')
@@ -87,14 +87,10 @@ async function salvarCliente(form: ClienteForm) {
 
 async function excluirCliente(identificador: number | string) {
      const id = Number(identificador)
-
      if (!Number.isInteger(id)) {
           throw new Error('ID inválido para cliente')
      }
-
-
-     await ClientesServices.excluir(id)
-     listarClientes()
+     await clienteStore.excluirCliente(id)
      dialogConfirmaExclusao.value = false
      clienteSelecionado.value = null
      feedback.sucesso('Cliente excluido com sucesso')

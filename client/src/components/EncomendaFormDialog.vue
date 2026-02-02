@@ -153,7 +153,7 @@
 import { useEncomendaForm } from '@/composables/useEncomendaForm';
 import type { EncomendaCriarDTO, EncomendaForm, EncomendaView } from '@/modules/encomendas/encomendas.types';
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { CancelCircleIcon, Delete02Icon, PackageIcon, PencilEdit02Icon, ShoppingCart02Icon, Tag01Icon } from '@hugeicons/core-free-icons';
+import { CancelCircleIcon, ChartUpIcon, Delete02Icon, MoneyBag02Icon, PackageIcon, PackageMoving01Icon, PencilEdit02Icon, ShoppingCart02Icon, Tag01Icon } from '@hugeicons/core-free-icons';
 import { computed, ref, watch } from 'vue';
 import ClienteSelectDialog from './ClienteSelectDialog.vue';
 import type { VForm } from 'vuetify/components';

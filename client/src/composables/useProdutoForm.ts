@@ -24,7 +24,8 @@ export function useProdutoForm() {
 
      async function carregar(produto?: ProdutoView) {
           if (!produto) {
-               form.value = { ...defaultForm }
+               form.value = structuredClone(defaultForm)
+               original.value = structuredClone(defaultForm)
                return
           }
 

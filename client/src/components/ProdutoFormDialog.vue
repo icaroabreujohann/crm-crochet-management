@@ -102,7 +102,7 @@
                                         </v-card>
                                    </v-col>
                               </v-row>
-                              <v-row class="mt-n10">
+                              <v-row class="mt-n5">
                                    <v-col cols="4">
                                         <div class="pa-5">
                                              <div class="d-flex align-center mb-1">

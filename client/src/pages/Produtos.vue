@@ -14,7 +14,7 @@
           </div>
      </div>
      <v-row class="mt-10">
-          <v-col cols="12" xl="4" lg="6" v-for="(produto, index) in produtosFiltrados" :key="produto.codigo">
+          <v-col v-if="produtos.length > 0" cols="12" xl="4" lg="6" v-for="(produto, index) in produtosFiltrados" :key="produto.codigo">
                <v-card class="pa-5" @click="abrirEditar(produto)">
                     <div class="d-flex">
                          <div class="mr-3">
@@ -54,6 +54,12 @@
                     </div>
                </v-card>
           </v-col>
+          <v-col cols="12" v-if="produtos.length == 0">
+               <v-card class="pa-10 d-flex align-center justify-center flex-column">
+                    <HugeiconsIcon :stroke-width="1" class="opacity-20" :size="150" :icon="Sad01Icon" />
+                    <h2 class="f-regular text-black opacity-30 mt-5 text-center">Ainda não há nenhum <br> produto cadastrado</h2>
+               </v-card>
+          </v-col>
      </v-row>
 
      <ProdutoFormDialog @excluir="excluirProduto" v-model="dialogProdutoForm" @salvo="salvarProduto"
@@ -67,7 +73,7 @@ import { computed, onMounted, ref } from 'vue';
 import { usarFeedbackStore } from '@/stores/feedbacks.store';
 
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { ImageDelete01Icon, QrCode01Icon, Search02Icon } from '@hugeicons/core-free-icons';
+import { ImageDelete01Icon, QrCode01Icon, Sad01Icon, Search02Icon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
 import { api } from '@/plugins/api';

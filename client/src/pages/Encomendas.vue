@@ -35,8 +35,8 @@
                          v-model="filtroEntregue" hide-details />
                </v-col>
                <v-col cols="2">
-                    <p>Pago?</p>
-                    <v-select variant="solo-filled" :items="filtrosBooleanos" item-title="title" item-value="value"
+                    <p>Stauts Pagamento</p>
+                    <v-select variant="solo-filled" :items="filtrosStatusPagamento" item-title="title" item-value="value"
                          v-model="filtroPago" hide-details />
                </v-col>
                <v-col cols="2">
@@ -48,7 +48,7 @@
      </div>
 
      <v-row class="mt-5">
-          <v-col cols="12" xl="4" lg="6" v-for="e in encomendasFiltradas" :key="e.codigo">
+          <v-col v-if="encomendas.length > 0" cols="12" xl="4" lg="6" v-for="e in encomendasFiltradas" :key="e.codigo">
                <v-card class="pa-5" @click="abrirEditar(e.codigo)" :class="e.finalizado ? 'encomendaFinalizada' : ''">
                     <div class="d-flex">
                          <div class="mr-3">
@@ -94,6 +94,14 @@
                     </div>
                </v-card>
           </v-col>
+          <v-col cols="12" v-if="encomendas.length == 0">
+               <v-card class="pa-10 d-flex align-center justify-center flex-column">
+                    <HugeiconsIcon :stroke-width="1" class="opacity-20" :size="150" :icon="Sad01Icon" />
+                    <h2 class="f-regular text-black opacity-30 mt-5 text-center">Ainda não há nenhuma <br> encomenda
+                         cadastrada
+                    </h2>
+               </v-card>
+          </v-col>
      </v-row>
 
      <EncomendaFormDialog v-model="dialogEncomendaForm" :encomenda="encomendaSelecionada" @salvar="salvarEncomenda"
@@ -102,7 +110,7 @@
 
 <script setup lang="ts">
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { ArrowDown01Icon, ArrowRight01Icon, CircleArrowDown01Icon, CircleArrowDown02Icon, CircleArrowRight01Icon, FilterIcon, ImageDelete01Icon, QrCode01Icon, Search02Icon, ShoppingCart02Icon, Tag01Icon, UserCircleIcon } from '@hugeicons/core-free-icons'
+import { ArrowDown01Icon, ArrowRight01Icon, CircleArrowDown01Icon, CircleArrowDown02Icon, CircleArrowRight01Icon, FilterIcon, ImageDelete01Icon, QrCode01Icon, Sad01Icon, Search02Icon, ShoppingCart02Icon, Tag01Icon, UserCircleIcon } from '@hugeicons/core-free-icons'
 import { ref, onMounted, computed, watch } from 'vue';
 import type { EncomendaForm, EncomendaView } from '@/modules/encomendas/encomendas.types';
 import { EncomendasServices } from '@/modules/encomendas/encomendas.services';
@@ -133,10 +141,16 @@ const filtrosBooleanos = [
      { title: 'Não', value: false },
      { title: 'Todos', value: null },
 ]
+
+const filtrosStatusPagamento = [
+     { title: 'Pendente', value: 'pendente' },
+     { title: 'Parcial', value: 'parcial' },
+     { title: 'Pago', value: 'pago' }
+]
 const clienteSelecionado = ref<number | null>(null)
 const produtoSelecionado = ref<string | null>(null)
 const filtroEntregue = ref<boolean | null>(null)
-const filtroPago = ref<boolean | null>(null)
+const filtroPago = ref<string>('pendente')
 const filtroFinalizado = ref<boolean | null>(null)
 
 const encomendasFiltradas = computed(() => {
@@ -144,7 +158,7 @@ const encomendasFiltradas = computed(() => {
           if (clienteSelecionado.value && e.cliente_id !== clienteSelecionado.value) return false
           if (produtoSelecionado.value && e.produto_codigo !== produtoSelecionado.value) return false
           if (filtroEntregue.value !== null && e.entregue !== filtroEntregue.value) return false
-          if (filtroPago.value !== null && e.pagamento_realizado !== filtroPago.value) return false
+          if (filtroPago.value !== null && e.status_pagamento !== filtroPago.value) return false
           if (filtroFinalizado.value !== null && e.finalizado !== filtroFinalizado.value) return false
           return true
      })

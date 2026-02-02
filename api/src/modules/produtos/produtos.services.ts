@@ -5,20 +5,23 @@ import { ProdutosRepository } from './produtos.repository'
 import { PRODUTOS_DIR, PRODUTOS_DIR_API } from '../../infra/upload/paths'
 import { editarFotosProduto as editarFotosProdutoFS, salvarFotosProduto } from '../../infra/upload/produtos.salvarfotos'
 import { excluirPasta } from '../../infra/filesystem/excluir-pasta'
-import { assertResultadoExiste } from '../../shared/asserts/assertResultadoBusca'
+import { assertResultadoExiste, assertResultadoNaoExiste } from '../../shared/asserts/assertResultadoBusca'
 import { ProdutoMaterialRepository } from './materiais/produtoMaterial.repository'
 import { FotoWEBP } from '../../infra/filesystem/converte-fotos'
 import { mapCriarProdutoDTOParaDB, mapEditarProdutoDTOparaDB, mapProdutoDBParaView } from './produtos.mapper'
 import { ProdutoMaterialService } from './materiais/produtoMaterial.services'
 import { assertPersistencia } from '../../shared/asserts/assertPersistencia'
 import { ProdutoMaterialCriarDTO } from './materiais/produtoMaterial.types'
+import { EncomendasServices } from '../encomendas/encomendas.services'
+import { EncomendasRepository } from '../encomendas/encomendas.repository'
 
 
 export class ProdutosService {
      constructor(
           private repository = new ProdutosRepository(),
           private repositoryMateriais = new ProdutoMaterialRepository(),
-          private servicesMateriais = new ProdutoMaterialService()
+          private servicesMateriais = new ProdutoMaterialService(),
+          private repositoryEncomendas = new EncomendasRepository()
      ) { }
 
      private async gerarCodigoProdutoUnico(): Promise<string> {
@@ -124,11 +127,14 @@ export class ProdutosService {
           const produto = await this.repository.listarProdutoPorCodigo(codigo)
           assertResultadoExiste(produto, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, codigo)
 
+          const existeEncomendaComProduto = await this.repositoryEncomendas.listarPorProduto(produto.data.id)
+          assertResultadoNaoExiste(existeEncomendaComProduto, CODIGOS_ERRO.PRODUTO_EXISTE_ENCOMENDA, codigo)
+          
+          await this.excluirMateriaisDoProduto(produto.data.id)
           
           const produtoExcluido = await this.repository.excluir(produto.data.id)
           assertPersistencia(produtoExcluido, CODIGOS_ERRO.PRODUTO_EXCLUIR_ERR)
           
-          await this.excluirMateriaisDoProduto(produto.data.id)
 
           await excluirPasta(PRODUTOS_DIR, codigo)
 

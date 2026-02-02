@@ -25,7 +25,17 @@ export class EncomendasRepository {
                order by em.data_pedido desc
           `
      }
-     
+
+     async listarPorProduto(produto_id: number): Promise<ResultadoBusca<EncomendaView[]>> {
+          const encomendas = await sql<EncomendaView[]>`
+               ${this.selectEncomendaView}
+               where em.produto_id = ${produto_id}
+          `
+
+          return encomendas.length > 0
+               ? resultadoEncontrado(encomendas)
+               : resultadoInexistente()
+     }
 
      async listarPorId(id: number): Promise<ResultadoBusca<EncomendaView>> {
           const [encomenda] = await sql<EncomendaView[]>`
@@ -47,7 +57,7 @@ export class EncomendasRepository {
 
      async criar(data: EncomendaCriarDB): Promise<EncomendaDB | null> {
           console.log(data)
-               const [encomenda] = await sql<EncomendaDB[]>`
+          const [encomenda] = await sql<EncomendaDB[]>`
                     insert into encomendas(codigo, cliente_id, produto_id, observacoes, status_pagamento, forma_pagamento,finalizado, entregue, local_entrega, data_pedido, data_prazo)
                     values (
                          ${data.codigo},

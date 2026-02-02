@@ -9,9 +9,16 @@ export interface EncomendasResumoMensal {
      perc_mes_anterior: number
 }
 
-export class EncomendasResumoMensalRepository {
-          async listar(): Promise<EncomendasResumoMensal[]> {
-               const relatorio = sql<EncomendasResumoMensal[]>`
+export interface EncomendasLucroMensal {
+     periodo: string,
+     faturamento: number,
+     custo: number,
+     lucro: number
+}
+
+export class EncomendasMensalRepository {
+     async listarResumo(): Promise<EncomendasResumoMensal[]> {
+          const relatorio = await sql<EncomendasResumoMensal[]>`
                     with base as (
                     select
                          date_trunc('month', e.data_pedido) as mes,
@@ -38,6 +45,48 @@ export class EncomendasResumoMensalRepository {
                     from base
                     order by mes
                `
-               return relatorio
-          }
+          return relatorio
+     }
+
+     async listarFaturamento(): Promise<EncomendasLucroMensal[]> {
+          const relatorio = await sql<EncomendasLucroMensal[]> `
+               with faturamento as (
+               select
+                    date_trunc('month', e.data_prazo)::date as periodo,
+                    sum(p.preco) as faturamento
+               from encomendas e
+               join produtos p
+                    on p.id = e.produto_id
+               where 
+                         e.data_prazo is not null 
+                    and  e.finalizado = true
+               group by
+                    date_trunc('month', e.data_prazo)::date
+               ),
+               custo as (
+               select
+                    date_trunc('month', e.data_prazo)::date as periodo,
+                    coalesce(sum(em.preco_final), 0) as custo
+               from encomendas e
+               left join encomendas_materiais em
+                    on em.encomenda_id = e.id
+               where 
+                         e.data_prazo is not null 
+                    and  e.finalizado = true
+               group by
+                    date_trunc('month', e.data_prazo)::date
+               )
+               select
+                    f.periodo,
+                    f.faturamento,
+                    g.custo,
+                    f.faturamento - g.custo as lucro
+               from faturamento f
+               left join custo g
+                    on g.periodo = f.periodo
+               order by
+                    f.periodo
+               `
+          return relatorio
+     }
 }

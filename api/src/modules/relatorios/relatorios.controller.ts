@@ -6,10 +6,15 @@ import { RelatoriosServices } from "./relatorios.services";
 export class RelatoriosController {
      constructor(
           private services = new RelatoriosServices()
-     ){}
+     ) { }
 
      listarEncomendasResumoMensal = async (req: Request, res: Response) => {
           const relatorio = await this.services.listarEncomendasResumoMensal()
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.RELATORIO_LISTAR_SUCESS, relatorio)
+     }
+
+     listarEncomendasFaturamentoMensal = async (req: Request, res: Response) => {
+          const relatorio = await this.services.listarEncomendasFaturamentoMensal()
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.RELATORIO_LISTAR_SUCESS, relatorio)
      }
 }

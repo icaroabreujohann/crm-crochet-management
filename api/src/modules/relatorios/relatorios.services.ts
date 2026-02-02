@@ -1,11 +1,15 @@
-import { EncomendasResumoMensalRepository } from "./encomendas/encomendas.mensal.repository";
+import { EncomendasMensalRepository } from "./encomendas/encomendas.mensal.repository";
 
 export class RelatoriosServices {
      constructor(
-          private encomendasResumoMensal = new EncomendasResumoMensalRepository()
+          private encomendasMensal = new EncomendasMensalRepository
      ){}
 
      async listarEncomendasResumoMensal(){
-          return await this.encomendasResumoMensal.listar()
+          return await this.encomendasMensal.listarResumo()
+     }
+
+     async listarEncomendasFaturamentoMensal() {
+          return await this.encomendasMensal.listarFaturamento()
      }
 }

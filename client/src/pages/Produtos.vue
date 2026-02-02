@@ -14,7 +14,8 @@
           </div>
      </div>
      <v-row class="mt-10">
-          <v-col v-if="produtos.length > 0" cols="12" xl="4" lg="6" v-for="(produto, index) in produtosFiltrados" :key="produto.codigo">
+          <v-col v-if="produtos.length > 0" cols="12" xl="4" lg="6" v-for="(produto, index) in produtosFiltrados"
+               :key="produto.codigo">
                <v-card class="pa-5" @click="abrirEditar(produto)">
                     <div class="d-flex">
                          <div class="mr-3">
@@ -57,7 +58,9 @@
           <v-col cols="12" v-if="produtos.length == 0">
                <v-card class="pa-10 d-flex align-center justify-center flex-column">
                     <HugeiconsIcon :stroke-width="1" class="opacity-20" :size="150" :icon="Sad01Icon" />
-                    <h2 class="f-regular text-black opacity-30 mt-5 text-center">Ainda não há nenhum <br> produto cadastrado</h2>
+                    <h2 class="f-regular text-black opacity-30 mt-5 text-center">Ainda não há nenhum <br> produto
+                         cadastrado
+                    </h2>
                </v-card>
           </v-col>
      </v-row>
@@ -67,7 +70,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ProdutosServices } from '@/modules/produtos/produtos.services';
 import type { ProdutoView, ProdutoForm } from '@/modules/produtos/produtos.types';
 import { computed, onMounted, ref } from 'vue';
 import { usarFeedbackStore } from '@/stores/feedbacks.store';
@@ -78,15 +80,18 @@ import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
 import { api } from '@/plugins/api';
 import { normalizarTextoBusca } from '@/utils/normalizarTextoBusca';
+import { storeToRefs } from 'pinia';
+import { usarProdutoStore } from '@/stores/produtos.store';
 
 const feedback = usarFeedbackStore()
 
-const produtos = ref<ProdutoView[]>([])
+const produtoStore = usarProdutoStore()
+const { produtos } = storeToRefs(produtoStore)
 const produtoSelecionado = ref<ProdutoView | null>(null)
 
 const filtroProdutos = ref<string>('')
 const produtosFiltrados = computed(() => {
-     if(!filtroProdutos.value || filtroProdutos.value == '') return produtos.value
+     if (!filtroProdutos.value || filtroProdutos.value == '') return produtos.value
 
      const termos = normalizarTextoBusca(filtroProdutos.value).split(/\s+/)
 
@@ -99,20 +104,17 @@ const produtosFiltrados = computed(() => {
 const dialogProdutoForm = ref(false)
 
 async function listarProdutos() {
-     const response = await ProdutosServices.listar()
-     produtos.value = response
+     await produtoStore.buscaProdutos()
 }
 
 async function salvarProduto(produto: Partial<ProdutoForm>) {
-     await ProdutosServices.salvar(produto)
+     await produtoStore.salvarProduto(produto)
      dialogProdutoForm.value = false
      feedback.sucesso('Produto criado/editado com sucesso')
-     await listarProdutos()
 }
 
 async function excluirProduto(codigo: string | number) {
-     await ProdutosServices.excluir(String(codigo))
-     await listarProdutos()
+     await produtoStore.excluirProduto(String(codigo))
      dialogProdutoForm.value = false
      feedback.sucesso('Produto excluído com sucesso')
 }
@@ -123,7 +125,7 @@ function abrirCriar() {
 }
 
 async function abrirEditar(produto: ProdutoView) {
-     const produtoCompleto = await ProdutosServices.listarPorCodigo(produto.codigo)
+     const produtoCompleto = await produtoStore.listarProdutoPorCodigo(produto.codigo)
      produtoSelecionado.value = produtoCompleto
      dialogProdutoForm.value = true
 }

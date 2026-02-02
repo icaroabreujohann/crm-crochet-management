@@ -1,5 +1,5 @@
 import { ProdutosServices } from "@/modules/produtos/produtos.services";
-import type { ProdutoView } from "@/modules/produtos/produtos.types";
+import type { ProdutoForm, ProdutoView } from "@/modules/produtos/produtos.types";
 import { defineStore } from "pinia";
 
 
@@ -12,18 +12,33 @@ interface ProdutoStore {
 export const usarProdutoStore = defineStore('produtos', {
      state: (): ProdutoStore => ({
           produtos: [],
-          carregando: true,
+          carregando: false,
           carregado: false
      }),
 
      actions: {
-          async buscaProdutos() {
-               if(this.carregado) return
+          async buscaProdutos(forcar: boolean = false) {
+               if(this.carregado && !forcar) return
 
                this.carregando = true
-               this.produtos = await ProdutosServices.listar()
+               const lista = await ProdutosServices.listar()
+               this.produtos = [...lista]
                this.carregando = false
                this.carregado = true
+          },
+
+          async listarProdutoPorCodigo(codigo: string) {
+               return await ProdutosServices.listarPorCodigo(codigo)
+          },
+
+          async salvarProduto(form: Partial<ProdutoForm>) {
+               await ProdutosServices.salvar(form)
+               await this.buscaProdutos(true)
+          },
+
+          async excluirProduto(codigo: string) {
+               await ProdutosServices.excluir(codigo)
+               await this.buscaProdutos(true)
           }
      }
 })

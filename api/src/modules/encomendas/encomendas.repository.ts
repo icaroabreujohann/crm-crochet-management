@@ -25,6 +25,7 @@ export class EncomendasRepository {
                order by em.data_pedido desc
           `
      }
+     
 
      async listarPorId(id: number): Promise<ResultadoBusca<EncomendaView>> {
           const [encomenda] = await sql<EncomendaView[]>`

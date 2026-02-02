@@ -50,10 +50,13 @@ import { Search02Icon } from '@hugeicons/core-free-icons'
 
 import { computed, onMounted, ref } from 'vue'
 import { normalizarTextoBusca } from '@/utils/normalizarTextoBusca'
+import { usarMaterialStore } from '@/stores/materiais.store'
+import { storeToRefs } from 'pinia'
 
 const feedback = usarFeedbackStore()
+const materialStore = usarMaterialStore()
 
-const materiais = ref<MaterialCompleto[]>([])
+const { materiais } = storeToRefs(materialStore)
 const materiaisHeaders = [
      { title: 'Nome', key: 'nome', sortable: true },
      { title: 'Tipo', key: 'tipo_nome' },
@@ -68,7 +71,7 @@ const materialSelecionado = ref<MaterialCompleto | null>(null)
 
 const filtroMateriais = ref<string>('')
 const materiaisFiltrados = computed(() => {
-     if(!filtroMateriais.value || filtroMateriais.value == '') return materiais.value
+     if (!filtroMateriais.value || filtroMateriais.value == '') return materiais.value
 
      const termos = normalizarTextoBusca(filtroMateriais.value).split(/\s+/)
 
@@ -82,8 +85,8 @@ const dialogFormMaterial = ref(false)
 const dialogConfirmaExclusao = ref(false)
 
 async function listarMateriais() {
-     const response = await MateriaisServices.listar()
-     materiais.value = response.map(mat => ({
+     await materialStore.buscarMateriais()
+     materiais.value = materiais.value.map(mat => ({
           ...mat,
           data_alteracao: String(formatarDataHoraBR(mat.data_alteracao)),
           data_criacao: String(formatarDataHoraBR(mat.data_criacao)),
@@ -91,8 +94,7 @@ async function listarMateriais() {
 }
 
 async function salvarMaterial(form: MaterialForm) {
-     await MateriaisServices.salvar(form)
-     await listarMateriais()
+     await materialStore.salvar(form)
      dialogFormMaterial.value = false
      materialSelecionado.value = null
      feedback.sucesso('Material criado/editado com sucesso!')
@@ -101,8 +103,7 @@ async function salvarMaterial(form: MaterialForm) {
 async function excluirMaterial(identificador: number | string) {
      const codigo = String(identificador)
 
-     await MateriaisServices.excluir(codigo)
-     await listarMateriais()
+     await materialStore.excluir(codigo)
      dialogConfirmaExclusao.value = false
      materialSelecionado.value = null
      feedback.sucesso('Material excluido com sucesso!')

@@ -1,12 +1,25 @@
 <template>
-     <v-container class="pa-0" fluid >
+     <v-container class="pa-0" fluid>
           <header class="d-flex align-center mb-6">
                <HugeiconsIcon class="text-light" :stroke-width="2" :size="36" :icon="ShoppingBasket01Icon" />
                <h1 class="ml-2">Início</h1>
           </header>
           <v-row dense>
-               <v-col cols="12" md="6" lg="8">
-                    <CardEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal" :dados="dadosEncomendasFaturamentoMensal"/>
+               <v-col cols="12" md="6" lg="8" class="pr-5">
+                    <v-row style="height: 44% !important;">
+                         <v-col cols="12">
+                              <v-card class="pa-5 h-100">
+                                   <h1>Teste</h1>
+                              </v-card>
+                         </v-col>
+                    </v-row>
+                    <v-row style="height: 44% !important;">
+                         <v-col cols="12">
+                              <CardEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal"
+                                   :dados="dadosEncomendasFaturamentoMensal"
+                              />
+                         </v-col>
+                    </v-row>
                </v-col>
                <v-col cols="12" md="6" lg="4">
                     <CardEncomendasPendentes v-if="encomendas" :encomendas="encomendas" />

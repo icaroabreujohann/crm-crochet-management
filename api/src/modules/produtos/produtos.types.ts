@@ -13,6 +13,8 @@ export interface ProdutoView {
      },
      data_criacao: Date,
      data_alteracao: Date
+     categoria_id: number,
+     categoria_nome: string
 }
 
 //DTO's
@@ -21,6 +23,7 @@ export interface CriarProdutoDTO {
      preco: number,
      tempo_medio: TempoMedio
      materiais: ProdutoMaterialCriarDTO[] | []
+     categoria_id: number
 }
 
 export type EditarProdutoDTO = Partial<{
@@ -28,6 +31,7 @@ export type EditarProdutoDTO = Partial<{
      preco: number,
      tempo_medio: TempoMedio,
      materiais: ProdutoMaterialCriarDTO[] | []
+     categoria_id: number
 }>
 
 //DB
@@ -38,11 +42,13 @@ export interface CriarProdutoDB {
      preco: number,
      tempo_medio: number,
      fotos_url: string | null
+     categoria_id: number
 }
 export type EditarProdutoDB = Partial<{
      nome: string | null
      preco: number | null
      tempo_medio: number | null
+     categoria_id: number
 }>
 
 export interface ProdutoDB {
@@ -54,4 +60,6 @@ export interface ProdutoDB {
      tempo_medio: number,
      data_criacao: Date,
      data_alteracao: Date
+     categoria_id: number
+     categoria_nome?: string
 }

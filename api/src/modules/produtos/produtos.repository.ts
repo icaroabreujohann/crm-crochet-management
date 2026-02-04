@@ -1,16 +1,28 @@
 import { sql } from "../../config/db";
 import { ResultadoBusca } from "../../shared/types";
 import { resultadoEncontrado, resultadoInexistente } from '../../utils/resultadoBusca'
-import { CriarProdutoDB, EditarProdutoDB, ProdutoDB } from "./produtos.types";
+import { CriarProdutoDB, EditarProdutoDB, ProdutoDB, ProdutoView } from "./produtos.types";
 
 export class ProdutosRepository {
+     private selectProdutoBase = sql`
+          select
+               p.*,
+               pc.categoria as categoria_nome
+          from produtos p
+          join produtos_categoria pc
+               on pc.id = p.categoria_id
+     `
+
      async listar(): Promise<ProdutoDB[]> {
-          return await sql`select * from produtos order by id asc`
+          return await sql`
+               ${this.selectProdutoBase}
+               order by id desc
+          `
      }
 
      async listarProdutoPorCodigo(codigo: string): Promise<ResultadoBusca<ProdutoDB>> {
           const [produto] = await sql<ProdutoDB[]>`
-               select * from produtos
+               ${this.selectProdutoBase}
                where codigo = ${codigo}
                limit 1
           `
@@ -20,7 +32,7 @@ export class ProdutosRepository {
 
      async listarProdutoPorId(id: number): Promise<ResultadoBusca<ProdutoDB>> {
           const [produto] = await sql<ProdutoDB[]>`
-               select * from produtos
+               ${this.selectProdutoBase}
                where id = ${id}
                limit 1
           `
@@ -30,13 +42,14 @@ export class ProdutosRepository {
 
      async criar(data: CriarProdutoDB): Promise<ProdutoDB | null> {
           const [produto] = await sql<ProdutoDB[]>`
-               insert into produtos(nome, codigo, preco, tempo_medio, fotos_url)
+               insert into produtos(nome, codigo, preco, tempo_medio, fotos_url, categoria_id)
                values(
                     ${data.nome},
                     ${data.codigo},
                     ${data.preco},
                     ${(data.tempo_medio)},
-                    ${data.fotos_url}
+                    ${data.fotos_url},
+                    ${data.categoria_id}
                )
                returning *
           `

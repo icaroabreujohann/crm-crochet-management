@@ -22,11 +22,9 @@ export class ProdutoCategoriaRepository {
           return categoria ? resultadoEncontrado(categoria) : resultadoInexistente()
      }
 
-
-
      async listarCategoriaUtilizada(id: number): Promise<ResultadoBusca<ProdutoDB>> {
           const [produto] = await sql<ProdutoDB[]>`
-               select * from produto
+               select * from produtos
                where categoria_id = ${id}
           `
           return produto ? resultadoEncontrado(produto) : resultadoInexistente()

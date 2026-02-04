@@ -8,16 +8,14 @@
                <v-col cols="12" md="6" lg="8" class="pr-5">
                     <v-row style="height: 44% !important;">
                          <v-col cols="12">
-                              <v-card class="pa-5 h-100">
-                                   <h1>Teste</h1>
-                              </v-card>
+                              <CardEncomendasDados v-if="dadosEncomendasFaturamentoMensal"
+                                   :dados="dadosEncomendasFaturamentoMensal"/>
                          </v-col>
                     </v-row>
                     <v-row style="height: 44% !important;">
                          <v-col cols="12">
-                              <CardEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal"
-                                   :dados="dadosEncomendasFaturamentoMensal"
-                              />
+                              <ChartsEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal"
+                                   :dados="dadosEncomendasFaturamentoMensal" />
                          </v-col>
                     </v-row>
                </v-col>
@@ -38,7 +36,7 @@ import { computed, onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import type { EncomendasFaturamentoMensal } from '@/modules/relatorios/relatorios.types';
 import { RelatoriosServices } from '../modules/relatorios/relatorios.services';
-import CardEncomendasFaturamento from '@/components/CardEncomendasFaturamento.vue';
+import ChartsEncomendasFaturamento from '@/components/ChartsEncomendasFaturamento.vue';
 import CardEncomendasPendentes from '@/components/CardEncomendasPendentes.vue';
 
 const clienteStore = usarClienteStore()

@@ -176,19 +176,4 @@ const dadosFiltrados = computed(() => {
           return new Date(d.periodo).getFullYear() == filtroDados.value
      })
 })
-
-// const anoAtual = computed(() => (new Date()).getFullYear())
-// const totaisAnoAtual = computed(() => {
-//      const dadosAnoAtual = props.dados.filter(item => {
-//           const ano = new Date(item.periodo).getFullYear()
-//           return ano === anoAtual.value
-//      })
-     
-//      return {
-//           faturamento: dadosAnoAtual.reduce((sum, item) => sum + Number(item.faturamento), 0),
-//           custo: dadosAnoAtual.reduce((sum, item) => sum + Number(item.custo), 0),
-//           lucro: dadosAnoAtual.reduce((sum, item) => sum + Number(item.lucro), 0)
-//      }
-// })
-
 </script>

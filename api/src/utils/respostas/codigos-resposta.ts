@@ -49,6 +49,12 @@ export const CODIGOS_ERRO = {
      ENCOMENDA_MATERIAL_N_CORRESPONDE_ERRO: { codigo: 1606, mensagem: 'O material informado não corresponde à encomenda.' },
 
      RELATORIO_LISTAR_ERRO: { codigo: 1703, mensagem: 'Erro ao listar relatório.' },
+
+     PRODUTO_CATEGORIA_CRIAR_ERR: { codigo: 1704, mensagem: 'Erro ao criar categoria.' },
+     PRODUTO_CATEGORIA_EDITAR_ERR: { codigo: 1705, mensagem: 'Erro ao editar categoria.' },
+     PRODUTO_CATEGORIA_EXCLUIR_ERR: { codigo: 1706, mensagem: 'Erro ao excluir categoria.' },
+     PRODUTO_CATEGORIA_EM_USO: { codigo: 1707, mensagem: 'Categoria não pode ser excluída pois está em uso.' },
+     PRODUTO_CATEGORIA_N_EXISTE: { codigo: 1708, mensagem: 'A categoria não existe.' },
 }
 export const CODIGOS_SUCESSO = {
      SUCESSO_GENERICO: { codigo: 2000, mensagem: 'Erro interno do servidor' },
@@ -97,10 +103,15 @@ export const CODIGOS_SUCESSO = {
      ENCOMENDA_MATERIAL_EDITAR_SUCCESS: { codigo: 2604, mensagem: 'Material da encomenda editada com sucesso.' },
      ENCOMENDA_MATERIAL_EXCLUIR_SUCCESS: { codigo: 2605, mensagem: 'Material da encomenda excluída com sucesso.' },
      ENCOMENDA_MATERIAL_CORRESPONDE_SUCCESS: { codigo: 2606, mensagem: 'Material corresponde à encomenda.' },
-     
+
      TIPO_MATERIAL_LISTAR_SUCESS: { codigo: 2700, mensagem: 'Tipos de materiais listados com sucesso.' },
      UNIDADE_MEDIDA_LISTAR_SUCESS: { codigo: 2701, mensagem: 'Unidades de medidas listadas com sucesso.' },
      RELATORIO_LISTAR_SUCESS: { codigo: 2703, mensagem: 'Relatório listado com sucesso.' },
+     PRODUTO_CATEGORIA_LISTAR_SUCESS: { codigo: 2704, mensagem: 'Categorias listadas com sucesso.' },
+     PRODUTO_CATEGORIA_CRIAR_SUCESS: { codigo: 2705, mensagem: 'Categoria criada com sucesso.' },
+     PRODUTO_CATEGORIA_EDITAR_SUCESS: { codigo: 2706, mensagem: 'Categoria editada com sucesso.' },
+     PRODUTO_CATEGORIA_EXCLUIR_SUCESS: { codigo: 2707, mensagem: 'Categoria excluída com sucesso.' },
+
 }
 
 

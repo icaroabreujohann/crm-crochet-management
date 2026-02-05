@@ -42,33 +42,6 @@ async function editar(codigo: string, payload: Partial<ProdutoPayload>) {
      return data.data
 }
 
-function validarProdutoForm(form: Partial<ProdutoForm>): ProdutoPayload {
-     if (!form.nome || form.nome.trim() === '') {
-          throw new Error('Nome é obrigatório')
-     }
-
-     if (form.preco === undefined || form.preco <= 0) {
-          throw new Error('Preço deve ser maior que zero')
-     }
-
-     if (form.categoria_id === null || form.categoria_id === undefined) {
-          throw new Error('Categoria é obrigatória')
-     }
-
-     if (!form.tempo_medio) {
-          throw new Error('Tempo médio é obrigatório')
-     }
-
-     return {
-          nome: form.nome,
-          preco: form.preco,
-          tempo_medio: form.tempo_medio,
-          fotos: form.fotos,
-          materiais: form.materiais,
-          categoria_id: form.categoria_id
-     }
-}
-
 export const ProdutosServices = {
      async listar(): Promise<ProdutoView[]> {
           const { data } = await api.get<RespostaApi<ProdutoView[]>>('/produtos')
@@ -87,10 +60,33 @@ export const ProdutosServices = {
      },
 
      async salvar(form: Partial<ProdutoForm>): Promise<ProdutoView> {
-          if (form.categoria_id == null) { }
-          const payload = validarProdutoForm(form)
+          if (!form.codigo) {
+               if (!form.nome?.trim()) throw new Error('Nome é obrigatório')
+               if (!form.preco || form.preco <= 0) throw new Error('Preço inválido')
+               if (form.categoria_id == null) throw new Error('Categoria é obrigatória')
+               if (!form.tempo_medio) throw new Error('Tempo médio é obrigatório')
+               const payload: ProdutoPayload = {
+                    nome: form.nome,
+                    preco: form.preco,
+                    tempo_medio: form.tempo_medio,
+                    fotos: form.fotos,
+                    materiais: form.materiais,
+                    categoria_id: form.categoria_id
+               }
+               return await criar(payload)
+          }
 
-          if (!form.codigo) { return await criar(payload) }
+          const payload: Partial<ProdutoPayload> = {}
+
+          if (form.nome !== undefined) payload.nome = form.nome
+          if (form.preco !== undefined) payload.preco = form.preco
+          if (form.tempo_medio !== undefined) payload.tempo_medio = form.tempo_medio
+          if (form.materiais !== undefined) payload.materiais = form.materiais
+          if (form.fotos !== undefined) payload.fotos = form.fotos
+          if (form.categoria_id !== undefined && form.categoria_id !== null) {
+               payload.categoria_id = form.categoria_id
+          }
+
           return await editar(form.codigo, payload)
      },
 

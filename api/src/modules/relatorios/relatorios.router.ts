@@ -6,6 +6,7 @@ const controller = new RelatoriosController()
 
 router.get('/encomendas/mensal/resumo', controller.listarEncomendasResumoMensal)
 router.get('/encomendas/mensal/faturamento', controller.listarEncomendasFaturamentoMensal)
+router.get('/produtos/total/categoria', controller.listarProdutoCategoria)
 
 
 export default router

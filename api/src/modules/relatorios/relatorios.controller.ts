@@ -17,4 +17,9 @@ export class RelatoriosController {
           const relatorio = await this.services.listarEncomendasFaturamentoMensal()
           gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.RELATORIO_LISTAR_SUCESS, relatorio)
      }
+
+     listarProdutoCategoria = async (req: Request, res: Response) => {
+          const relatorio = await this.services.listarProdutoCategoria()
+          gerenciadorMensagens.enviarMensagemSucesso(res, 200, CODIGOS_SUCESSO.RELATORIO_LISTAR_SUCESS, relatorio)
+     }
 }

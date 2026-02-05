@@ -41,6 +41,7 @@ export class ProdutosRepository {
      }
 
      async criar(data: CriarProdutoDB): Promise<ProdutoDB | null> {
+          console.log(data)
           const [produto] = await sql<ProdutoDB[]>`
                insert into produtos(nome, codigo, preco, tempo_medio, fotos_url, categoria_id)
                values(

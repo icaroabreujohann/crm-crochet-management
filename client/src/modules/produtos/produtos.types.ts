@@ -11,6 +11,8 @@ export interface ProdutoView {
      data_alteracao: Date
      materiais: ProdutoMaterialView[]
      fotos: File[]
+     categoria_id: number
+     categoria_nome: string
 }
 
 export interface ProdutoForm {
@@ -20,6 +22,7 @@ export interface ProdutoForm {
      tempo_medio: TempoMedio
      materiais: ProdutoMaterialCriarDTO[]
      fotos: File[]
+     categoria_id: number | null
 }
 
 export interface ProdutoPayload {
@@ -30,10 +33,11 @@ export interface ProdutoPayload {
           minutos: number
      },
      fotos?: File[],
-     materiais: {
+     materiais?: {
           material_codigo: string
           quantidade: number
      }[]
+     categoria_id: number
 }
 
 export interface ProdutoCriarDTO {
@@ -42,6 +46,7 @@ export interface ProdutoCriarDTO {
      tempo_medio: TempoMedio
      materiais?: ProdutoMaterialCriarDTO[]
      fotos: File[]
+     categoria_id: number
 }
 export interface ProdutoEditarDTO {
      nome?: string
@@ -49,9 +54,10 @@ export interface ProdutoEditarDTO {
      tempo_medio?: TempoMedio
      materiais: ProdutoMaterialCriarDTO[] | []
      fotos?: File[]
+     categoria_id?: number
 }
 
-//ProdutoMaterial
+//Produto Material
 
 export interface ProdutoMaterialView {
      id: number

@@ -29,7 +29,6 @@ async function criar(payload: Partial<ProdutoPayload>) {
 
 async function editar(codigo: string, payload: Partial<ProdutoPayload>) {
      const { fotos, ...produtoPayload } = payload
-
      const { data } = await api.patch<RespostaApi<ProdutoView>>(`/produtos/${codigo}`, produtoPayload)
 
      console.log('fotos', fotos)
@@ -42,6 +41,34 @@ async function editar(codigo: string, payload: Partial<ProdutoPayload>) {
 
      return data.data
 }
+
+function validarProdutoForm(form: Partial<ProdutoForm>): ProdutoPayload {
+     if (!form.nome || form.nome.trim() === '') {
+          throw new Error('Nome é obrigatório')
+     }
+
+     if (form.preco === undefined || form.preco <= 0) {
+          throw new Error('Preço deve ser maior que zero')
+     }
+
+     if (form.categoria_id === null || form.categoria_id === undefined) {
+          throw new Error('Categoria é obrigatória')
+     }
+
+     if (!form.tempo_medio) {
+          throw new Error('Tempo médio é obrigatório')
+     }
+
+     return {
+          nome: form.nome,
+          preco: form.preco,
+          tempo_medio: form.tempo_medio,
+          fotos: form.fotos,
+          materiais: form.materiais,
+          categoria_id: form.categoria_id
+     }
+}
+
 export const ProdutosServices = {
      async listar(): Promise<ProdutoView[]> {
           const { data } = await api.get<RespostaApi<ProdutoView[]>>('/produtos')
@@ -60,13 +87,8 @@ export const ProdutosServices = {
      },
 
      async salvar(form: Partial<ProdutoForm>): Promise<ProdutoView> {
-          const payload: Partial<ProdutoPayload> = {
-               nome: form.nome,
-               preco: form.preco,
-               tempo_medio: form.tempo_medio,
-               fotos: form.fotos,
-               materiais: form.materiais
-          }
+          if (form.categoria_id == null) { }
+          const payload = validarProdutoForm(form)
 
           if (!form.codigo) { return await criar(payload) }
           return await editar(form.codigo, payload)

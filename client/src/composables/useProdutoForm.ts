@@ -11,7 +11,8 @@ export function useProdutoForm() {
           preco: 0,
           tempo_medio: { horas: 0, minutos: 0 },
           fotos: [],
-          materiais: []
+          materiais: [],
+          categoria_id: null
      }
 
      const form = ref<ProdutoForm>(structuredClone(defaultForm))
@@ -46,7 +47,8 @@ export function useProdutoForm() {
                materiais: produto.materiais.map(m => ({
                     material_codigo: m.codigo,
                     quantidade: Number(m.quantidade)
-               }))
+               })),
+               categoria_id: produto.categoria_id
           }
           form.value = base
           original.value = structuredClone(base)

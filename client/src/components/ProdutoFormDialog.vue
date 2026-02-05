@@ -40,13 +40,18 @@
 
                     <v-tabs-window v-model="abaAtiva">
                          <v-tabs-window-item value="tabProduto">
-                              <v-row>
+                              <v-row class="mt-5">
                                    <v-col cols="7">
                                         <v-row>
-                                             <v-col cols="12">
+                                             <v-col cols="7">
                                                   <p>Nome</p>
                                                   <v-text-field variant="solo-filled" :rules="regras.obrigatorio"
                                                        v-model="form.nome" />
+                                             </v-col>
+                                             <v-col cols="5">
+                                                  <p>Categoria</p>
+                                                  <v-select :items="produtoCategoria" item-value="id" item-title="categoria" variant="solo-filled" :rules="regras.obrigatorio"
+                                                       v-model="form.categoria_id" />
                                              </v-col>
                                         </v-row>
                                         <v-row>
@@ -183,19 +188,20 @@ import {
      Delete02Icon,
      CancelCircleIcon,
      PencilEdit02Icon,
-     Wallet01Icon,
      MoneyBag02Icon,
      PackageMoving01Icon,
      ChartUpIcon
 } from '@hugeicons/core-free-icons'
 import ConfirmaExclusao from './common/ConfirmaExclusao.vue'
 
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted } from 'vue'
 import type { VForm } from 'vuetify/components'
 
 import { usarMaterialStore } from '@/stores/materiais.store'
 import { useProdutoForm } from '@/composables/useProdutoForm'
 import { useProdutoMateriais } from '@/composables/useProdutoMateriais'
+import { usarAuxiliaresStore } from '@/stores/auxiliares.store'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps<{
      produto?: ProdutoView | null,
@@ -215,6 +221,8 @@ const dialog = computed({
 
 const modoEditar = computed(() => !!props.produto)
 const materialStore = usarMaterialStore()
+const auxiliaresStore = usarAuxiliaresStore()
+const { produtoCategoria } = storeToRefs(auxiliaresStore)
 
 const calcularLucro = computed<string>(() => {
      const lucro = form.value.preco - Number(precoTotal.value.preco)
@@ -243,7 +251,6 @@ const formProdutoFotosPreview = computed(() =>
      )
 )
 
-
 async function salvar() {
      const formValido = await vFormRef.value?.validate()
      if (!formValido?.valid) return
@@ -271,5 +278,9 @@ watch(dialog, (aberto) => {
           resetar()
           vFormRef.value?.resetValidation()
      }
+})
+
+onMounted(() => {
+     auxiliaresStore.carregar()
 })
 </script>

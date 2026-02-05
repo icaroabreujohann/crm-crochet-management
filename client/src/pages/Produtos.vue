@@ -34,10 +34,10 @@
                               </v-img>
                          </div>
                          <div>
-                              <h2>{{ produto.nome }}</h2>
-                              <v-chip class="mt-1" style="max-width: 70%;">
-                                   <HugeiconsIcon :size="16" :icon="QrCode01Icon" />
-                                   <p class="ml-2 text-ellipsis">{{ produto.codigo.toUpperCase() }}</p>
+                              <h2>{{ produto.nome}}</h2>
+                              <v-chip class="mt-1" color="main">
+                                   <HugeiconsIcon :size="18" :icon="TagsIcon" />
+                                   <p class="ml-1">{{ produto.categoria_nome }}</p>
                               </v-chip>
                          </div>
                     </div>
@@ -75,7 +75,7 @@ import { computed, onMounted, ref } from 'vue';
 import { usarFeedbackStore } from '@/stores/feedbacks.store';
 
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { ImageDelete01Icon, QrCode01Icon, Sad01Icon, Search02Icon } from '@hugeicons/core-free-icons';
+import { ClothesIcon, ImageDelete01Icon, QrCode01Icon, Sad01Icon, Search02Icon, TagsIcon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
 import { api } from '@/plugins/api';

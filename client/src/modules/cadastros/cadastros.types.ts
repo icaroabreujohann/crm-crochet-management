@@ -7,3 +7,17 @@ export type UnidadeMedida = {
      nome: string,
      sigla: string
 }
+
+export interface ProdutoCategoria {
+     id: number,
+     categoria: string
+}
+
+export interface ProdutoCategoriaCriarDTO {
+     categoria: string
+}
+
+export interface ProdutoCategoriaEditarDTO {
+     id: number,
+     categoria: string
+}

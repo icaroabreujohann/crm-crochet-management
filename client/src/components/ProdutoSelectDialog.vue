@@ -45,6 +45,10 @@
                                         </template>
                                    </v-img>
                                    <h2 class="mt-3">{{ produto.nome }}</h2>
+                                   <v-chip class="mt-1" color="main">
+                                        <HugeiconsIcon :size="18" :icon="TagsIcon" />
+                                        <p class="ml-1">{{ produto.categoria_nome }}</p>
+                                   </v-chip>
                                    <div class="d-flex align-center justify-space-between mt-2">
                                         <div>
                                              <p class="subText">Preço</p>
@@ -66,7 +70,7 @@ import { api } from '@/plugins/api';
 import { usarProdutoStore } from '@/stores/produtos.store';
 import { normalizarTextoBusca } from '@/utils/normalizarTextoBusca';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
-import { CancelCircleIcon, ImageDelete01Icon, Search02Icon, Tag01Icon, UserMultiple02Icon } from '@hugeicons/core-free-icons';
+import { CancelCircleIcon, ImageDelete01Icon, Search02Icon, Tag01Icon, TagsIcon, UserMultiple02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/vue';
 import { onMounted, ref } from 'vue';
 import { computed } from 'vue';
@@ -101,7 +105,7 @@ const produtosFiltrados = computed(() => {
      })
 })
 
-function selecionarProduto(produto: ProdutoView){
+function selecionarProduto(produto: ProdutoView) {
      emit('select', produto)
      dialog.value = false
 }

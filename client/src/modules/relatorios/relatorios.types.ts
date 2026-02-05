@@ -13,3 +13,13 @@ export interface EncomendasFaturamentoMensal {
      custo: number,
      lucro: number
 }
+
+export interface ProdutoCategoriaTotal {
+     categoria: string
+     total: number
+     faturamento_total: number
+     lucro_total: number
+     preco_medio: number
+     lucro_medio: number
+     margem_lucro_percent: number
+}

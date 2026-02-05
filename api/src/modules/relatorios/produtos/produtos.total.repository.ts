@@ -31,7 +31,7 @@ export class ProdutosTotalRepository {
                     round(sum(p.preco) - sum(cpp.custo), 2) as lucro_total,
                     round(sum(p.preco) / count(*), 2) as preco_medio,
                     round((sum(p.preco) - sum(cpp.custo)) / count(*), 2) as lucro_medio,
-                    round(avg((p.preco - cpp.custo) / p.preco * 100), 0) as margem_media_percent
+                    round(avg((p.preco - cpp.custo) / p.preco * 100), 0) as margem_lucro_percent
                from encomendas e
                join produtos p 
                     on p.id = e.produto_id

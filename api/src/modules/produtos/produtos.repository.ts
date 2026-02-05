@@ -16,14 +16,14 @@ export class ProdutosRepository {
      async listar(): Promise<ProdutoDB[]> {
           return await sql`
                ${this.selectProdutoBase}
-               order by id desc
+               order by p.id desc
           `
      }
 
      async listarProdutoPorCodigo(codigo: string): Promise<ResultadoBusca<ProdutoDB>> {
           const [produto] = await sql<ProdutoDB[]>`
                ${this.selectProdutoBase}
-               where codigo = ${codigo}
+               where p.codigo = ${codigo}
                limit 1
           `
 
@@ -33,7 +33,7 @@ export class ProdutosRepository {
      async listarProdutoPorId(id: number): Promise<ResultadoBusca<ProdutoDB>> {
           const [produto] = await sql<ProdutoDB[]>`
                ${this.selectProdutoBase}
-               where id = ${id}
+               where p.id = ${id}
                limit 1
           `
 

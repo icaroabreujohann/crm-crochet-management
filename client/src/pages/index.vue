@@ -1,18 +1,13 @@
 <template>
-     <v-container class="pa-0" fluid>
-          <header class="d-flex align-center mb-6">
-               <HugeiconsIcon class="text-light" :stroke-width="2" :size="36" :icon="ShoppingBasket01Icon" />
-               <h1 class="ml-2">Início</h1>
-          </header>
+     <v-container class="pa-0">
           <v-row dense>
                <v-col cols="12" md="6" lg="8" class="pr-5">
                     <v-row style="height: 44% !important;">
                          <v-col cols="12">
-                              <CardEncomendasDados v-if="dadosEncomendasFaturamentoMensal"
-                                   :dados="dadosEncomendasFaturamentoMensal"/>
+                              <CardProdutoCategoria v-if="dadosProdutoCategoriaTotal" :dados="dadosProdutoCategoriaTotal"/>
                          </v-col>
                     </v-row>
-                    <v-row style="height: 44% !important;">
+                    <v-row>
                          <v-col cols="12">
                               <ChartsEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal"
                                    :dados="dadosEncomendasFaturamentoMensal" />
@@ -34,10 +29,11 @@ import { usarProdutoStore } from '@/stores/produtos.store';
 import { usarEncomendaStore } from '@/stores/encomendas.store';
 import { computed, onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import type { EncomendasFaturamentoMensal } from '@/modules/relatorios/relatorios.types';
+import type { EncomendasFaturamentoMensal, ProdutoCategoriaTotal } from '@/modules/relatorios/relatorios.types';
 import { RelatoriosServices } from '../modules/relatorios/relatorios.services';
 import ChartsEncomendasFaturamento from '@/components/ChartsEncomendasFaturamento.vue';
 import CardEncomendasPendentes from '@/components/CardEncomendasPendentes.vue';
+import CardProdutoCategoria from '@/components/CardProdutoCategoria.vue';
 
 const clienteStore = usarClienteStore()
 const produtoStore = usarProdutoStore()
@@ -48,10 +44,14 @@ const produtos = storeToRefs(produtoStore)
 const { encomendas } = storeToRefs(encomendaStore)
 
 const dadosEncomendasFaturamentoMensal = ref<EncomendasFaturamentoMensal[] | null>(null)
+const dadosProdutoCategoriaTotal = ref<ProdutoCategoriaTotal[] | null>(null)
 
 async function listarRelatorios() {
      const encomendasFaturamentoMensal = await RelatoriosServices.listarEncomendasFaturamentoMensal()
+     const produtoCategoriaTotal = await RelatoriosServices.listarProdutoCategoriaTotal()
+
      dadosEncomendasFaturamentoMensal.value = encomendasFaturamentoMensal
+     dadosProdutoCategoriaTotal.value = produtoCategoriaTotal
 }
 
 onMounted(() => {

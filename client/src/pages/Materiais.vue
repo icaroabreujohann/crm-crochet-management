@@ -1,6 +1,9 @@
 <template>
      <div class="w-100 mb-5 d-flex align-end justify-space-between">
-          <h1 class="mb-n2">Materiais</h1>
+          <div class="d-flex align-center">
+               <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="PackageIcon" />
+               <h1 class="ml-2">Materiais</h1>
+          </div>
           <div class="d-flex align-end w-50 justify-end">
                <div class="w-50">
                     <v-text-field density="compact" class="mr-3" variant="solo-filled" label="Pesquise por um material"
@@ -49,7 +52,7 @@ import MaterialFormDialog from '@/components/MaterialFormDialog.vue'
 import ConfirmaExclusao from '@/components/common/ConfirmaExclusao.vue'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
-import { Search02Icon } from '@hugeicons/core-free-icons'
+import { PackageIcon, Search02Icon } from '@hugeicons/core-free-icons'
 
 import { computed, onMounted, ref } from 'vue'
 import { normalizarTextoBusca } from '@/utils/normalizarTextoBusca'

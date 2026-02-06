@@ -1,12 +1,15 @@
 <template>
      <div class="w-100 mb-5 d-flex align-end justify-space-between">
-          <h1 class="mb-n2">Clientes</h1>
+          <div class="d-flex align-center">
+               <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="UserMultiple02Icon" />
+               <h1 class="ml-2">Clientes</h1>
+          </div>
           <div class="d-flex align-end w-50 justify-end">
                <div class="w-50">
                     <v-text-field density="compact" class="mr-3" variant="solo-filled" label="Pesquise por um cliente"
                          prepend-inner-icon="mdi-account-search-outline" hide-details v-model="filtroClientes">
                          <template #prepend-inner>
-                              <HugeiconsIcon class="subText" stroke-width="2" size="20" :icon="Search02Icon" />
+                              <HugeiconsIcon class="subText" :stroke-width="2" size="20" :icon="Search02Icon" />
                          </template>
                     </v-text-field>
                </div>
@@ -18,7 +21,7 @@
           <template #item.acoes="{ item }">
                <MenuAcoes @editar="abrirEditar(item)" @excluir="abrirExcluir(item)" />
           </template>
-          <template #item.data_atualizacao="{item}">
+          <template #item.data_atualizacao="{ item }">
                <p>{{ formatarDataHoraBR(item.data_atualizacao) }}</p>
           </template>
      </v-data-table>
@@ -36,7 +39,7 @@ import { usarFeedbackStore } from '@/stores/feedbacks.store'
 import { type Cliente, type ClienteForm } from '@/modules/clientes/clientes.types'
 
 import { HugeiconsIcon } from '@hugeicons/vue'
-import { Search02Icon } from '@hugeicons/core-free-icons'
+import { Search02Icon, UserMultiple02Icon } from '@hugeicons/core-free-icons'
 
 import ClienteFormDialog from '@/components/ClienteFormDialog.vue'
 import ConfirmaExclusao from '@/components/common/ConfirmaExclusao.vue'

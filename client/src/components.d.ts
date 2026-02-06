@@ -17,6 +17,8 @@ declare module 'vue' {
     ChartsEncomendasFaturamento: typeof import('./components/ChartsEncomendasFaturamento.vue')['default']
     ClienteFormDialog: typeof import('./components/ClienteFormDialog.vue')['default']
     ClienteSelectDialog: typeof import('./components/ClienteSelectDialog.vue')['default']
+    Configuracoes: typeof import('./components/ConfiguracoesDialog.vue')['default']
+    ConfiguracoesDialog: typeof import('./components/ConfiguracoesDialog.vue')['default']
     ConfirmaExclusao: typeof import('./components/common/ConfirmaExclusao.vue')['default']
     EncomendaFormDialog: typeof import('./components/EncomendaFormDialog.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']

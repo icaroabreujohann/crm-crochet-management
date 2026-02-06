@@ -3,23 +3,37 @@
           <v-navigation-drawer permanent class="pa-4">
                <div class="pa-2 d-flex align-center w-100 mb-3">
                     <v-img class="no-border mb-2" :aspect-ratio="1" max-width="50" cover src="/images/logo.png"></v-img>
-                    <v-divider vertical class="my-2 mx-2"/>
+                    <v-divider vertical class="my-2 mx-2" />
                     <div class="d-flex flex-column ml-2">
                          <h3>Seth Ateliê</h3>
                          <p class="text-black subText" style="font-size: 0.9rem !important;">Crochet Management</p>
                     </div>
                </div>
                <h5 class="subText f-bold ml-2 mb-2">MENU</h5>
-               <v-list-item v-for="i in menuItems" :to="i.rota" class="mt-1">
-                    <div class="d-flex align-center">
-                         <HugeiconsIcon :stroke-width="2.2" :size="18" class="opacity-50" :icon="i.icone2">
-                         </HugeiconsIcon>
-                         <h3 class="f-regular ml-2 text-black">{{ i.titulo }}</h3>
+               <div class="d-flex flex-column justify-space-between" style="height: 85%;">
+                    <div>
+                         <v-list-item v-for="i in menuItemsPrincipal" :to="i.rota" class="mt-1">
+                              <div class="d-flex align-center">
+                                   <HugeiconsIcon :stroke-width="2.2" :size="18" :icon="i.icone">
+                                   </HugeiconsIcon>
+                                   <h3 class="f-regular ml-2 text-black">{{ i.titulo }}</h3>
+                              </div>
+                         </v-list-item>
                     </div>
-               </v-list-item>
+                    <div>
+                         <v-list-item v-for="i in menuItemsFooter" :to="i.rota" class="mt-1">
+                              <div class="d-flex align-center" @click="dialogConfiguracoes = true">
+                                   <HugeiconsIcon :stroke-width="2.2" :size="18" :icon="i.icone">
+                                   </HugeiconsIcon>
+                                   <h3 class="f-regular ml-2 text-black">{{ i.titulo }}</h3>
+                              </div>
+                         </v-list-item>
+                    </div>
+               </div>
           </v-navigation-drawer>
+
           <v-main>
-               <v-container class="pa-10" width="80vw" fluid>
+               <v-container fluid class="pa-10" max-width="80vw">
                     <v-card class="pa-10">
                          <router-view />
                     </v-card>
@@ -34,7 +48,7 @@
                          :src="feedback.tipo === 'sucesso' ? '/images/sucess-dialog.png' : '/images/error-dialog.png'" />
 
                     <h1 style="font-size: 2.5rem;" class="text-center mt-10">{{ feedback.tipo === 'sucesso' ? 'Sucesso'
-                         : 'Erro'}}</h1>
+                         : 'Erro' }}</h1>
                     <p style="font" class="text-center mt-2 subText">{{ feedback.mensagem }}</p>
                     <v-btn color="main" variant="tonal" class="mt-7 mb-2" @click="feedback.fechar()">Fechar</v-btn>
                </div>
@@ -45,20 +59,27 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
 import { usarFeedbackStore } from './stores/feedbacks.store'
 import { HugeiconsIcon } from '@hugeicons/vue'
-import { Layers01Icon, UserMultiple02Icon, PackageIcon, Tag01Icon, ShoppingCart02Icon } from '@hugeicons/core-free-icons'
-const route = useRoute()
+import { Layers01Icon, UserMultiple02Icon, PackageIcon, Tag01Icon, ShoppingCart02Icon, Settings02Icon, FolderManagementIcon } from '@hugeicons/core-free-icons'
+
 
 const feedback = usarFeedbackStore()
 
-const menuItems = ref([
-     { titulo: 'Início', icone: 'mdi-layers-outline', icone2: Layers01Icon, rota: '/' },
-     { titulo: 'Clientes', icone: 'mdi-account-multiple-outline', icone2: UserMultiple02Icon, rota: '/clientes' },
-     { titulo: 'Materiais', icone: 'mdi-package-variant-closed', icone2: PackageIcon, rota: '/materiais' },
-     { titulo: 'Produtos', icone: 'mdi-tag-outline', icone2: Tag01Icon, rota: '/produtos' },
-     { titulo: 'Encomendas', icone: 'mdi-cart-outline', icone2: ShoppingCart02Icon, rota: '/encomendas' },
+const dialogConfiguracoes = ref<boolean>(true)
+
+const menuItemsPrincipal = ref([
+     { titulo: 'Início', icone: Layers01Icon, rota: '/' },
+     { titulo: 'Clientes', icone: UserMultiple02Icon, rota: '/clientes' },
+     { titulo: 'Materiais', icone: PackageIcon, rota: '/materiais' },
+     { titulo: 'Produtos', icone: Tag01Icon, rota: '/produtos' },
+     { titulo: 'Encomendas', icone: ShoppingCart02Icon, rota: '/encomendas' },
+
+])
+
+const menuItemsFooter = ref([
+     { titulo: 'Cadastros Gerais', icone: FolderManagementIcon, rota: '/cadastros_gerais' },
+
 ])
 
 </script>

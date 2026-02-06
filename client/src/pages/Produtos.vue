@@ -1,6 +1,9 @@
 <template>
      <div class="w-100 mb-5 d-flex align-end justify-space-between">
-          <h1 class="mb-n2">Produtos</h1>
+          <div class="d-flex align-center">
+               <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="Tag01Icon" />
+               <h1 class="ml-2">Produtos</h1>
+          </div>
           <div class="d-flex align-end w-50 justify-end">
                <div class="w-50">
                     <v-text-field density="compact" class="mr-3" variant="solo-filled" label="Pesquise por um produto"
@@ -34,7 +37,7 @@
                               </v-img>
                          </div>
                          <div>
-                              <h2>{{ produto.nome}}</h2>
+                              <h2>{{ produto.nome }}</h2>
                               <v-chip class="mt-1" color="main">
                                    <HugeiconsIcon :size="18" :icon="TagsIcon" />
                                    <p class="ml-1">{{ produto.categoria_nome }}</p>
@@ -75,7 +78,7 @@ import { computed, onMounted, ref } from 'vue';
 import { usarFeedbackStore } from '@/stores/feedbacks.store';
 
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { ClothesIcon, ImageDelete01Icon, QrCode01Icon, Sad01Icon, Search02Icon, TagsIcon } from '@hugeicons/core-free-icons';
+import { ClothesIcon, ImageDelete01Icon, QrCode01Icon, Sad01Icon, Search02Icon, Tag01Icon, TagsIcon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
 import { api } from '@/plugins/api';

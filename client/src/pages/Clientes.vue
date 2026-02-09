@@ -1,30 +1,32 @@
 <template>
-     <div class="w-100 mb-5 d-flex align-end justify-space-between">
-          <div class="d-flex align-center">
-               <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="UserMultiple02Icon" />
-               <h1 class="ml-2">Clientes</h1>
-          </div>
-          <div class="d-flex align-end w-50 justify-end">
-               <div class="w-50">
-                    <v-text-field density="compact" class="mr-3" variant="solo-filled" label="Pesquise por um cliente"
-                         prepend-inner-icon="mdi-account-search-outline" hide-details v-model="filtroClientes">
-                         <template #prepend-inner>
-                              <HugeiconsIcon class="subText" :stroke-width="2" size="20" :icon="Search02Icon" />
-                         </template>
-                    </v-text-field>
+     <v-card class="pa-10 mx-auto" style="width: 80vw;">
+          <div class="w-100 mb-5 d-flex align-end justify-space-between">
+               <div class="d-flex align-center">
+                    <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="UserMultiple02Icon" />
+                    <h1 class="ml-2">Clientes</h1>
                </div>
-               <v-btn color="main" @click="abrirCriar()">Adicionar</v-btn>
+               <div class="d-flex align-end w-50 justify-end">
+                    <div class="w-50">
+                         <v-text-field density="compact" class="mr-3" variant="solo-filled"
+                              label="Pesquise por um cliente" prepend-inner-icon="mdi-account-search-outline"
+                              hide-details v-model="filtroClientes">
+                              <template #prepend-inner>
+                                   <HugeiconsIcon class="subText" :stroke-width="2" size="20" :icon="Search02Icon" />
+                              </template>
+                         </v-text-field>
+                    </div>
+                    <v-btn color="main" @click="abrirCriar()">Adicionar</v-btn>
+               </div>
           </div>
-     </div>
-
-     <v-data-table :items="clientesFiltrados" :headers="clientesHeaders">
-          <template #item.acoes="{ item }">
-               <MenuAcoes @editar="abrirEditar(item)" @excluir="abrirExcluir(item)" />
-          </template>
-          <template #item.data_atualizacao="{ item }">
-               <p>{{ formatarDataHoraBR(item.data_atualizacao) }}</p>
-          </template>
-     </v-data-table>
+          <v-data-table :items="clientesFiltrados" :headers="clientesHeaders">
+               <template #item.acoes="{ item }">
+                    <MenuAcoes @editar="abrirEditar(item)" @excluir="abrirExcluir(item)" />
+               </template>
+               <template #item.data_atualizacao="{ item }">
+                    <p>{{ formatarDataHoraBR(item.data_atualizacao) }}</p>
+               </template>
+          </v-data-table>
+     </v-card>
 
      <ClienteFormDialog v-model="dialogFormCliente" :cliente="clienteSelecionado" @salvo="salvarCliente" />
      <ConfirmaExclusao v-if="clienteSelecionado" :identificador="clienteSelecionado.id" :tipo="'cliente'"

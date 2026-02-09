@@ -1,39 +1,40 @@
 <template>
-     <div class="w-100 mb-5 d-flex align-end justify-space-between">
-          <div class="d-flex align-center">
-               <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="PackageIcon" />
-               <h1 class="ml-2">Materiais</h1>
-          </div>
-          <div class="d-flex align-end w-50 justify-end">
-               <div class="w-50">
-                    <v-text-field density="compact" class="mr-3" variant="solo-filled" label="Pesquise por um material"
-                         prepend-inner-icon="mdi-account-search-outline" hide-details v-model="filtroMateriais">
-                         <template #prepend-inner>
-                              <HugeiconsIcon class="subText" :stroke-width="2" :size="20" :icon="Search02Icon" />
-                         </template>
-                    </v-text-field>
+     <v-card class="pa-10 mx-auto" style="width: 80vw;">
+          <div class="w-100 mb-5 d-flex align-end justify-space-between">
+               <div class="d-flex align-center">
+                    <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="PackageIcon" />
+                    <h1 class="ml-2">Materiais</h1>
                </div>
-               <v-btn color="main" @click="abrirCriar()">Adicionar</v-btn>
+               <div class="d-flex align-end w-50 justify-end">
+                    <div class="w-50">
+                         <v-text-field density="compact" class="mr-3" variant="solo-filled" label="Pesquise por um material"
+                              prepend-inner-icon="mdi-account-search-outline" hide-details v-model="filtroMateriais">
+                              <template #prepend-inner>
+                                   <HugeiconsIcon class="subText" :stroke-width="2" :size="20" :icon="Search02Icon" />
+                              </template>
+                         </v-text-field>
+                    </div>
+                    <v-btn color="main" @click="abrirCriar()">Adicionar</v-btn>
+               </div>
           </div>
-     </div>
-
-     <v-data-table :items="materiaisFiltrados" :headers="materiaisHeaders" item-key="codigo">
-          <template v-slot:item.unidade_medida_sigla="{ item }">
-               <p>{{ item.unidade_medida_sigla.toUpperCase() }}</p>
-          </template>
-          <template v-slot:item.preco="{ item }">
-               <p>R$ {{ item.preco }}</p>
-          </template>
-          <template v-slot:item.preco_x_qtd="{ item }">
-               <p>R$ {{ item.preco_x_qtd }}</p>
-          </template>
-          <template #item.data_alteracao="{item}">
-               <p>{{ formatarDataHoraBR(item.data_alteracao) }}</p>
-          </template>
-          <template #item.acoes="{ item }">
-               <MenuAcoes @editar="abrirEditar(item)" @excluir="abrirExcluir(item)" />
-          </template>
-     </v-data-table>
+          <v-data-table :items="materiaisFiltrados" :headers="materiaisHeaders" item-key="codigo">
+               <template v-slot:item.unidade_medida_sigla="{ item }">
+                    <p>{{ item.unidade_medida_sigla.toUpperCase() }}</p>
+               </template>
+               <template v-slot:item.preco="{ item }">
+                    <p>R$ {{ item.preco }}</p>
+               </template>
+               <template v-slot:item.preco_x_qtd="{ item }">
+                    <p>R$ {{ item.preco_x_qtd }}</p>
+               </template>
+               <template #item.data_alteracao="{item}">
+                    <p>{{ formatarDataHoraBR(item.data_alteracao) }}</p>
+               </template>
+               <template #item.acoes="{ item }">
+                    <MenuAcoes @editar="abrirEditar(item)" @excluir="abrirExcluir(item)" />
+               </template>
+          </v-data-table>
+     </v-card>
 
      <MaterialFormDialog v-model="dialogFormMaterial" :material="materialSelecionado" @salvo="salvarMaterial" />
 

@@ -10,33 +10,30 @@
                     </div>
                </div>
                <h5 class="subText f-bold ml-2 mb-2">MENU</h5>
-               <div class="d-flex flex-column justify-space-between" style="height: 85%;">
-                    <div>
-                         <v-list-item v-for="i in menuItemsPrincipal" :to="i.rota" class="mt-1">
-                              <div class="d-flex align-center">
-                                   <HugeiconsIcon :stroke-width="2.2" :size="18" :icon="i.icone">
-                                   </HugeiconsIcon>
-                                   <h3 class="f-regular ml-2 text-black">{{ i.titulo }}</h3>
-                              </div>
-                         </v-list-item>
-                    </div>
-                    <div>
-                         <v-list-item v-for="i in menuItemsFooter" :to="i.rota" class="mt-1">
-                              <div class="d-flex align-center" @click="dialogConfiguracoes = true">
-                                   <HugeiconsIcon :stroke-width="2.2" :size="18" :icon="i.icone">
-                                   </HugeiconsIcon>
-                                   <h3 class="f-regular ml-2 text-black">{{ i.titulo }}</h3>
-                              </div>
-                         </v-list-item>
-                    </div>
+               <div>
+                    <v-list-item v-for="i in menuItemsPrincipal" :to="i.rota" class="mt-1">
+                         <div class="d-flex align-center">
+                              <HugeiconsIcon :stroke-width="2.2" :size="18" :icon="i.icone">
+                              </HugeiconsIcon>
+                              <h3 class="f-regular ml-2 text-black">{{ i.titulo }}</h3>
+                         </div>
+                    </v-list-item>
+               </div>
+               <h5 class="subText f-bold ml-2 mb-2 mt-5">CADASTROS</h5>
+               <div>
+                    <v-list-item v-for="i in menuItemsCadastros" :to="i.rota" class="mt-1">
+                         <div class="d-flex align-center" @click="dialogConfiguracoes = true">
+                              <HugeiconsIcon :stroke-width="2.2" :size="18" :icon="i.icone">
+                              </HugeiconsIcon>
+                              <h3 class="f-regular ml-2 text-black">{{ i.titulo }}</h3>
+                         </div>
+                    </v-list-item>
                </div>
           </v-navigation-drawer>
 
           <v-main>
-               <v-container fluid class="pa-10" max-width="80vw">
-                    <v-card class="pa-10">
-                         <router-view />
-                    </v-card>
+               <v-container class="pa-10 d-flex justify-center flex-column">
+                    <router-view />
                </v-container>
           </v-main>
      </v-app>
@@ -61,7 +58,7 @@
 import { ref } from 'vue'
 import { usarFeedbackStore } from './stores/feedbacks.store'
 import { HugeiconsIcon } from '@hugeicons/vue'
-import { Layers01Icon, UserMultiple02Icon, PackageIcon, Tag01Icon, ShoppingCart02Icon, Settings02Icon, FolderManagementIcon } from '@hugeicons/core-free-icons'
+import { Layers01Icon, UserMultiple02Icon, PackageIcon, Tag01Icon, ShoppingCart02Icon, Settings02Icon, FolderManagementIcon, DashboardCircleIcon } from '@hugeicons/core-free-icons'
 
 
 const feedback = usarFeedbackStore()
@@ -77,8 +74,8 @@ const menuItemsPrincipal = ref([
 
 ])
 
-const menuItemsFooter = ref([
-     { titulo: 'Cadastros Gerais', icone: FolderManagementIcon, rota: '/cadastros_gerais' },
+const menuItemsCadastros = ref([
+     { titulo: 'Produto Categorias', icone: DashboardCircleIcon, rota: '/cadastro_produto_categoria' },
 
 ])
 

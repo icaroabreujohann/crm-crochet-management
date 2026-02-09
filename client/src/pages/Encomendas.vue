@@ -1,108 +1,116 @@
 <template>
-     <div class="w-100 mb-5 d-flex align-center justify-space-between">
-          <div class="d-flex align-center">
-               <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="ShoppingCart02Icon" />
-               <h1 class="ml-2">Encomendas</h1>
+     <v-card class="pa-10 mx-auto" style="width: 80vw;">
+          <div class="w-100 mb-5 d-flex align-center justify-space-between">
+               <div class="d-flex align-center">
+                    <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="ShoppingCart02Icon" />
+                    <h1 class="ml-2">Encomendas</h1>
+               </div>
+               <v-btn color="main" @click="abrirCriar">Adicionar</v-btn>
           </div>
-          <v-btn color="main" @click="abrirCriar">Adicionar</v-btn>
-     </div>
-
-     <div>
-          <div class="d-flex align-center">
-               <HugeiconsIcon class="text-light" :stroke-width="2" :size="24" :icon="FilterIcon" />
-               <h2 class="ml-2 mr-2">Filtros</h2>
-               <v-btn icon @click="mostrarIcones = !mostrarIcones" density="compact" class="ml-2 btn-border">
-                    <template #default>
-                         <HugeiconsIcon :stroke-width="2" :size="16"
-                              :icon="mostrarIcones ? ArrowDown01Icon : ArrowRight01Icon" />
-                    </template>
-               </v-btn>
+          <div>
+               <div class="d-flex align-center">
+                    <HugeiconsIcon class="text-light" :stroke-width="2" :size="24" :icon="FilterIcon" />
+                    <h2 class="ml-2 mr-2">Filtros</h2>
+                    <v-btn icon @click="mostrarIcones = !mostrarIcones" density="compact" class="ml-2 btn-border">
+                         <template #default>
+                              <HugeiconsIcon :stroke-width="2" :size="16"
+                                   :icon="mostrarIcones ? ArrowDown01Icon : ArrowRight01Icon" />
+                         </template>
+                    </v-btn>
+               </div>
+               <v-row class="mt-3" v-if="mostrarIcones">
+                    <v-col cols="3">
+                         <p>Cliente</p>
+                         <v-autocomplete variant="solo-filled" clearable :items="clienteStore.clientes"
+                              item-title="nome" item-value="id" hide-details v-model="clienteSelecionado"
+                              spellcheck="false" />
+                    </v-col>
+                    <v-col cols="3">
+                         <p>Produto</p>
+                         <v-autocomplete variant="solo-filled" clearable :items="produtoStore.produtos"
+                              item-title="nome" item-value="codigo" hide-details v-model="produtoSelecionado"
+                              spellcheck="false" />
+                    </v-col>
+                    <v-col cols="2">
+                         <p>Entregue?</p>
+                         <v-select variant="solo-filled" :items="filtrosBooleanos" item-title="title" item-value="value"
+                              v-model="filtroEntregue" hide-details />
+                    </v-col>
+                    <v-col cols="2">
+                         <p>Stauts Pagamento</p>
+                         <v-select variant="solo-filled" :items="filtrosStatusPagamento" item-title="title"
+                              item-value="value" v-model="filtroPago" hide-details />
+                    </v-col>
+                    <v-col cols="2">
+                         <p>Finalizado?</p>
+                         <v-select variant="solo-filled" :items="filtrosBooleanos" item-title="title" item-value="value"
+                              v-model="filtroFinalizado" hide-details />
+                    </v-col>
+               </v-row>
           </div>
-          <v-row class="mt-3" v-if="mostrarIcones">
-               <v-col cols="3">
-                    <p>Cliente</p>
-                    <v-autocomplete variant="solo-filled" clearable :items="clienteStore.clientes" item-title="nome"
-                         item-value="id" hide-details v-model="clienteSelecionado" spellcheck="false" />
+          <v-row class="mt-5">
+               <v-col v-if="encomendas.length > 0" cols="12" xl="4" lg="6" v-for="e in encomendasFiltradas"
+                    :key="e.codigo">
+                    <v-card class="pa-5" @click="abrirEditar(e.codigo)"
+                         :class="e.finalizado ? 'encomendaFinalizada' : ''">
+                         <div class="d-flex">
+                              <div class="mr-3">
+                                   <v-img width="7.5vw" height="15vh" cover :key="e.produto_codigo + e.data_criacao"
+                                        :src="`${api.defaults.baseURL}/arquivos/produtos/${e.produto_codigo}/1.webp?v=${Date.now()}`">
+                                        <template #placeholder>
+                                             <div class="d-flex align-center justify-center fill-height">
+                                                  <v-progress-circular color="main" indeterminate size="36" />
+                                             </div>
+                                        </template>
+                                        <template #error>
+                                             <div
+                                                  class="d-flex align-center justify-center fill-height bg-grey-lighten-3">
+                                                  <HugeiconsIcon :size="70" class="opacity-30"
+                                                       :icon="ImageDelete01Icon" />
+                                             </div>
+                                        </template>
+                                   </v-img>
+                              </div>
+                              <div>
+                                   <div class="d-flex align-center">
+                                        <HugeiconsIcon :storke-width="16" class="text-light mr-1"
+                                             :icon="UserCircleIcon" />
+                                        <h3 class="text-truncate" style="max-width: 70%;">
+                                             {{ e.cliente_nome }}
+                                        </h3>
+                                   </div>
+                                   <div class="d-flex align-center mt-1 w-100">
+                                        <HugeiconsIcon :storke-width="16" class="text-light mr-1" :icon="Tag01Icon" />
+                                        <h3 class="text-truncate" style="max-width: 70%;">
+                                             {{ e.produto_nome }}
+                                        </h3>
+                                   </div>
+                                   <div class="d-flex align-center mt-4">
+                                        <div class="mx-2">
+                                             <p>Data do Pedido</p>
+                                             <h4 v-if="e.data_pedido">{{ formatarDataDDMMYYYY(e.data_pedido) }}</h4>
+                                        </div>
+                                        <div class="mx-2">
+                                             <p>Data do Prazo</p>
+                                             <h4 v-if="e.data_prazo">{{ formatarDataDDMMYYYY(e.data_prazo) }}</h4>
+                                             <h4 v-if="!e.data_prazo" class="subText">Sem Prazo</h4>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div>
+                    </v-card>
                </v-col>
-               <v-col cols="3">
-                    <p>Produto</p>
-                    <v-autocomplete variant="solo-filled" clearable :items="produtoStore.produtos" item-title="nome"
-                         item-value="codigo" hide-details v-model="produtoSelecionado" spellcheck="false" />
-               </v-col>
-               <v-col cols="2">
-                    <p>Entregue?</p>
-                    <v-select variant="solo-filled" :items="filtrosBooleanos" item-title="title" item-value="value"
-                         v-model="filtroEntregue" hide-details />
-               </v-col>
-               <v-col cols="2">
-                    <p>Stauts Pagamento</p>
-                    <v-select variant="solo-filled" :items="filtrosStatusPagamento" item-title="title" item-value="value"
-                         v-model="filtroPago" hide-details />
-               </v-col>
-               <v-col cols="2">
-                    <p>Finalizado?</p>
-                    <v-select variant="solo-filled" :items="filtrosBooleanos" item-title="title" item-value="value"
-                         v-model="filtroFinalizado" hide-details />
+               <v-col cols="12" v-if="encomendas.length == 0">
+                    <v-card class="pa-10 d-flex align-center justify-center flex-column">
+                         <HugeiconsIcon :stroke-width="1" class="opacity-20" :size="150" :icon="Sad01Icon" />
+                         <h2 class="f-regular text-black opacity-30 mt-5 text-center">Ainda não há nenhuma <br>
+                              encomenda
+                              cadastrada
+                         </h2>
+                    </v-card>
                </v-col>
           </v-row>
-     </div>
-
-     <v-row class="mt-5">
-          <v-col v-if="encomendas.length > 0" cols="12" xl="4" lg="6" v-for="e in encomendasFiltradas" :key="e.codigo">
-               <v-card class="pa-5" @click="abrirEditar(e.codigo)" :class="e.finalizado ? 'encomendaFinalizada' : ''">
-                    <div class="d-flex">
-                         <div class="mr-3">
-                              <v-img width="7.5vw" height="15vh" cover :key="e.produto_codigo + e.data_criacao"
-                                   :src="`${api.defaults.baseURL}/arquivos/produtos/${e.produto_codigo}/1.webp?v=${Date.now()}`">
-                                   <template #placeholder>
-                                        <div class="d-flex align-center justify-center fill-height">
-                                             <v-progress-circular color="main" indeterminate size="36" />
-                                        </div>
-                                   </template>
-                                   <template #error>
-                                        <div class="d-flex align-center justify-center fill-height bg-grey-lighten-3">
-                                             <HugeiconsIcon :size="70" class="opacity-30" :icon="ImageDelete01Icon" />
-                                        </div>
-                                   </template>
-                              </v-img>
-                         </div>
-                         <div>
-                              <div class="d-flex align-center">
-                                   <HugeiconsIcon :storke-width="16" class="text-light mr-1" :icon="UserCircleIcon" />
-                                   <h3 class="text-truncate" style="max-width: 70%;">
-                                        {{ e.cliente_nome }}
-                                   </h3>
-                              </div>
-                              <div class="d-flex align-center mt-1 w-100">
-                                   <HugeiconsIcon :storke-width="16" class="text-light mr-1" :icon="Tag01Icon" />
-                                   <h3 class="text-truncate" style="max-width: 70%;">
-                                        {{ e.produto_nome }}
-                                   </h3>
-                              </div>
-                              <div class="d-flex align-center mt-4">
-                                   <div class="mx-2">
-                                        <p>Data do Pedido</p>
-                                        <h4 v-if="e.data_pedido">{{ formatarDataDDMMYYYY(e.data_pedido) }}</h4>
-                                   </div>
-                                   <div class="mx-2">
-                                        <p>Data do Prazo</p>
-                                        <h4 v-if="e.data_prazo">{{ formatarDataDDMMYYYY(e.data_prazo) }}</h4>
-                                        <h4 v-if="!e.data_prazo" class="subText">Sem Prazo</h4>
-                                   </div>
-                              </div>
-                         </div>
-                    </div>
-               </v-card>
-          </v-col>
-          <v-col cols="12" v-if="encomendas.length == 0">
-               <v-card class="pa-10 d-flex align-center justify-center flex-column">
-                    <HugeiconsIcon :stroke-width="1" class="opacity-20" :size="150" :icon="Sad01Icon" />
-                    <h2 class="f-regular text-black opacity-30 mt-5 text-center">Ainda não há nenhuma <br> encomenda
-                         cadastrada
-                    </h2>
-               </v-card>
-          </v-col>
-     </v-row>
+     </v-card>
 
      <EncomendaFormDialog v-model="dialogEncomendaForm" :encomenda="encomendaSelecionada" @salvar="salvarEncomenda"
           @excluir="excluirEncomenda" />

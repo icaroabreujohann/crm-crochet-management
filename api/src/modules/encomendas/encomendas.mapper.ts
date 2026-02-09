@@ -1,3 +1,4 @@
+import { calcularDataPrazo } from '../../utils/datas/calcular-data-prazo'
 import { normalizaTexto } from '../../utils/normalizadores'
 import { ProdutoMaterialView } from '../produtos/materiais/produtoMaterial.types'
 import { EncomendaCriarDTO, EncomendaCriarDB, EncomendaEditarDTO, EncomendaEditarDB } from './encomendas.types'
@@ -20,7 +21,7 @@ export const mapEncomendaCriarDTOParaDB = (
      local_entrega: data.local_entrega ?? '',
 
      data_pedido: data.data_pedido,
-     data_prazo: data.data_prazo ?? null
+     data_prazo: calcularDataPrazo(data.data_pedido, data.data_prazo ?? null, 20)
 })
 
 export const mapEncomendaEditarDTOParaDB = (

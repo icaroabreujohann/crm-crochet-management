@@ -10,8 +10,8 @@ import { ProdutosRepository } from '../produtos/produtos.repository'
 import { ClientesRepository } from '../clientes/clientes.repository'
 import { mapEncomendaCriarDTOParaDB, mapEncomendaEditarDTOParaDB, mapProdutoMaterialParaEncomendaMaterial } from './encomendas.mapper'
 import { assertPersistencia } from '../../shared/asserts/assertPersistencia'
-import { ProdutoMaterialService } from '../produtos/materiais/produtoMaterial.services'
 import { ProdutoMaterialRepository } from '../produtos/materiais/produtoMaterial.repository'
+import { calcularDataPrazo } from '../../utils/datas/calcular-data-prazo'
 
 export class EncomendasServices {
      constructor(
@@ -56,11 +56,11 @@ export class EncomendasServices {
           assertResultadoExiste(encomenda, CODIGOS_ERRO.ENCOMENDA_N_EXISTE_ERR, codigo)
           return encomenda.data
      }
-     
+
      async listarCompleto(codigo: string) {
           const encomenda = await this.repository.listarPorCodigo(codigo)
           assertResultadoExiste(encomenda, CODIGOS_ERRO.ENCOMENDA_N_EXISTE_ERR, codigo)
-          
+
           const materiais = await this.repositoryMateriais.listarMaterialPorEncomenda(encomenda.data.id)
           const materiaisMapeados = materiais?.data ?? []
 
@@ -71,6 +71,7 @@ export class EncomendasServices {
      }
 
      async criar(data: EncomendaCriarDTO) {
+          console.log('dto criar', data)
           const produtoExiste = await this.repositoryProdutos.listarProdutoPorCodigo(data.produto_codigo)
           assertResultadoExiste(produtoExiste, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, data.produto_codigo)
 
@@ -80,6 +81,7 @@ export class EncomendasServices {
           const codigo = await this.gerarCodigoEncomendaUnico()
           const encomendaMap = mapEncomendaCriarDTOParaDB(data, codigo, produtoExiste.data.id)
 
+          console.log('encomenda map criar', encomendaMap)
           const encomendaCriada = await this.repository.criar(encomendaMap)
           assertPersistencia(encomendaCriada, CODIGOS_ERRO.ENCOMENDA_CRIAR_ERR)
 
@@ -100,7 +102,18 @@ export class EncomendasServices {
           let encomendaEditada
 
           const encomendaMap = mapEncomendaEditarDTOParaDB(data)
-          if(Object.keys(encomendaMap).length){
+          if ('data_prazo' in encomendaMap) {
+               if (encomendaMap.data_prazo === null) {
+                    const base = encomendaMap.data_pedido ?? encomendaExiste.data.data_pedido
+
+                    encomendaMap.data_prazo = calcularDataPrazo(
+                         base,
+                         null,
+                         20
+                    )
+               }
+          }
+          if (Object.keys(encomendaMap).length) {
                encomendaEditada = await this.repository.editar(encomendaExiste.data.id, encomendaMap)
                assertPersistencia(encomendaEditada, CODIGOS_ERRO.ENCOMENDA_EDITAR_ERR)
           }

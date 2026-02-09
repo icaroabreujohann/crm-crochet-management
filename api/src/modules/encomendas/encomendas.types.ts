@@ -48,7 +48,7 @@ export interface EncomendaCriarDTO {
     entregue?: boolean,
     local_entrega?: string,
     data_pedido: string,
-    data_prazo?: string | null
+    data_prazo: string | null
     materiais?: EncomendaMaterialCriarDTO[]
 }
 

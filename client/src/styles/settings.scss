@@ -67,10 +67,12 @@
 
 * {
      font-family: f-regular;
-     -webkit-font-smoothing: antialiased;
      letter-spacing: -0.5px !important;
      box-shadow: none !important;
      font-weight: normal;
+
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
@@ -85,7 +87,8 @@ h4,
 }
 
 h1,
-h2, h3 {
+h2,
+h3 {
      color: var(--main);
 }
 
@@ -191,4 +194,9 @@ canvas {
 
 .v-calendar-weekly__day-label {
      margin-bottom: 16px;
+}
+
+.tooltip-sem-fundo {
+     background: transparent !important;
+     padding: 0 !important;
 }

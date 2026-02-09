@@ -60,16 +60,21 @@
                                         <v-text-field type="date" variant="solo-filled" v-model="form.data_pedido"
                                              :rules="regras.obrigatorio"></v-text-field>
                                    </v-col>
-                                   <v-col cols="3">
-                                        <p>Data de Prazo</p>
-                                        <v-text-field type="date" variant="solo-filled" v-model="form.data_prazo"
-                                             :disabled="encomendaSemPrazo"></v-text-field>
-                                   </v-col>
-                                   <v-col cols="3" class="d-flex align-center">
-                                        <v-checkbox color="main" density="compact" hide-details
-                                             v-model="encomendaSemPrazo">
-                                             <template #label>Sem Prazo</template>
-                                        </v-checkbox>
+                                   <v-col cols="6">
+                                        <div class="d-flex align-center">
+                                             <p class="mr-2">Data de Prazo</p>
+                                             <v-tooltip content-class="tooltip-sem-fundo">
+                                                  <template #activator="{ props }">
+                                                       <HugeiconsIcon v-bind="props" :size="18" :stroke-width="2"
+                                                            :icon="InformationCircleIcon" />
+                                                  </template>
+                                                  <v-card class="pa-5">
+                                                       <p>Caso não seja inserido uma <b>data de prazo</b>, <br> será calculada em <b>20 dias</b> apartir da data do pedido.</p>
+                                                  </v-card>
+                                             </v-tooltip>
+                                        </div>
+                                        <v-text-field type="date" variant="solo-filled" v-model="form.data_prazo" />
+
                                    </v-col>
                               </v-row>
                               <v-row>
@@ -153,7 +158,7 @@
 import { useEncomendaForm } from '@/composables/useEncomendaForm';
 import type { EncomendaCriarDTO, EncomendaForm, EncomendaView } from '@/modules/encomendas/encomendas.types';
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { CancelCircleIcon, ChartUpIcon, Delete02Icon, MoneyBag02Icon, PackageIcon, PackageMoving01Icon, PencilEdit02Icon, ShoppingCart02Icon, Tag01Icon } from '@hugeicons/core-free-icons';
+import { CancelCircleIcon, ChartUpIcon, Delete02Icon, InformationCircleIcon, MoneyBag02Icon, PackageIcon, PackageMoving01Icon, PencilEdit02Icon, ShoppingCart02Icon, Tag01Icon } from '@hugeicons/core-free-icons';
 import { computed, ref, watch } from 'vue';
 import ClienteSelectDialog from './ClienteSelectDialog.vue';
 import type { VForm } from 'vuetify/components';
@@ -259,12 +264,4 @@ watch(dialog, (aberto) => {
           vFormRef.value?.resetValidation()
      }
 })
-
-watch(encomendaSemPrazo, (semPrazo) => {
-     if (semPrazo) {
-          form.value.data_prazo = null
-     }
-})
-
-
 </script>

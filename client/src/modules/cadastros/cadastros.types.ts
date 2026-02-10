@@ -13,6 +13,11 @@ export interface ProdutoCategoria {
      categoria: string
 }
 
+export interface ProdutoCategoriaForm {
+     id?: number,
+     categoria: string
+}
+
 export interface ProdutoCategoriaCriarDTO {
      categoria: string
 }

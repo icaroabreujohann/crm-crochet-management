@@ -5,7 +5,7 @@
                     <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="DashboardCircleIcon" />
                     <h1 class="ml-2">Categorias de Produtos</h1>
                </div>
-               <v-btn color="main">Adicionar</v-btn>
+               <v-btn color="main" @click="abrirCriar">Adicionar</v-btn>
           </div>
           <v-data-table :headers="produtoCategoriaHeaders" v-if="produtoCategoria" :items="produtoCategoria">
 
@@ -15,6 +15,11 @@
 
           </v-data-table>
      </v-card>
+
+     <CadastroProdutoCategoriaForm :produto_categoria="produtoCategoriaSelecionado" v-model="dialogForm"
+          @salvo="salvarCategoria" />
+     <ConfirmaExclusao v-model="dialogConfirmaExclusao" v-if="produtoCategoriaSelecionado"
+          :identificador="produtoCategoriaSelecionado.id" :tipo="'produto categoria'" @excluir="excluirCategoria" />
 </template>
 
 <script setup lang="ts">
@@ -23,20 +28,56 @@ import { DashboardCircleIcon } from '@hugeicons/core-free-icons';
 import { onMounted, ref } from 'vue';
 
 import { usarAuxiliaresStore } from '@/stores/auxiliares.store';
-import type { ProdutoCategoria } from '@/modules/cadastros/cadastros.types';
+import type { ProdutoCategoria, ProdutoCategoriaForm } from '@/modules/cadastros/cadastros.types';
 import MenuAcoes from '@/components/common/MenuAcoes.vue';
+import CadastroProdutoCategoriaForm from '@/components/CadastroProdutoCategoriaForm.vue';
+import ConfirmaExclusao from '@/components/common/ConfirmaExclusao.vue';
+import { usarFeedbackStore } from '@/stores/feedbacks.store';
+import { storeToRefs } from 'pinia';
 
-type Abas = 'produto_categoria'
-const abaAtiva = ref<Abas>('produto_categoria')
-
+const feedback = usarFeedbackStore()
 const auxiliaresStore = usarAuxiliaresStore()
+const { produtoCategoria } = storeToRefs(auxiliaresStore)
 
-const produtoCategoria = ref<ProdutoCategoria[] | null>(null)
 const produtoCategoriaHeaders = [
      { title: 'ID', value: 'id' },
      { title: 'Categoria', value: 'categoria' },
      { title: '', value: 'acoes', width: '5%' }
 ]
+const produtoCategoriaSelecionado = ref<ProdutoCategoria | null>(null)
+const dialogForm = ref<boolean>(false)
+const dialogConfirmaExclusao = ref<boolean>(false)
+
+function abrirCriar() {
+     produtoCategoriaSelecionado.value = null
+     dialogForm.value = true
+}
+
+function abrirEditar(categoria: ProdutoCategoria) {
+     produtoCategoriaSelecionado.value = categoria
+     dialogForm.value = true
+}
+
+function abrirExcluir(categoria: ProdutoCategoria) {
+     produtoCategoriaSelecionado.value = categoria
+     dialogConfirmaExclusao.value = true
+}
+
+async function salvarCategoria(form: ProdutoCategoriaForm) {
+     await auxiliaresStore.salvarProdutoCategoria(form)
+     dialogForm.value = false
+     produtoCategoriaSelecionado.value = null
+     feedback.sucesso('Categoria criada/editada com sucesso!')
+}
+
+async function excluirCategoria(identificador: string | number) {
+     const id = Number(identificador)
+
+     await auxiliaresStore.excluirProdutoCategoria(id)
+     dialogConfirmaExclusao.value = false
+     produtoCategoriaSelecionado.value = null
+     feedback.sucesso('Categoria exluida com sucesso!')
+}
 
 async function listarAuxiliares() {
      await auxiliaresStore.carregar()

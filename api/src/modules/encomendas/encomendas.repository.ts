@@ -22,7 +22,7 @@ export class EncomendasRepository {
      async listar(): Promise<EncomendaView[]> {
           return await sql<EncomendaView[]>`
                ${this.selectEncomendaView}
-               order by em.data_pedido desc
+               order by em.data_criacao desc
           `
      }
 

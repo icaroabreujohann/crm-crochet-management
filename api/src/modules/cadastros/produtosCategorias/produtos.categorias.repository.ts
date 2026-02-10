@@ -9,6 +9,7 @@ export class ProdutoCategoriaRepository {
      async listar(): Promise<ProdutoCategoria[]> {
           return await sql<ProdutoCategoria[]>`
                select * from produtos_categoria
+               order by id desc
           `
      }
 
@@ -17,6 +18,7 @@ export class ProdutoCategoriaRepository {
           const [categoria] = await sql<ProdutoCategoria[]>`
                select * from produtos_categoria
                where id = ${id}
+               order by id desc
           `
 
           return categoria ? resultadoEncontrado(categoria) : resultadoInexistente()

@@ -14,6 +14,7 @@ declare module 'vue' {
     CadastroProdutoCategoriaForm: typeof import('./components/CadastroProdutoCategoriaForm.vue')['default']
     CardEncomendasFaturamento: typeof import('./components/ChartsEncomendasFaturamento.vue')['default']
     CardEncomendasPendentes: typeof import('./components/CardEncomendasPendentes.vue')['default']
+    CardImagem: typeof import('./components/common/CardImagem.vue')['default']
     CardProdutoCategoria: typeof import('./components/CardProdutoCategoria.vue')['default']
     ChartsEncomendasFaturamento: typeof import('./components/ChartsEncomendasFaturamento.vue')['default']
     ClienteFormDialog: typeof import('./components/ClienteFormDialog.vue')['default']

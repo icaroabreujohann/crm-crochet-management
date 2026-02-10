@@ -71,7 +71,6 @@ export class EncomendasServices {
      }
 
      async criar(data: EncomendaCriarDTO) {
-          console.log('dto criar', data)
           const produtoExiste = await this.repositoryProdutos.listarProdutoPorCodigo(data.produto_codigo)
           assertResultadoExiste(produtoExiste, CODIGOS_ERRO.PRODUTO_N_EXISTE_ERR, data.produto_codigo)
 

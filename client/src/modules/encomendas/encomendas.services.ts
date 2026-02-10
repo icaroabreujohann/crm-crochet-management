@@ -36,10 +36,9 @@ export const EncomendasServices = {
                entregue: form.entregue,
                local_entrega: form.local_entrega,
                data_pedido: form.data_pedido ,
-               data_prazo: form.data_prazo ?? null,
+               data_prazo: form.data_prazo,
                materiais: form.materiais
           }
-
           if (!form.codigo) { return await criar(payload) }
           return await editar(form.codigo, payload)
      },

@@ -28,22 +28,8 @@
                     <v-row>
                          <v-col cols="12" md="4" v-for="produto in produtosFiltrados" :key="produto.codigo">
                               <v-card class="pa-5" @click="selecionarProduto(produto)">
-                                   <v-img aspect-ratio="1" cover width="100%"
-                                        :key="produto.codigo + produto.data_alteracao"
-                                        :src="`${api.defaults.baseURL}/arquivos/produtos/${produto.codigo}/1.webp?v=${produto.data_alteracao || Date.now()}`">
-                                        <template #placeholder>
-                                             <div class="d-flex align-center justify-center fill-height">
-                                                  <v-progress-circular color="main" indeterminate size="36" />
-                                             </div>
-                                        </template>
-                                        <template #error>
-                                             <div
-                                                  class="d-flex align-center justify-center fill-height bg-grey-lighten-3">
-                                                  <HugeiconsIcon :size="70" class="opacity-30"
-                                                       :icon="ImageDelete01Icon" />
-                                             </div>
-                                        </template>
-                                   </v-img>
+                                   <CardImagem :width="'100%'" :height="'20vh'" :tipo="'produtos'"
+                                        :codigo="produto.codigo" />
                                    <h2 class="mt-3">{{ produto.nome }}</h2>
                                    <v-chip class="mt-1" color="main">
                                         <HugeiconsIcon :size="18" :icon="TagsIcon" />

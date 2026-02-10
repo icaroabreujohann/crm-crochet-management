@@ -23,19 +23,7 @@
                     <v-card class="pa-5" @click="abrirEditar(produto)">
                          <div class="d-flex">
                               <div class="mr-3">
-                                   <v-img width="100" height="100" cover :key="produto.codigo + produto.data_alteracao"
-                                        :src="`${api.defaults.baseURL}/arquivos/produtos/${produto.codigo}/1.webp?v=${produto.data_alteracao || Date.now()}`">
-                                        <template #placeholder>
-                                             <div class="d-flex align-center justify-center fill-height">
-                                                  <v-progress-circular color="main" indeterminate size="36" />
-                                             </div>
-                                        </template>
-                                        <template #error>
-                                             <div class="d-flex align-center justify-center fill-height bg-grey-lighten-3">
-                                                  <HugeiconsIcon :size="70" class="opacity-30" :icon="ImageDelete01Icon" />
-                                             </div>
-                                        </template>
-                                   </v-img>
+                                   <CardImagem :width="'100px'" :height="'100px'" :tipo="'produtos'" :codigo="produto.codigo" />
                               </div>
                               <div>
                                    <h2>{{ produto.nome }}</h2>
@@ -79,10 +67,9 @@ import { computed, onMounted, ref } from 'vue';
 import { usarFeedbackStore } from '@/stores/feedbacks.store';
 
 import { HugeiconsIcon } from '@hugeicons/vue';
-import { ClothesIcon, ImageDelete01Icon, QrCode01Icon, Sad01Icon, Search02Icon, Tag01Icon, TagsIcon } from '@hugeicons/core-free-icons';
+import { Sad01Icon, Search02Icon, Tag01Icon, TagsIcon } from '@hugeicons/core-free-icons';
 import { substituiPontoPorVirgula } from '@/utils/substituirPontoPorVirgula';
 import ProdutoFormDialog from '@/components/ProdutoFormDialog.vue';
-import { api } from '@/plugins/api';
 import { normalizarTextoBusca } from '@/utils/normalizarTextoBusca';
 import { storeToRefs } from 'pinia';
 import { usarProdutoStore } from '@/stores/produtos.store';

@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const sql: Sql = postgres(process.env.DATABASE_URL!, {
+
      types: {
           date: {
                from: [1082],                  // OID do DATE

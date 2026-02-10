@@ -55,21 +55,7 @@
                          :class="e.finalizado ? 'encomendaFinalizada' : ''">
                          <div class="d-flex">
                               <div class="mr-3">
-                                   <v-img width="7.5vw" height="15vh" cover :key="e.produto_codigo + e.data_criacao"
-                                        :src="`${api.defaults.baseURL}/arquivos/produtos/${e.produto_codigo}/1.webp?v=${Date.now()}`">
-                                        <template #placeholder>
-                                             <div class="d-flex align-center justify-center fill-height">
-                                                  <v-progress-circular color="main" indeterminate size="36" />
-                                             </div>
-                                        </template>
-                                        <template #error>
-                                             <div
-                                                  class="d-flex align-center justify-center fill-height bg-grey-lighten-3">
-                                                  <HugeiconsIcon :size="70" class="opacity-30"
-                                                       :icon="ImageDelete01Icon" />
-                                             </div>
-                                        </template>
-                                   </v-img>
+                                   <CardImagem :width="'7.5vw'" :height="'15vh'" :tipo="'produtos'" :codigo="e.produto_codigo" />
                               </div>
                               <div>
                                    <div class="d-flex align-center">
@@ -131,6 +117,7 @@ import { formatarDataBR, formatarDataDDMMYYYY } from '@/utils/formataData';
 import { useRouter, useRoute } from 'vue-router';
 import { usarEncomendaStore } from '@/stores/encomendas.store';
 import { storeToRefs } from 'pinia';
+import CardImagem from '@/components/common/CardImagem.vue';
 
 const router = useRouter()
 const route = useRoute()

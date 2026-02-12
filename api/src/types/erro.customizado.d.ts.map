@@ -1,0 +1,1 @@
+{"version":3,"file":"erro.customizado.d.ts","sourceRoot":"","sources":["erro.customizado.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,mBAAmB,CAAA;AAElD,qBAAa,eAAgB,SAAQ,KAAK;IACtC,mBAAmB,EAAE,OAAO,CAAA;IAC5B,cAAc,EAAE,cAAc,CAAA;IAC9B,IAAI,EAAE,GAAG,CAAA;IACT,YAAY,EAAE,MAAM,CAAA;gBAER,cAAc,EAAE,cAAc,EAAE,IAAI,CAAC,EAAE,GAAG,EAAE,YAAY,CAAC,EAAE,MAAM;CAOhF"}

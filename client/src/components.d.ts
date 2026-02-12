@@ -12,15 +12,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CadastroProdutoCategoriaForm: typeof import('./components/CadastroProdutoCategoriaForm.vue')['default']
-    CardEncomendasFaturamento: typeof import('./components/ChartsEncomendasFaturamento.vue')['default']
     CardEncomendasPendentes: typeof import('./components/CardEncomendasPendentes.vue')['default']
     CardImagem: typeof import('./components/common/CardImagem.vue')['default']
     CardProdutoCategoria: typeof import('./components/CardProdutoCategoria.vue')['default']
     ChartsEncomendasFaturamento: typeof import('./components/ChartsEncomendasFaturamento.vue')['default']
     ClienteFormDialog: typeof import('./components/ClienteFormDialog.vue')['default']
     ClienteSelectDialog: typeof import('./components/ClienteSelectDialog.vue')['default']
-    Configuracoes: typeof import('./components/ConfiguracoesDialog.vue')['default']
-    ConfiguracoesDialog: typeof import('./components/ConfiguracoesDialog.vue')['default']
     ConfirmaExclusao: typeof import('./components/common/ConfirmaExclusao.vue')['default']
     EncomendaFormDialog: typeof import('./components/EncomendaFormDialog.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
@@ -29,7 +26,6 @@ declare module 'vue' {
     MenuAcoes: typeof import('./components/common/MenuAcoes.vue')['default']
     ProdutoFormDialog: typeof import('./components/ProdutoFormDialog.vue')['default']
     ProdutoSelectDialog: typeof import('./components/ProdutoSelectDialog.vue')['default']
-    Remove: typeof import('./components/Remove.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

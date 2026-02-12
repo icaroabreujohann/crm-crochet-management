@@ -16,6 +16,7 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
+    "build": "tsc",
     "dev": "ts-node-dev src/app.ts"
   }
 }

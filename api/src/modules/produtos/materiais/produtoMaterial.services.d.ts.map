@@ -1,0 +1,1 @@
+{"version":3,"file":"produtoMaterial.services.d.ts","sourceRoot":"","sources":["produtoMaterial.services.ts"],"names":[],"mappings":"AAGA,OAAO,EAAE,uBAAuB,EAA0B,MAAM,yBAAyB,CAAA;AAKzF,qBAAa,sBAAsB;IAC9B,OAAO,CAAC,UAAU,CAAkC;IACpD,OAAO,CAAC,kBAAkB,CAA4B;IACtD,OAAO,CAAC,kBAAkB,CAA2B;IAE/C,iBAAiB,CAAC,UAAU,EAAE,MAAM,EAAE,IAAI,EAAE,uBAAuB;CAe7E"}

@@ -31,11 +31,14 @@
                </div>
           </v-navigation-drawer>
 
-          <v-main>
-               <v-container class="pa-10 d-flex justify-center flex-column">
-                    <router-view />
-               </v-container>
-          </v-main>
+<v-main class="d-flex">
+  <v-container
+    fluid
+    class="pa-10 d-flex justify-center flex-column fill-height"
+  >
+    <router-view />
+  </v-container>
+</v-main>
      </v-app>
 
      <v-dialog v-model="feedback.aberto" width="20vw">

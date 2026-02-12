@@ -1,21 +1,19 @@
 <template>
-     <v-container class="pa-0">
-          <v-row dense>
-               <v-col cols="12" md="6" lg="8" class="pr-5">
-                    <v-row style="height: 44% !important;">
-                         <v-col cols="12">
-                              <CardProdutoCategoria v-if="dadosProdutoCategoriaTotal" :dados="dadosProdutoCategoriaTotal"/>
-                         </v-col>
-                    </v-row>
-                    <v-row>
-                         <v-col cols="12">
-                              <ChartsEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal"
-                                   :dados="dadosEncomendasFaturamentoMensal" />
-                         </v-col>
-                    </v-row>
+     <v-container fluid class="pa-0 fill-height d-flex flex-column">
+          <v-row class="flex-grow-1 ma-0">
+               <v-col cols="12" md="6" lg="8" class="d-flex flex-column pr-5">
+                    <div style="flex: 0 0 47.5%;">
+                         <CardProdutoCategoria v-if="dadosProdutoCategoriaTotal" :dados="dadosProdutoCategoriaTotal" />
+                    </div>
+
+                    <div class="flex-grow-1">
+                         <ChartsEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal"
+                              :dados="dadosEncomendasFaturamentoMensal" />
+                    </div>
                </v-col>
-               <v-col cols="12" md="6" lg="4">
-                    <CardEncomendasPendentes v-if="encomendas" :encomendas="encomendas" />
+
+               <v-col cols="12" md="6" lg="4" class="d-flex">
+                    <CardEncomendasPendentes class="flex-grow-1" v-if="encomendas" :encomendas="encomendas" />
                </v-col>
           </v-row>
      </v-container>

@@ -4,7 +4,7 @@
                 <HugeiconsIcon class="text-light" :icon="AnalyticsUpIcon" />
                <h2 class="ml-2">Categorias mais vendidas</h2>
           </div>
-          <v-data-table height="180" :headers="dadosHeaders" :items="props.dados" hide-default-footer>
+          <v-data-table :headers="dadosHeaders" :items="props.dados" hide-default-footer>
                <template #item.preco_medio="{ item }">
                     <p>R${{ String(item.preco_medio).replace('.', ',') }}</p>
                </template>

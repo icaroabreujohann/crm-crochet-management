@@ -11,6 +11,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BarraTitulo: typeof import('./components/BarraTitulo.vue')['default']
     CadastroProdutoCategoriaForm: typeof import('./components/CadastroProdutoCategoriaForm.vue')['default']
     CardEncomendasPendentes: typeof import('./components/CardEncomendasPendentes.vue')['default']
     CardImagem: typeof import('./components/common/CardImagem.vue')['default']

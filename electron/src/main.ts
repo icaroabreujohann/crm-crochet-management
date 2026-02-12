@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import path from 'path'
 import { spawn } from 'child_process'
+import { ipcMain } from 'electron'
 
 let processoApi: any
 
@@ -23,7 +24,14 @@ const iniciarApi = () => {
 const criarJanelaElectron = () => {
      const win = new BrowserWindow({
           width: 1366,
-          height: 768
+          height: 768,
+          frame: false,
+          titleBarStyle: 'hidden',
+          webPreferences: {
+               preload: path.join(__dirname, 'preload.js'),
+               contextIsolation: true,
+               nodeIntegration: false
+          }
      })
 
      const caminhoClient = app.isPackaged
@@ -34,6 +42,25 @@ const criarJanelaElectron = () => {
 }
 
 app.whenReady().then(() => {
+     ipcMain.on('window:minimize', () => {
+          BrowserWindow.getFocusedWindow()?.minimize()
+     })
+
+     ipcMain.on('window:toggle-maximize', () => {
+          const win = BrowserWindow.getFocusedWindow()
+          if (!win) return
+
+          if (win.isMaximized()) {
+               win.unmaximize()
+          } else {
+               win.maximize()
+          }
+     })
+
+     ipcMain.on('window:close', () => {
+          BrowserWindow.getFocusedWindow()?.close()
+     })
+
      iniciarApi()
      setTimeout(criarJanelaElectron, 2000)
 })

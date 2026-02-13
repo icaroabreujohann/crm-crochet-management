@@ -4,7 +4,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
-    "start": "npm run build && electron ."
+    "start": "npm run build && electron . --no-sandbox"
   },
   "dependencies": {
     "electron": "^40.4.0"

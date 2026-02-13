@@ -3,6 +3,8 @@ import path from 'path'
 import { spawn } from 'child_process'
 import { ipcMain } from 'electron'
 
+app.commandLine.appendSwitch('no-sandbox')
+
 let processoApi: any
 
 const iniciarApi = () => {

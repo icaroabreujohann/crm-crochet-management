@@ -1,10 +1,21 @@
 <template>
      <v-card height="100%" class="apptitlebar d-flex w-100 justify-space-between">
           <v-row>
-               <v-col cols="5"></v-col>
+               <v-col cols="5" class="justify-start">
+                    <v-btn class="no-border no-border-radius h-100" size="small" @click="voltar">
+                         <HugeiconsIcon class="text-main" :size="18" :icon="ArrowLeft01Icon" />
+                    </v-btn>
+                    <v-btn class="no-border no-border-radius h-100" size="small" @click="avancar">
+                         <HugeiconsIcon class="text-main" :size="18" :icon="ArrowRight01Icon" />
+                    </v-btn>
+               </v-col>
                <v-col cols="2" class="d-flex align-center">
                     <v-text-field variant="solo-filled" hide-details readonly v-model="rotaDisplay"
-                         class="centered-input extra-compact subText"></v-text-field>
+                         class="centered-input extra-compact subText">
+                         <template #prepend-inner>
+                              <HugeiconsIcon class="text-main" :size="18" :icon="Blockchain01Icon" />
+                         </template>
+                    </v-text-field>
                </v-col>
                <v-col cols="5" class="d-flex justify-end">
                     <v-btn class="no-border no-border-radius h-100" size="small" @click="minimizar">
@@ -22,15 +33,18 @@
 </template>
 
 <script setup lang="ts">
-import { Cancel01Icon, ChangeScreenModeIcon, Remove01Icon } from '@hugeicons/core-free-icons';
+import router from '@/router';
+import { ArrowLeft01Icon, ArrowRight01Icon, Blockchain01Icon, Cancel01Icon, ChangeScreenModeIcon, Remove01Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/vue';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
 
-// rotaDisplay agora é computed e atualiza automaticamente
-const rotaDisplay = computed(() => `sethateliê${route.fullPath}`)
+const rotaDisplay = computed(() => `seth.ateliê${route.fullPath}`)
+
+const voltar = () => router.back()
+const avancar = () => router.forward()
 
 const minimizar = () => {
      window.electronAPI.minimize()
@@ -64,5 +78,4 @@ const fechar = () => {
      min-height: 30px !important;
      padding: 2px 0 !important;
 }
-
 </style>

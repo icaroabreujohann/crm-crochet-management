@@ -1,27 +1,25 @@
 <template>
-     <v-container fluid class="pa-0 fill-height d-flex flex-column">
-          <v-row class="flex-grow-1 ma-0">
+     <v-container fluid class="pa-0 d-flex flex-column">
+          <v-row class="ma-0">
                <v-col cols="12" md="6" lg="8" class="d-flex flex-column pr-5">
-                    <div style="flex: 0 0 47.5%;">
+                    <div class="mb-5">
                          <CardProdutoCategoria v-if="dadosProdutoCategoriaTotal" :dados="dadosProdutoCategoriaTotal" />
                     </div>
 
-                    <div class="flex-grow-1">
+                    <div>
                          <ChartsEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal"
                               :dados="dadosEncomendasFaturamentoMensal" />
                     </div>
                </v-col>
 
                <v-col cols="12" md="6" lg="4" class="d-flex">
-                    <CardEncomendasPendentes class="flex-grow-1" v-if="encomendas" :encomendas="encomendas" />
+                    <CardEncomendasPendentes v-if="encomendas" :encomendas="encomendas" />
                </v-col>
           </v-row>
      </v-container>
 </template>
 
 <script setup lang="ts">
-import { HugeiconsIcon } from '@hugeicons/vue';
-import { ShoppingBasket01Icon } from '@hugeicons/core-free-icons';
 import { usarClienteStore } from '@/stores/clientes.store';
 import { usarProdutoStore } from '@/stores/produtos.store';
 import { usarEncomendaStore } from '@/stores/encomendas.store';
@@ -37,8 +35,6 @@ const clienteStore = usarClienteStore()
 const produtoStore = usarProdutoStore()
 const encomendaStore = usarEncomendaStore()
 
-const clientes = storeToRefs(clienteStore)
-const produtos = storeToRefs(produtoStore)
 const { encomendas } = storeToRefs(encomendaStore)
 
 const dadosEncomendasFaturamentoMensal = ref<EncomendasFaturamentoMensal[] | null>(null)

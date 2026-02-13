@@ -1,5 +1,5 @@
 <template>
-     <v-card class="pa-10" style="height: 440px;">
+     <v-card class="pa-10" style="height: 400px;">
           <div class="d-flex align-center justify-space-between mb-7">
                <div class="d-flex align-center">
                     <HugeiconsIcon class="text-light" :icon="Chart01Icon" />

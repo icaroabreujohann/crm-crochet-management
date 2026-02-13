@@ -34,8 +34,8 @@
                </div>
           </v-navigation-drawer>
 
-          <v-main>
-               <v-container fluid class="pa-10">
+          <v-main class="main-content">
+               <v-container fluid class="pa-10 content-wrapper">
                     <router-view />
                </v-container>
           </v-main>
@@ -90,4 +90,17 @@ const menuItemsCadastros = ref([
 .barra-titulo-fixa {
      background: white;
 }
+
+.main-content {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.content-wrapper {
+     width: 100%;
+     margin: 0 auto;
+}
+
+
 </style>

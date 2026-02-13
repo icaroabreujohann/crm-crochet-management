@@ -20,6 +20,7 @@ declare module 'vue' {
     ClienteFormDialog: typeof import('./components/ClienteFormDialog.vue')['default']
     ClienteSelectDialog: typeof import('./components/ClienteSelectDialog.vue')['default']
     ConfirmaExclusao: typeof import('./components/common/ConfirmaExclusao.vue')['default']
+    DialogMensagem: typeof import('./components/common/DialogMensagem.vue')['default']
     EncomendaFormDialog: typeof import('./components/EncomendaFormDialog.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MaterialFormDialog: typeof import('./components/MaterialFormDialog.vue')['default']

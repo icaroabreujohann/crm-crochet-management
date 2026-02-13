@@ -19,6 +19,7 @@ dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 3001
+const imagensPath = path.join(__dirname, '..', '..', 'client', 'dist', 'images')
 
 app.use(express.json())
 app.use(cors())
@@ -30,6 +31,7 @@ app.use('/encomendas', encomendasRoutes)
 app.use('/cadastros', cadastrosRoutes)
 app.use('/arquivos/produtos', produtosArquivosRoutes)
 app.use('/relatorios', relatoriosRoutes)
+app.use('/images', express.static(imagensPath))
 
 app.use(erroGlobal)
 

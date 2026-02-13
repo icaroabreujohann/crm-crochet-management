@@ -2,7 +2,7 @@
      <v-dialog v-model="dialog" width="25vw">
           <v-card class="">
                <div class="pa-5 d-flex flex-column align-center justify-center">
-                    <v-img width="300px" class="mt-10"
+                    <v-img width="300px" class="mt-10 no-border"
                          src="/images/delete-dialog.png" />
 
                     <h1 style="font-size: 2.5rem;" class="text-center mt-10">Atenção</h1>

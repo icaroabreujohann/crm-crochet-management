@@ -1,19 +1,19 @@
 <template>
-     <v-container fluid class="pa-0 d-flex flex-column">
-          <v-row class="ma-0">
-               <v-col cols="12" md="6" lg="8" class="d-flex flex-column pr-5">
-                    <div class="mb-5">
+     <v-container class="pa-10 mx-auto" style="width: 80vw;">
+          <v-row class="">
+               <v-col cols="8" class="d-flex flex-column">
+                    <div>
                          <CardProdutoCategoria v-if="dadosProdutoCategoriaTotal" :dados="dadosProdutoCategoriaTotal" />
                     </div>
 
-                    <div>
+                    <div class="flex-grow-1 mt-4">
                          <ChartsEncomendasFaturamento v-if="dadosEncomendasFaturamentoMensal"
                               :dados="dadosEncomendasFaturamentoMensal" />
                     </div>
                </v-col>
 
-               <v-col cols="12" md="6" lg="4" class="d-flex">
-                    <CardEncomendasPendentes v-if="encomendas" :encomendas="encomendas" />
+               <v-col cols="4">
+                    <CardEncomendasPendentes class="h-100" v-if="encomendas" :encomendas="encomendas" />
                </v-col>
           </v-row>
      </v-container>
@@ -23,7 +23,7 @@
 import { usarClienteStore } from '@/stores/clientes.store';
 import { usarProdutoStore } from '@/stores/produtos.store';
 import { usarEncomendaStore } from '@/stores/encomendas.store';
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import type { EncomendasFaturamentoMensal, ProdutoCategoriaTotal } from '@/modules/relatorios/relatorios.types';
 import { RelatoriosServices } from '../modules/relatorios/relatorios.services';
@@ -35,6 +35,8 @@ const clienteStore = usarClienteStore()
 const produtoStore = usarProdutoStore()
 const encomendaStore = usarEncomendaStore()
 
+const clientes = storeToRefs(clienteStore)
+const produtos = storeToRefs(produtoStore)
 const { encomendas } = storeToRefs(encomendaStore)
 
 const dadosEncomendasFaturamentoMensal = ref<EncomendasFaturamentoMensal[] | null>(null)

@@ -12,6 +12,7 @@ import { fileURLToPath, URL } from 'node:url'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
+  publicDir: 'public',
   plugins: [
     VueRouter({
       dts: 'src/typed-router.d.ts',

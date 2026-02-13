@@ -3,11 +3,11 @@
           <div class="w-100 mb-5 d-flex align-center justify-space-between">
                <div class="d-flex align-center">
                     <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="ShoppingCart02Icon" />
-                    <h1 class="ml-2">Encomendas</h1>
+                    <h1 class="ml-2">Encomendassss</h1>
                </div>
                <v-btn color="main" @click="abrirCriar">Adicionar</v-btn>
           </div>
-          <div>
+          <div class="w-100">
                <div class="d-flex align-center">
                     <HugeiconsIcon class="text-light" :stroke-width="2" :size="24" :icon="FilterIcon" />
                     <h2 class="ml-2 mr-2">Filtros</h2>
@@ -18,7 +18,7 @@
                          </template>
                     </v-btn>
                </div>
-               <v-row class="mt-3" v-if="mostrarIcones">
+               <v-row class="mt-3 w-100" v-if="mostrarIcones">
                     <v-col cols="3">
                          <p>Cliente</p>
                          <v-autocomplete variant="solo-filled" clearable :items="clienteStore.clientes"
@@ -48,14 +48,15 @@
                     </v-col>
                </v-row>
           </div>
-          <v-row class="mt-5">
+          <v-row class="mt-5 w-100">
                <v-col v-if="encomendas.length > 0" cols="12" xl="4" lg="6" v-for="e in encomendasFiltradas"
                     :key="e.codigo">
                     <v-card class="pa-5" @click="abrirEditar(e.codigo)"
                          :class="e.finalizado ? 'encomendaFinalizada' : ''">
                          <div class="d-flex">
                               <div class="mr-3">
-                                   <CardImagem :width="'7.5vw'" :height="'15vh'" :tipo="'produtos'" :codigo="e.produto_codigo" />
+                                   <CardImagem :width="'7.5vw'" :height="'15vh'" :tipo="'produtos'"
+                                        :codigo="e.produto_codigo" />
                               </div>
                               <div>
                                    <div class="d-flex align-center">

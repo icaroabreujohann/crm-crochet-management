@@ -248,3 +248,7 @@ html, body {
 html, body, #app {
   height: 100%;
 }
+
+body {
+  scrollbar-gutter: stable;
+}

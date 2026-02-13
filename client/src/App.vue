@@ -41,20 +41,7 @@
           </v-main>
      </v-app>
 
-     <v-dialog v-model="feedback.aberto" width="20vw">
-          <v-card>
-               <div class="pa-5 d-flex flex-column align-center justify-center">
-                    <v-img width="230px" class="mt-10"
-                         :src="feedback.tipo === 'sucesso' ? '/images/sucess-dialog.png' : '/images/error-dialog.png'" />
-                    <h1 style="font-size: 2.5rem;" class="text-center mt-10">
-                         {{ feedback.tipo === 'sucesso' ? 'Sucesso' : 'Erro' }}
-                    </h1>
-                    <p class="text-center mt-2 subText">{{ feedback.mensagem }}</p>
-                    <v-btn color="main" variant="tonal" class="mt-7 mb-2" @click="feedback.fechar()">Fechar</v-btn>
-               </div>
-               <v-progress-linear height="5" indeterminate color="main" />
-          </v-card>
-     </v-dialog>
+     <DialogMensagem v-model="feedback.aberto" :feedback="feedback"/>
 </template>
 
 <script lang="ts" setup>
@@ -92,6 +79,7 @@ const menuItemsCadastros = ref([
 }
 
 .main-content {
+     width: 100%;
      display: flex;
      align-items: center;
      justify-content: center;

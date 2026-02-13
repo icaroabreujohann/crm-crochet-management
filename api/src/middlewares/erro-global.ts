@@ -4,7 +4,6 @@ import { ErroCustomizado } from '../types/erro.customizado'
 import { gerenciadorMensagens } from '../utils/respostas/gerenciador-resposta'
 
 export const erroGlobal = (err: ErroCustomizado, req: Request, res: Response, next: NextFunction) => {
-     console.log(err)
      if(err.definidoPeloSistema) {
           return gerenciadorMensagens.enviarMensagemErro(
                res,

@@ -4,7 +4,7 @@
                <BarraTitulo />
           </div>
 
-          <v-layout style="flex: 1; overflow: hidden;">
+          <v-layout style="flex: 1">
                <v-navigation-drawer permanent class="pa-4">
                     <div class="pa-2 d-flex align-center w-100 mb-3">
                          <v-img class="no-border mb-2" :aspect-ratio="1" max-width="50" cover
@@ -94,9 +94,9 @@ const menuItemsCadastros = ref([
      flex-shrink: 0;
 }
 
-.app-root {
-     height: 100vh;
+/* .app-root {
+     height: 100%;
      display: flex;
      flex-direction: column;
-}
+} */
 </style>

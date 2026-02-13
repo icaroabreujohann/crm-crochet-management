@@ -16,7 +16,7 @@ export function validaIdParam(req: Request, res: Response, next: NextFunction) {
 export function validaCodigoParam(req: Request, res: Response, next: NextFunction) {
      const { codigo } = req.params
 
-     if(!codigo || !UUID_REGEX.test(codigo)) throw new ErroCustomizado(CODIGOS_ERRO.CODIGO_INVALIDO, {codigo}, 400)
+     if(!codigo || !UUID_REGEX.test(String(codigo))) throw new ErroCustomizado(CODIGOS_ERRO.CODIGO_INVALIDO, {codigo}, 400)
 
      res.locals.codigo = String(codigo)
      next()

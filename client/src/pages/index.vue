@@ -2,7 +2,7 @@
      <v-container class="pa-10 mx-auto" style="width: 80vw;">
           <v-row class="">
                <v-col cols="8" class="d-flex flex-column">
-                    <div>
+                    <div class="flex-grow-1">
                          <CardProdutoCategoria v-if="dadosProdutoCategoriaTotal" :dados="dadosProdutoCategoriaTotal" />
                     </div>
 

@@ -3,7 +3,7 @@
           <div class="w-100 mb-5 d-flex align-center justify-space-between">
                <div class="d-flex align-center">
                     <HugeiconsIcon class="text-light" :stroke-width="2" :size="30" :icon="ShoppingCart02Icon" />
-                    <h1 class="ml-2">Encomendassss</h1>
+                    <h1 class="ml-2">Encomendas</h1>
                </div>
                <v-btn color="main" @click="abrirCriar">Adicionar</v-btn>
           </div>

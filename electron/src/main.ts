@@ -8,11 +8,13 @@ app.commandLine.appendSwitch('no-sandbox')
 let processoApi: any
 
 const iniciarApi = () => {
+     const nodeExecutable = 'node'
+
      const caminhoApi = app.isPackaged
           ? path.join(process.resourcesPath, 'api', 'dist', 'app.js')
           : path.join(__dirname, '../../api/dist/app.js')
 
-     processoApi = spawn(process.execPath, [caminhoApi], {
+     processoApi = spawn(nodeExecutable, [caminhoApi], {
           stdio: 'inherit',
           env: {
                ...process.env,
@@ -41,6 +43,10 @@ const criarJanelaElectron = () => {
           : path.join(__dirname, '../../client/dist/index.html')
 
      win.loadFile(caminhoClient)
+
+     if (!app.isPackaged) {
+          win.webContents.openDevTools()
+     }
 }
 
 app.whenReady().then(() => {
@@ -70,3 +76,17 @@ app.whenReady().then(() => {
 app.on('will-quit', () => {
      if (processoApi) processoApi.kill()
 })
+
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) {
+     app.quit()
+} else {
+     app.on('second-instance', () => {
+          const win = BrowserWindow.getAllWindows()[0]
+          if (win) {
+               if (win.isMinimized()) win.restore()
+               win.focus()
+          }
+     })
+}
